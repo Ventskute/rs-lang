@@ -3,7 +3,7 @@ const path = require('path');
 
 const pathToRoot = path.resolve(__dirname, '../../');
 
-const saveImage = async (files, imgTitle, subPath, fileName) => {
+const saveImage = (files, imgTitle, subPath, fileName) => {
   let pathToAvatar = null;
   if (files && files.profileImg && files.profileImg.type.includes('image')) {
     pathToAvatar = 'files/'.concat(
@@ -11,11 +11,9 @@ const saveImage = async (files, imgTitle, subPath, fileName) => {
       imgTitle,
       files[fileName].name.replace(/^.+[.]/, '.')
     );
-    const avatarStrR = fs.createReadStream(files[fileName].path);
-    const avatarStrW = fs.createWriteStream(
-      path.resolve(pathToRoot, pathToAvatar)
-    );
-    avatarStrR.pipe(avatarStrW);
+    const rStr = fs.createReadStream(files[fileName].path);
+    const wStr = fs.createWriteStream(path.resolve(pathToRoot, pathToAvatar));
+    rStr.pipe(wStr);
   }
   return pathToAvatar;
 };

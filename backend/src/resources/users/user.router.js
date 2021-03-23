@@ -11,7 +11,7 @@ const multiData = require('../../utils/multiData');
 const saveImage = require('../../utils/saveImage');
 
 router.post('/', multiData(), validator(user, 'body'), async (req, res) => {
-  const profileImg = await saveImage(
+  const profileImg = saveImage(
     req.files,
     req.body.email.slice(0, req.body.email.lastIndexOf('.')),
     'users/',
