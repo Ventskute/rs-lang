@@ -18,7 +18,7 @@ export default function App() {
     <Provider store={store}>
       <Router>
         <Switch>
-          <Route path="/" component={} />
+          {/* <Route path="/" component={} /> */}
         </Switch>
       </Router>
     </Provider>

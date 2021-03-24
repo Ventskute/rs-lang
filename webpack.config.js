@@ -5,7 +5,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: "development",
-  entry: ["babel-polyfill", "./src/index.jsx"],
+  entry: ["@babel/polyfill", "./src/index.jsx"],
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
@@ -41,7 +41,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
-      favicon: './src/assets/img/favicon.png'
+      // favicon: './src/assets/img/favicon.png'
     }),
     new CleanWebpackPlugin(),
     new CopyPlugin({
