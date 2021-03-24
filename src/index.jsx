@@ -4,6 +4,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import SprintGameMenu from './components/SprintGameMenu/SprintGameMenu'
 
 import rootReducer from "./utils/rootReducer";
 
@@ -18,6 +19,7 @@ export default function App() {
     <Provider store={store}>
       <Router>
         <Switch>
+          <Route path="/sprint" component={SprintGameMenu} />
           {/* <Route path="/" component={} /> */}
         </Switch>
       </Router>
