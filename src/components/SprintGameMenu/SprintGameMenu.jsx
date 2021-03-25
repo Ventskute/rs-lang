@@ -1,17 +1,20 @@
 import React from 'react';
 import './SprintGameMenu.scss';
 
-import SprintGame from "./SprintGame/SprintGame";
+import SprintGame from './SprintGame/SprintGame';
 
 function SprintGameMenu() {
   const [sprintState, setSprintState] = React.useState({
-    settingsMenu: true,
-    startGameTotal: false,
+    settingsMenu: false,
+    startGameTotal: true,
     startGameLearned: false,
     levelSettings: 1,
     pageSettings: 1,
   });
 
+  const { levelSettings, pageSettings } = sprintState;
+
+  
   const changeSettingsHandler = (e) => {
     const { name, value } = e.target;
     setSprintState({ ...sprintState, [name]: value });
@@ -35,14 +38,14 @@ function SprintGameMenu() {
             <input
               type="text"
               name="levelSettings"
-              value={sprintState.levelSettings}
+              value={levelSettings}
               onChange={changeSettingsHandler}
             />
             <p>Page</p>
             <input
               type="text"
               name="pageSettings"
-              value={sprintState.pageSettings}
+              value={pageSettings}
               onChange={changeSettingsHandler}
             />
           </div>
@@ -56,7 +59,9 @@ function SprintGameMenu() {
           </div>
         </div>
       )}
-      {sprintState.startGameTotal && <SprintGame />}
+      {sprintState.startGameTotal && (
+        <SprintGame levelSettings={levelSettings} pageSettings={pageSettings} />
+      )}
     </>
   );
 }
