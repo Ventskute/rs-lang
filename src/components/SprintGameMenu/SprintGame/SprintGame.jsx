@@ -19,6 +19,11 @@ function SprintGame({ levelSettings, pageSettings }) {
       .then((res) => res.json())
       .then((words) => setSprintGameState({ ...sprintGameState, words: words }));
   }, []);
+  React.useEffect(() => {
+    console.log(sprintGameState.currentWordIndex, '1st');
+    console.log(isRandomTranslation);
+    console.log(randomTranslationWordIndex);
+  },[sprintGameState])
 
   const getRandom = () => {
     const randomTranslation = Math.floor(Math.random() * Math.floor(2));
@@ -43,18 +48,18 @@ function SprintGame({ levelSettings, pageSettings }) {
     return currentWord;
   };
 
-  const onClickTrue = (e) => {
+  const onClickTrue = (boolean) => {
     // const isRandomTranslation = getRandom();
-    const { name } = e.target;
+    // const { name } = e.target;
     let plusPoints = 0;
     if (isRandomTranslation) {
-      if (name) {
+      if (boolean) {
         plusPoints = 0;
       } else {
         plusPoints = 10;
       }
     } else {
-      if (name) {
+      if (boolean) {
         plusPoints = 10;
       } else {
         plusPoints = 0;
@@ -72,9 +77,7 @@ function SprintGame({ levelSettings, pageSettings }) {
       currPoints: sprintGameState.currPoints + plusPoints,
     });
 
-    console.log(sprintGameState.currentWordIndex);
-    console.log(isRandomTranslation);
-    console.log(randomTranslationWordIndex);
+    
   };
 
   return (
@@ -96,10 +99,10 @@ function SprintGame({ levelSettings, pageSettings }) {
         </div>
       </div>
       <div className="sprint-game__button-block button-block"></div>
-      <button className="button-block__true" name={true} onClick={(e) => onClickTrue(e)}>
+      <button className="button-block__true" name={'true'} onClick={() => onClickTrue(true)}>
         true
       </button>
-      <button className="button-block__false" name={false} onClick={(e) => onClickTrue(e)}>
+      <button className="button-block__false" name={'false'} onClick={() => onClickTrue(false)}>
         false
       </button>
     </div>
