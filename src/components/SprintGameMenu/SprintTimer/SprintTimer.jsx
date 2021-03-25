@@ -2,15 +2,16 @@ import React from 'react';
 import './SprintTimer.scss';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
-function SprintTimer() {
+function SprintTimer({setSprintGameState,sprintGameState}) {
   function  onCompleteHandler() {
-      console.log('mazafaka')
+      console.log('time is over!!!')
+      // setSprintGameState({...sprintGameState, isTimeOver : true})
   }
   return (
     <div>
       <CountdownCircleTimer
         isPlaying
-        duration={60}
+        duration={5}
         colors={[
           ['#004777', 0.33],
           ['#F7B801', 0.33],

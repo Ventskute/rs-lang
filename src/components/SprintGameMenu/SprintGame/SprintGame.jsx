@@ -12,14 +12,26 @@ import {
 function SprintGame({ levelSettings, pageSettings }) {
   const [isRandomTranslation, setIsRandomTranslation] = React.useState(0);
   const [sprintGameState, setSprintGameState] = React.useState({
+    isTimeOver: false,
     words: null,
     pointsPerWord: 10,
     currPoints: 0,
     randomTranslationWordIndex: 0,
     currentWordIndex: 0,
     pointsStrick: 0,
+    truelyAnswers: [],
+    falsyAnswers: [],
   });
-  const { words, randomTranslationWordIndex, currentWordIndex, pointsStrick } = sprintGameState;
+  const {
+    isTimeOver,
+    words,
+    randomTranslationWordIndex,
+    currentWordIndex,
+    pointsStrick,
+    truelyAnswers,
+    falsyAnswers,
+  } = sprintGameState;
+
   const buttonsArr = [true, false];
 
   const strickClass = classNames({
@@ -36,11 +48,16 @@ function SprintGame({ levelSettings, pageSettings }) {
       .then((words) => setSprintGameState({ ...sprintGameState, words: words }));
   }, []);
 
+  //________Не забыть удалить по готовности_____________
   React.useEffect(() => {
     console.log(sprintGameState.currentWordIndex, 'word eng');
     console.log(randomTranslationWordIndex, 'word rus');
     console.log(pointsStrick, 'strick');
+    console.log(truelyAnswers, 'truely answers');
+    console.log(falsyAnswers, 'falsy answers');
+    console.log(isTimeOver, 'isTimeOver');
   }, [sprintGameState]);
+  //______________________________________________________
 
   const getRandom = () => {
     const randomTranslation = Math.floor(Math.random() * Math.floor(2));
@@ -62,16 +79,18 @@ function SprintGame({ levelSettings, pageSettings }) {
       currPoints: sprintGameState.currPoints + (points[0] * sprintGameState.pointsPerWord) / 10,
       pointsPerWord:
         points[1] < 3 ? 10 : points[1] < 6 ? 20 : points[1] < 9 ? 30 : points[1] < 12 ? 40 : 50,
+      truelyAnswers: points[0] ? [...truelyAnswers, words[currentWordIndex]] : truelyAnswers,
+      falsyAnswers: !points[0] ? [...falsyAnswers, words[currentWordIndex]] : falsyAnswers,
     });
   };
 
   return (
     <div className="sprint-game">
-      <SprintTimer />
+      <SprintTimer sprintGameState={sprintGameState} setSprintGameState={setSprintGameState} />
       <h2>{`Points per word: ${sprintGameState.pointsPerWord}`}</h2>
       <h2>{`Current points: ${sprintGameState.currPoints}`}</h2>
       <div className="sprint-game__strick-block strick-block">
-        {Array(pointsStrick <=12 ? pointsStrick : 12)
+        {Array(pointsStrick <= 12 ? pointsStrick : 12)
           .fill(null)
           .map((el, i) => (
             <div className={strickClass} key={i}></div>

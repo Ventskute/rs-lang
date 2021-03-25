@@ -14,7 +14,6 @@ function SprintGameMenu() {
 
   const { levelSettings, pageSettings } = sprintState;
 
-  
   const changeSettingsHandler = (e) => {
     const { name, value } = e.target;
     setSprintState({ ...sprintState, [name]: value });
