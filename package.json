@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm-run-all -p -r start:frontend start:backend",
     "build": "webpack",
-    "start:backend": "(cd backend/ & npm start)",
+    "start:backend": "(cd backend/ & npm run start:dev)",
     "start:frontend": "webpack-dev-server --open",
     "test": "jest",
     "test:watch": "jest --watch"
