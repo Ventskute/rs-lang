@@ -8,7 +8,7 @@ function SprintGame() {
     currPoints: 0,
   });
 
-  fetch(`https://<your-app-name>.herokuapp.com/words?page=2&group=0`)
+  fetch(`http://localhost:3000/words?page=2&group=0`).then((res)=> res.json()).then((data)=>console.log(data))
   return (
     <div className="sprint-game">
       <SprintTimer />
