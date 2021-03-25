@@ -1,6 +1,13 @@
 import React from 'react';
+import classNames from 'classnames';
 import './SprintGame.scss';
 import SprintTimer from '../SprintTimer/SprintTimer';
+import {
+  pointsLogic,
+  getRandomTranslationWordIndex,
+  getTruelyTranslationIndex,
+  getCurrentWord,
+} from './gameLogic';
 
 function SprintGame({ levelSettings, pageSettings }) {
   const [isRandomTranslation, setIsRandomTranslation] = React.useState(0);
@@ -10,101 +17,85 @@ function SprintGame({ levelSettings, pageSettings }) {
     currPoints: 0,
     randomTranslationWordIndex: 0,
     currentWordIndex: 0,
+    pointsStrick: 0,
   });
+  const { words, randomTranslationWordIndex, currentWordIndex, pointsStrick } = sprintGameState;
+  const buttonsArr = [true, false];
 
-  const { words, randomTranslationWordIndex, currentWordIndex } = sprintGameState;
+  const strickClass = classNames({
+    'strick-block__strick-point': true,
+    x2Strick: pointsStrick >= 3,
+    x3Strick: pointsStrick >= 6,
+    x4Strick: pointsStrick >= 9,
+    x5Strick: pointsStrick >= 12,
+  });
 
   React.useEffect(() => {
     const getWords = fetch(`http://localhost:3000/words?page=3&group=0`)
       .then((res) => res.json())
       .then((words) => setSprintGameState({ ...sprintGameState, words: words }));
   }, []);
+
   React.useEffect(() => {
-    console.log(sprintGameState.currentWordIndex, '1st');
-    console.log(isRandomTranslation);
-    console.log(randomTranslationWordIndex);
-  },[sprintGameState])
+    console.log(sprintGameState.currentWordIndex, 'word eng');
+    console.log(randomTranslationWordIndex, 'word rus');
+    console.log(pointsStrick, 'strick');
+  }, [sprintGameState]);
 
   const getRandom = () => {
     const randomTranslation = Math.floor(Math.random() * Math.floor(2));
     setIsRandomTranslation(randomTranslation);
-    // return randomTranslation;
   };
 
-  const getRandomTranslationWordIndex = () => {
-    const randomTranslationIndex = Math.floor(Math.random() * Math.floor(20));
-    return randomTranslationIndex;
-    // setSprintGameState({ ...sprintGameState, randomTranslationWordIndex: randomTranslationIndex });
-  };
-
-  const getTruelyTranslationIndex = () => {
-    const truelyTranslationIndex = currentWordIndex < 19 ? currentWordIndex + 1 : 0;
-    return truelyTranslationIndex;
-    // setSprintGameState({ ...sprintGameState, randomTranslationWordIndex: truelyTranslationIndex });
-  };
-
-  const getCurrentWord = (isWordTranslate, index) => {
-    const currentWord = words[index][isWordTranslate];
-    return currentWord;
-  };
-
-  const onClickTrue = (boolean) => {
-    // const isRandomTranslation = getRandom();
-    // const { name } = e.target;
-    let plusPoints = 0;
-    if (isRandomTranslation) {
-      if (boolean) {
-        plusPoints = 0;
-      } else {
-        plusPoints = 10;
-      }
-    } else {
-      if (boolean) {
-        plusPoints = 10;
-      } else {
-        plusPoints = 0;
-      }
-    }
+  const onClickAnswer = (boolean) => {
+    const points = pointsLogic(randomTranslationWordIndex, currentWordIndex, boolean, pointsStrick);
     getRandom();
     const randomTranslationIndex = isRandomTranslation
       ? getRandomTranslationWordIndex()
-      : getTruelyTranslationIndex();
+      : getTruelyTranslationIndex(currentWordIndex);
 
     setSprintGameState({
       ...sprintGameState,
       currentWordIndex: currentWordIndex < 19 ? currentWordIndex + 1 : 0,
       randomTranslationWordIndex: randomTranslationIndex,
-      currPoints: sprintGameState.currPoints + plusPoints,
+      pointsStrick: points[1],
+      currPoints: sprintGameState.currPoints + (points[0] * sprintGameState.pointsPerWord) / 10,
+      pointsPerWord:
+        points[1] < 3 ? 10 : points[1] < 6 ? 20 : points[1] < 9 ? 30 : points[1] < 12 ? 40 : 50,
     });
-
-    
   };
 
   return (
     <div className="sprint-game">
       <SprintTimer />
       <h2>{`Points per word: ${sprintGameState.pointsPerWord}`}</h2>
-      <div>{sprintGameState.currPoints}</div>
+      <h2>{`Current points: ${sprintGameState.currPoints}`}</h2>
       <div className="sprint-game__strick-block strick-block">
-        <div className="strick-block__strick-point"></div>
-        <div className="strick-block__strick-point"></div>
-        <div className="strick-block__strick-point"></div>
+        {Array(pointsStrick <=12 ? pointsStrick : 12)
+          .fill(null)
+          .map((el, i) => (
+            <div className={strickClass} key={i}></div>
+          ))}
       </div>
       <div className="sprint-game__words-block words-block">
         <div className="words-block__eng-word">
-          {words && getCurrentWord('word', currentWordIndex)}
+          {words && getCurrentWord(words, 'word', currentWordIndex)}
         </div>
         <div className="words-block__rus-word">
-          {words && getCurrentWord('wordTranslate', randomTranslationWordIndex)}
+          {words && getCurrentWord(words, 'wordTranslate', randomTranslationWordIndex)}
         </div>
       </div>
-      <div className="sprint-game__button-block button-block"></div>
-      <button className="button-block__true" name={'true'} onClick={() => onClickTrue(true)}>
-        true
-      </button>
-      <button className="button-block__false" name={'false'} onClick={() => onClickTrue(false)}>
-        false
-      </button>
+      <div className="sprint-game__button-block button-block">
+        {buttonsArr.map((el, i) => (
+          <button
+            className={`button-block__${el}`}
+            name={`${el}`}
+            key={i}
+            onClick={() => onClickAnswer(el)}>
+            {`${el}`}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

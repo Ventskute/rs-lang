@@ -1,0 +1,37 @@
+.sprint-game{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.words-block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.strick-block{
+    display: flex;
+}
+.strick-block__strick-point{
+    width: 25px;
+    height: 25px;
+    border-radius: 50% ;
+    background-color: lightgreen;
+}
+
+.x2Strick {
+    background-color: green;
+}
+
+.x3Strick {
+    background-color: yellow; 
+}
+
+.x4Strick {
+    background-color: orange; 
+}
+
+.x5Strick {
+    background-color: red; 
+}

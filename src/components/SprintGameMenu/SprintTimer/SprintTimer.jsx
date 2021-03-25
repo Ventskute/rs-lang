@@ -10,7 +10,7 @@ function SprintTimer() {
     <div>
       <CountdownCircleTimer
         isPlaying
-        duration={5}
+        duration={60}
         colors={[
           ['#004777', 0.33],
           ['#F7B801', 0.33],
