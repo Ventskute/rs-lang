@@ -1,6 +1,6 @@
 import React from 'react';
 import './SprintGameMenu.scss';
-import {checkInputForm} from './SprintGame/gameLogic'
+import { checkInputForm } from './gameLogic';
 import SprintGame from './SprintGame/SprintGame';
 import SprintGameStatistics from './SprintGameStatistics/SprintGameStatistics';
 
@@ -29,11 +29,9 @@ function SprintGameMenu() {
     const { isValid, errors } = checkInputForm(sprintState);
     if (isValid) {
       setSprintState({ ...sprintState, settingsMenu: false, startGameTotal: true });
-      console.log(sprintState);
-    }else {
-      console.log(errors)
+    } else {
+      console.log(errors);
     }
-    // setSprintState({ ...sprintState, settingsMenu: false, startGameTotal: true });
   };
   return (
     <>

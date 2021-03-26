@@ -2,14 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import './SprintGame.scss';
 import SprintTimer from '../SprintTimer/SprintTimer';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
 import {
   pointsLogic,
   getRandomTranslationWordIndex,
   getTruelyTranslationIndex,
   getCurrentWord,
-} from './gameLogic';
+} from '../gameLogic';
 
 function SprintGame({ setSprintState, sprintState }) {
   const [isRandomTranslation, setIsRandomTranslation] = React.useState(0);
@@ -21,13 +20,9 @@ function SprintGame({ setSprintState, sprintState }) {
     pointsStrick: 0,
   });
 
-  // const { truelyAnswers, falsyAnswers } = useSelector(state => state);
-  // const dispatch = useDispatch();
-
+  const dispatch = useDispatch();
   const { words, randomTranslationWordIndex, currentWordIndex, pointsStrick } = sprintGameState;
-
-  const { truelyAnswers, falsyAnswers, levelSettings, pageSettings } = sprintState;
-
+  const { truelyAnswers, falsyAnswers, levelSettings, pageSettings, currPoints } = sprintState;
   const buttonsArr = [true, false];
 
   const strickClass = classNames({
@@ -48,21 +43,15 @@ function SprintGame({ setSprintState, sprintState }) {
     console.log(sprintGameState.currentWordIndex, 'word eng');
     console.log(randomTranslationWordIndex, 'word rus');
     console.log(pointsStrick, 'strick');
-    // console.log(truelyAnswers, 'truely answers');
-    // console.log(falsyAnswers, 'falsy answers');
-    // console.log(isTimeOver, 'isTimeOver');
-    localStorage.setItem(
-      'answers',
-      JSON.stringify([sprintState.truelyAnswers, sprintState.falsyAnswers, sprintState.currPoints]),
-    );
+    setAnswersStore();
   }, [sprintState]);
 
-  // const openSignupForm = () => {
-  //   dispatch({
-  //     type: actions.SET_SPRINT_ANSWERS,
-  //     payload: { isFormOpen: true, isSignup: true },
-  //   });
-  // };
+  const setAnswersStore = () => {
+    dispatch({
+      type: 'SET_SPRINT_ANSWERS',
+      payload: { falsy: falsyAnswers, truely: truelyAnswers, points: currPoints },
+    });
+  };
 
   const getRandom = () => {
     const randomTranslation = Math.floor(Math.random() * Math.floor(2));
@@ -84,6 +73,7 @@ function SprintGame({ setSprintState, sprintState }) {
       pointsPerWord:
         points[1] < 3 ? 10 : points[1] < 6 ? 20 : points[1] < 9 ? 30 : points[1] < 12 ? 40 : 50,
     });
+
     setSprintState({
       ...sprintState,
       currPoints: sprintState.currPoints + (points[0] * sprintGameState.pointsPerWord) / 10,

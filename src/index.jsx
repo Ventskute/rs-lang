@@ -7,7 +7,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import SprintGameMenu from './components/SprintGameMenu/SprintGameMenu'
 
 import rootReducer from "./utils/rootReducer";
-
+import sprintReducer from './utils/reducerSprint'
 import './index.scss'
 
 export default function App() {

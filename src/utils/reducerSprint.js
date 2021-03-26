@@ -5,15 +5,17 @@ export const initialState = {
   falsyAnswers: [],
 };
 
-export default function rootReducer(state = initialState, action) {
+export default function sprintReducer(state = initialState, action) {
   switch (action.type) {
     case actions.SET_SPRINT_ANSWERS: {
-      localStorage.setItem('SprintAnswers', action.payload);
       return {
         ...state,
-        truelyAnswers: action.payload,
-        falsyAnswers: action.payload,
+        truelyAnswers: action.payload.truely,
+        falsyAnswers: action.payload.falsy,
+        sprintPoints: action.payload.points
       };
     }
+    default:
+      return state;
   }
 }

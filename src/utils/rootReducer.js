@@ -1,4 +1,4 @@
-import actions from "./actions";
+import actions from './actions';
 
 const getData = (key, initialValue) => {
   const data = localStorage.getItem(key);
@@ -18,11 +18,14 @@ const getData = (key, initialValue) => {
 };
 
 export const initialState = {
-  locale: getData("lang", "ru_RU"),
+  sprintTruelyAnswers: [],
+  sprintFalsyAnswers: [],
+  sprintPoints: 0,
+  locale: getData('lang', 'ru_RU'),
   dict: {},
-  user: getData("user", null),
-  darkTheme: getData("darkTheme", false),
-  searchValue: "",
+  user: getData('user', null),
+  darkTheme: getData('darkTheme', false),
+  searchValue: '',
   authForm: {
     isFormOpen: false,
     isSignup: true,
@@ -32,14 +35,14 @@ export const initialState = {
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case actions.CHANGE_THEME: {
-      localStorage.setItem("darkTheme", action.payload);
+      localStorage.setItem('darkTheme', action.payload);
       return {
         ...state,
         darkTheme: action.payload,
       };
     }
     case actions.SET_LOCALE: {
-      localStorage.setItem("lang", action.payload);
+      localStorage.setItem('lang', action.payload);
       return {
         ...state,
         locale: action.payload,
@@ -52,17 +55,17 @@ export default function rootReducer(state = initialState, action) {
       };
     }
     case actions.SET_USER: {
-      localStorage.setItem("user", JSON.stringify(action.user));
+      localStorage.setItem('user', JSON.stringify(action.user));
       return {
         ...state,
-        user: getData("user", null),
+        user: getData('user', null),
       };
     }
     case actions.REMOVE_USER: {
-      localStorage.setItem("user", JSON.stringify(null));
+      localStorage.setItem('user', JSON.stringify(null));
       return {
         ...state,
-        user: getData("user", null),
+        user: getData('user', null),
       };
     }
     case actions.SEARCH: {
@@ -78,6 +81,14 @@ export default function rootReducer(state = initialState, action) {
           ...state.authForm,
           ...action.payload,
         },
+      };
+    }
+    case actions.SET_SPRINT_ANSWERS: {
+      return {
+        ...state,
+        sprintTruelyAnswers: action.payload.truely,
+        sprintFalsyAnswers: action.payload.falsy,
+        sprintPoints: action.payload.points,
       };
     }
     default:
