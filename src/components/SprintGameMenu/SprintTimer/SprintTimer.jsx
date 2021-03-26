@@ -15,14 +15,14 @@ function SprintTimer({ setSprintState, sprintState }) {
     <div>
       <CountdownCircleTimer
         isPlaying
-        duration={7}
+        duration={5}
         colors={[
-          ['#004777', 0.33],
+          ['#fbc97e', 0.33],
           ['#F7B801', 0.33],
           ['#A30000', 0.33],
         ]}
-        size={50}
-        strokeWidth={5}
+        size={150}
+        strokeWidth={10}
         onComplete={() => onCompleteHandler()}>
         {({ remainingTime }) => remainingTime}
       </CountdownCircleTimer>

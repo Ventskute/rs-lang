@@ -18,10 +18,17 @@ function SprintGame({ setSprintState, sprintState }) {
     randomTranslationWordIndex: 0,
     currentWordIndex: 0,
     pointsStrick: 0,
+    response: null,
   });
 
   const dispatch = useDispatch();
-  const { words, randomTranslationWordIndex, currentWordIndex, pointsStrick } = sprintGameState;
+  const {
+    words,
+    randomTranslationWordIndex,
+    currentWordIndex,
+    pointsStrick,
+    response,
+  } = sprintGameState;
   const { truelyAnswers, falsyAnswers, levelSettings, pageSettings, currPoints } = sprintState;
   const buttonsArr = [true, false];
 
@@ -37,6 +44,7 @@ function SprintGame({ setSprintState, sprintState }) {
     fetch(`http://localhost:3000/words?page=${pageSettings - 1}&group=${levelSettings - 1}`)
       .then((res) => res.json())
       .then((words) => setSprintGameState({ ...sprintGameState, words: words }));
+    console.log(sprintGameState);
   }, []);
 
   React.useEffect(() => {
@@ -45,6 +53,17 @@ function SprintGame({ setSprintState, sprintState }) {
     console.log(pointsStrick, 'strick');
     setAnswersStore();
   }, [sprintState]);
+
+  React.useEffect(() => {
+    if (response || response == false) {
+      setTimeout(() => {
+        setSprintGameState({
+          ...sprintGameState,
+          response: null,
+        });
+      }, 500);
+    }
+  }, [response]);
 
   const setAnswersStore = () => {
     dispatch({
@@ -72,6 +91,7 @@ function SprintGame({ setSprintState, sprintState }) {
       pointsStrick: points[1],
       pointsPerWord:
         points[1] < 3 ? 10 : points[1] < 6 ? 20 : points[1] < 9 ? 30 : points[1] < 12 ? 40 : 50,
+      response: points[0] == 10 ? true : false,
     });
 
     setSprintState({
@@ -84,13 +104,20 @@ function SprintGame({ setSprintState, sprintState }) {
 
   return (
     <div className="sprint-game">
+      {response === null ? (
+        ''
+      ) : (
+        <div className="result-response" style={{ color: response ? 'green' : 'red' }}>
+          {response ? 'True' : 'False'}
+        </div>
+      )}
       <SprintTimer
         setSprintState={setSprintState}
         sprintState={sprintState}
         sprintGameState={sprintGameState}
       />
-      <h2>{`Points per word: ${sprintGameState.pointsPerWord}`}</h2>
       <h2>{`Current points: ${sprintState.currPoints}`}</h2>
+      <h2>{`Points per word: ${sprintGameState.pointsPerWord}`}</h2>
       <div className="sprint-game__strick-block strick-block">
         {Array(pointsStrick <= 12 ? pointsStrick : 12)
           .fill(null)
@@ -102,6 +129,7 @@ function SprintGame({ setSprintState, sprintState }) {
         <div className="words-block__eng-word">
           {words && getCurrentWord(words, 'word', currentWordIndex)}
         </div>
+        <h2>?</h2>
         <div className="words-block__rus-word">
           {words && getCurrentWord(words, 'wordTranslate', randomTranslationWordIndex)}
         </div>
@@ -109,7 +137,7 @@ function SprintGame({ setSprintState, sprintState }) {
       <div className="sprint-game__button-block button-block">
         {buttonsArr.map((el, i) => (
           <button
-            className={`button-block__${el}`}
+            className={`button-block__${el} button`}
             name={`${el}`}
             key={i}
             onClick={() => onClickAnswer(el)}>

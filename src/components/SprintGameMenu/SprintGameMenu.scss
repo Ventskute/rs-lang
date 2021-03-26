@@ -1,8 +1,118 @@
-.sprint-game__menu{
-    width: auto;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+:root {
+  --text-color: rgb(251, 201, 126);
+}
+
+.game-content {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+  width: 50%;
+  font-size: 1.5vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 64px;
+  p,
+  h2,
+  h3 {
+    color: rgb(251, 201, 126);
+    text-align: center;
+  }
+}
+
+#video-bg {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 1;
+  background: transparent;
+  background-size: contain;
+}
+
+#video-bg > video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+.sprint-game__menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p,
+  h1,
+  h2 {
+    color: rgb(251, 201, 126);
+    text-align: center;
+  }
+}
+
+.sprint-game__menu_title {
+  margin-bottom: 20px;
+}
+
+.sprint-game__menu_subtitle {
+  margin-bottom: 20px;
+}
+
+.sprint-game__menu_settings {
+  margin-bottom: 20px;
+  :nth-child(2) {
+    margin-right: 100px;
+  }
+}
+
+.button {
+  padding: 15px 40px;
+  font-size: 40px;
+  font-weight: 700;
+  border-radius: 20px;
+  border: solid 2px var(--text-color);
+  outline: none;
+  background: transparent;
+  color: var(--text-color);
+  cursor: pointer;
+  &:hover {
+    background-color: var(--text-color);
+    color: black;
+    transition: 0.3s;
+  }
+}
+
+.sprint-game__menu_buttons {
+  :first-child {
+    margin-right: 20px;
+  }
+}
+
+.sprint-game__menu_settings {
+  display: flex;
+  justify-content: space-around;
+}
+
+.input {
+  color: inherit;
+  font-size: inherit;
+  font-weight: bold;
+  max-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.input__label {
+  font-weight: bold;
 }

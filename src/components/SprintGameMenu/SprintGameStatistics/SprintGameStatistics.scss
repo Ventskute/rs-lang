@@ -1,10 +1,30 @@
-.sprint-game-statistics{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.sprint-game-statistics {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.sprint-game-statistics__log{
-    display: flex;
-    justify-content: center;
+
+.sprint-game-statistics__title {
+    font-size: 60px;
+}
+
+.sprint-game-statistics__log {
+  display: flex;
+  justify-content: center;
+}
+
+.truely-answers-log {
+  margin-right: 70px;
+}
+
+.answers-log__content {
+  color: #fbc97e;
+}
+
+.spring-game-statistics__buttons {
+  margin-top: 20px;
+  :first-child {
+    margin-right: 50px;
+  }
 }
