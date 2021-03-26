@@ -2,16 +2,18 @@ import React from 'react';
 import './SprintTimer.scss';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
-function SprintTimer({setSprintGameState,sprintGameState}) {
-  function  onCompleteHandler() {
-      console.log('time is over!!!')
-      // setSprintGameState({...sprintGameState, isTimeOver : true})
+function SprintTimer({ setSprintState, sprintState, sprintGameState }) {
+  function onCompleteHandler() {
+    console.log('time is over!!!');
+    console.log(sprintState, 'sprintstate')
+    setSprintState({ ...sprintState, isTimeOver: true, });
+    console.log(sprintGameState, 'sprintGameState')
   }
   return (
     <div>
       <CountdownCircleTimer
         isPlaying
-        duration={5}
+        duration={15}
         colors={[
           ['#004777', 0.33],
           ['#F7B801', 0.33],

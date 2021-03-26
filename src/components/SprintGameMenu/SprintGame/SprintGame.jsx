@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import './SprintGame.scss';
 import SprintTimer from '../SprintTimer/SprintTimer';
+
 import {
   pointsLogic,
   getRandomTranslationWordIndex,
@@ -9,28 +10,19 @@ import {
   getCurrentWord,
 } from './gameLogic';
 
-function SprintGame({ levelSettings, pageSettings }) {
+function SprintGame({ setSprintState, sprintState }) {
   const [isRandomTranslation, setIsRandomTranslation] = React.useState(0);
   const [sprintGameState, setSprintGameState] = React.useState({
-    isTimeOver: false,
     words: null,
     pointsPerWord: 10,
     currPoints: 0,
     randomTranslationWordIndex: 0,
     currentWordIndex: 0,
     pointsStrick: 0,
-    truelyAnswers: [],
-    falsyAnswers: [],
   });
-  const {
-    isTimeOver,
-    words,
-    randomTranslationWordIndex,
-    currentWordIndex,
-    pointsStrick,
-    truelyAnswers,
-    falsyAnswers,
-  } = sprintGameState;
+  const { words, randomTranslationWordIndex, currentWordIndex, pointsStrick } = sprintGameState;
+
+  const { truelyAnswers, falsyAnswers } = sprintState;
 
   const buttonsArr = [true, false];
 
@@ -43,20 +35,22 @@ function SprintGame({ levelSettings, pageSettings }) {
   });
 
   React.useEffect(() => {
-    const getWords = fetch(`http://localhost:3000/words?page=3&group=0`)
+    fetch(`http://localhost:3000/words?page=3&group=0`)
       .then((res) => res.json())
       .then((words) => setSprintGameState({ ...sprintGameState, words: words }));
   }, []);
 
   //________Не забыть удалить по готовности_____________
   React.useEffect(() => {
-    console.log(sprintGameState.currentWordIndex, 'word eng');
-    console.log(randomTranslationWordIndex, 'word rus');
-    console.log(pointsStrick, 'strick');
-    console.log(truelyAnswers, 'truely answers');
-    console.log(falsyAnswers, 'falsy answers');
-    console.log(isTimeOver, 'isTimeOver');
-  }, [sprintGameState]);
+    // console.log(sprintGameState.currentWordIndex, 'word eng');
+    // console.log(randomTranslationWordIndex, 'word rus');
+    // console.log(pointsStrick, 'strick');
+    // console.log(truelyAnswers, 'truely answers');
+    // console.log(falsyAnswers, 'falsy answers');
+    // console.log(isTimeOver, 'isTimeOver');
+    console.log(sprintState, 'sprintState');
+    
+  }, [sprintState]);
   //______________________________________________________
 
   const getRandom = () => {
@@ -79,6 +73,9 @@ function SprintGame({ levelSettings, pageSettings }) {
       currPoints: sprintGameState.currPoints + (points[0] * sprintGameState.pointsPerWord) / 10,
       pointsPerWord:
         points[1] < 3 ? 10 : points[1] < 6 ? 20 : points[1] < 9 ? 30 : points[1] < 12 ? 40 : 50,
+    });
+    setSprintState({
+      ...sprintState,
       truelyAnswers: points[0] ? [...truelyAnswers, words[currentWordIndex]] : truelyAnswers,
       falsyAnswers: !points[0] ? [...falsyAnswers, words[currentWordIndex]] : falsyAnswers,
     });
@@ -86,7 +83,7 @@ function SprintGame({ levelSettings, pageSettings }) {
 
   return (
     <div className="sprint-game">
-      <SprintTimer sprintGameState={sprintGameState} setSprintGameState={setSprintGameState} />
+      <SprintTimer setSprintState={setSprintState} sprintState={sprintState} sprintGameState={sprintGameState}/>
       <h2>{`Points per word: ${sprintGameState.pointsPerWord}`}</h2>
       <h2>{`Current points: ${sprintGameState.currPoints}`}</h2>
       <div className="sprint-game__strick-block strick-block">

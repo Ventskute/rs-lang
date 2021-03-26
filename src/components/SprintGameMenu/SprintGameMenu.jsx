@@ -2,17 +2,23 @@ import React from 'react';
 import './SprintGameMenu.scss';
 
 import SprintGame from './SprintGame/SprintGame';
+import SprintGameStatistics from './SprintGameStatistics/SprintGameStatistics';
+
 
 function SprintGameMenu() {
   const [sprintState, setSprintState] = React.useState({
-    settingsMenu: false,
-    startGameTotal: true,
+    isTimeOver: false,
+    settingsMenu: true,
+    startGameTotal: false,
     startGameLearned: false,
     levelSettings: 1,
     pageSettings: 1,
+    
+    truelyAnswers: [],
+    falsyAnswers: [],
   });
 
-  const { levelSettings, pageSettings } = sprintState;
+  const {settingsMenu, levelSettings, pageSettings, isTimeOver} = sprintState;
 
   const changeSettingsHandler = (e) => {
     const { name, value } = e.target;
@@ -25,7 +31,7 @@ function SprintGameMenu() {
   };
   return (
     <>
-      {sprintState.settingsMenu && (
+      {settingsMenu && (
         <div className="sprint-game__menu">
           <h2>Sprint Game</h2>
           <p>
@@ -59,8 +65,9 @@ function SprintGameMenu() {
         </div>
       )}
       {sprintState.startGameTotal && (
-        <SprintGame levelSettings={levelSettings} pageSettings={pageSettings} />
+        <SprintGame sprintState={sprintState} setSprintState={setSprintState} />
       )}
+      {isTimeOver && <SprintGameStatistics setSprintState={setSprintState} sprintState={sprintState} />}
     </>
   );
 }
