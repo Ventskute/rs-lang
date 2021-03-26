@@ -1,9 +1,8 @@
 import React from 'react';
 import './SprintGameMenu.scss';
-
+import {checkInputForm} from './SprintGame/gameLogic'
 import SprintGame from './SprintGame/SprintGame';
 import SprintGameStatistics from './SprintGameStatistics/SprintGameStatistics';
-
 
 function SprintGameMenu() {
   const [sprintState, setSprintState] = React.useState({
@@ -13,12 +12,12 @@ function SprintGameMenu() {
     startGameLearned: false,
     levelSettings: 1,
     pageSettings: 1,
-    
+    currPoints: 0,
     truelyAnswers: [],
     falsyAnswers: [],
   });
 
-  const {settingsMenu, levelSettings, pageSettings, isTimeOver} = sprintState;
+  const { settingsMenu, levelSettings, pageSettings, isTimeOver } = sprintState;
 
   const changeSettingsHandler = (e) => {
     const { name, value } = e.target;
@@ -27,7 +26,14 @@ function SprintGameMenu() {
   };
 
   const startGameHandler = () => {
-    setSprintState({ ...sprintState, settingsMenu: false, startGameTotal: true });
+    const { isValid, errors } = checkInputForm(sprintState);
+    if (isValid) {
+      setSprintState({ ...sprintState, settingsMenu: false, startGameTotal: true });
+      console.log(sprintState);
+    }else {
+      console.log(errors)
+    }
+    // setSprintState({ ...sprintState, settingsMenu: false, startGameTotal: true });
   };
   return (
     <>
@@ -67,7 +73,9 @@ function SprintGameMenu() {
       {sprintState.startGameTotal && (
         <SprintGame sprintState={sprintState} setSprintState={setSprintState} />
       )}
-      {isTimeOver && <SprintGameStatistics setSprintState={setSprintState} sprintState={sprintState} />}
+      {isTimeOver && (
+        <SprintGameStatistics setSprintState={setSprintState} sprintState={sprintState} />
+      )}
     </>
   );
 }
