@@ -18,9 +18,7 @@ const getData = (key, initialValue) => {
 };
 
 export const initialState = {
-  sprintTruelyAnswers: [],
-  sprintFalsyAnswers: [],
-  sprintPoints: 0,
+  sprintGameStats: { sprintTruelyAnswers: [], sprintFalsyAnswers: [], sprintPoints: 0 },
   locale: getData('lang', 'ru_RU'),
   dict: {},
   user: getData('user', null),
@@ -86,9 +84,11 @@ export default function rootReducer(state = initialState, action) {
     case actions.SET_SPRINT_ANSWERS: {
       return {
         ...state,
-        sprintTruelyAnswers: action.payload.truely,
-        sprintFalsyAnswers: action.payload.falsy,
-        sprintPoints: action.payload.points,
+        sprintGameStats: {
+          sprintTruelyAnswers: action.payload.truely,
+          sprintFalsyAnswers: action.payload.falsy,
+          sprintPoints: action.payload.points,
+        },
       };
     }
     default:

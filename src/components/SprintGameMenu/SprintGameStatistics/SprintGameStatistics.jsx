@@ -3,7 +3,7 @@ import './SprintGameStatistics.scss';
 import { useSelector } from 'react-redux';
 
 function SprintGameStatistics({ setSprintState, sprintState }) {
-  const { sprintTruelyAnswers, sprintFalsyAnswers, sprintPoints } = useSelector((state) => state);
+  const { sprintTruelyAnswers, sprintFalsyAnswers, sprintPoints } = useSelector((state) => state.sprintGameStats);
 
   const restartGameHandler = () => {
     setSprintState({ ...sprintState, isTimeOver: false, settingsMenu: true });
