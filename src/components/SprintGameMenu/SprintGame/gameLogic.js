@@ -43,6 +43,12 @@ export const getCurrentWord = (words, isWordTranslate, index) => {
 
 export function checkInputForm(state) {
   const errors = {};
+  if (state.levelSettings === '0') {
+    errors.levels = 'Please, choose level 1-6';
+  }
+  if (state.pageSettings === '0') {
+    errors.pages = 'Please, choose level 1-30';
+  }
   if (state.levelSettings > 6) {
     errors.levels = 'Oh, sorry, we have only 6 levels';
   }

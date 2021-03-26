@@ -39,16 +39,15 @@ function SprintGame({ setSprintState, sprintState }) {
   });
 
   React.useEffect(() => {
-    fetch(`http://localhost:3000/words?page=${pageSettings-1}&group=${levelSettings-1}`)
+    fetch(`http://localhost:3000/words?page=${pageSettings - 1}&group=${levelSettings - 1}`)
       .then((res) => res.json())
       .then((words) => setSprintGameState({ ...sprintGameState, words: words }));
   }, []);
 
-  //________Не забыть удалить по готовности_____________
   React.useEffect(() => {
-    // console.log(sprintGameState.currentWordIndex, 'word eng');
-    // console.log(randomTranslationWordIndex, 'word rus');
-    // console.log(pointsStrick, 'strick');
+    console.log(sprintGameState.currentWordIndex, 'word eng');
+    console.log(randomTranslationWordIndex, 'word rus');
+    console.log(pointsStrick, 'strick');
     // console.log(truelyAnswers, 'truely answers');
     // console.log(falsyAnswers, 'falsy answers');
     // console.log(isTimeOver, 'isTimeOver');
@@ -56,16 +55,14 @@ function SprintGame({ setSprintState, sprintState }) {
       'answers',
       JSON.stringify([sprintState.truelyAnswers, sprintState.falsyAnswers, sprintState.currPoints]),
     );
-    console.log(sprintState, 'sprintState');
   }, [sprintState]);
-  //______________________________________________________
 
-  const openSignupForm = () => {
-    dispatch({
-      type: actions.SET_SPRINT_ANSWERS,
-      payload: { isFormOpen: true, isSignup: true },
-    });
-  };
+  // const openSignupForm = () => {
+  //   dispatch({
+  //     type: actions.SET_SPRINT_ANSWERS,
+  //     payload: { isFormOpen: true, isSignup: true },
+  //   });
+  // };
 
   const getRandom = () => {
     const randomTranslation = Math.floor(Math.random() * Math.floor(2));
