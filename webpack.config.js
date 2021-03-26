@@ -5,7 +5,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: "development",
-  entry: ["babel-polyfill", "./src/index.jsx"],
+  entry: ["@babel/polyfill", "./src/index.jsx"],
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
@@ -29,10 +29,8 @@ module.exports = {
       },
       {
         test: /\.(png|jpeg|jpg|svg|ttf|eot|woff|woff2|gif|mp3|wav|ico|cur|ani|mp4)$/,
-        use: [
-            'file-loader?name=assets/[name].[ext]',
-        ],
-      }
+        use: ["file-loader?name=assets/[name].[ext]"],
+      },
     ],
   },
   resolve: {
@@ -41,13 +39,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
-      favicon: './src/assets/img/favicon.png'
+      // favicon: "./src/assets/img/favicon.png",
     }),
     new CleanWebpackPlugin(),
     new CopyPlugin({
-      patterns: [
-        path.resolve(__dirname, "_redirects"),
-      ],
+      patterns: [path.resolve(__dirname, "_redirects")],
     }),
   ],
 };

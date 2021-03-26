@@ -1,4 +1,4 @@
-import { getCountries, signup } from "./api";
+import { getQuery, getWords } from "./api";
 import "@babel/polyfill";
 
 describe("API tests", () => {
@@ -7,12 +7,14 @@ describe("API tests", () => {
       testField: "test_value",
     },
   ];
+
   const toJson = (value) => () => Promise.resolve(value);
   const setFetch = (params) => {
     global.fetch = jest.fn(() => {
       return Promise.resolve({ ...params });
     });
   };
+
   beforeEach(() => {
     setFetch({ json: toJson(testValue) });
   });
@@ -20,26 +22,29 @@ describe("API tests", () => {
     fetch.mockRestore();
   });
 
-  it("Should return promise with countries", async () => {
-    const resp = await getCountries();
+  it("Should return proper query", () => {
+    const testQueryParams = { testValue: "test77", testValue2: "test88" };
+    const testQuery = "?testValue=test77&testValue2=test88";
 
-    expect(resp).toEqual(testValue);
+    expect(getQuery()).toBeNull();
+    expect(getQuery(testQueryParams)).toBe(testQuery);
   });
 
-  it("Should return res with body when signup status 200", async () => {
-    setFetch({ json: toJson(testValue), status: 200 });
+  describe("Get words", () => {
+    it("Should use proper url", () => {
+      const queries = [
+        "https://rs-lang-team-52.herokuapp.com/words?group=1&pageNum=5",
+        "https://rs-lang-team-52.herokuapp.com/words?group=2",
+        "https://rs-lang-team-52.herokuapp.com/words",
+      ];
 
-    const res = await signup();
-    const user = await res.user;
+      getWords(1, 5);
+      getWords(2);
+      getWords();
 
-    expect(user).toEqual(testValue);
-  });
-
-  it("Should return res without body when signup status 403", async () => {
-    setFetch({ json: toJson(testValue), status: 403 });
-
-    const res = await signup();
-
-    expect(res.user).toBeUndefined();
+      expect(fetch.mock.calls[0][0]).toBe(queries[0]);
+      expect(fetch.mock.calls[1][0]).toBe(queries[1]);
+      expect(fetch.mock.calls[2][0]).toBe(queries[2]);
+    });
   });
 });
