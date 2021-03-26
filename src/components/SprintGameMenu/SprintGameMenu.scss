@@ -46,6 +46,16 @@
   height: auto;
 }
 
+@supports (object-fit: cover) {
+  #video-bg > video {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
 .sprint-game__menu {
   display: flex;
   flex-direction: column;
