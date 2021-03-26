@@ -22,7 +22,6 @@
 .strick-block {
   display: flex;
   height: 25px;
-  
 }
 .strick-block__strick-point {
   width: 25px;
@@ -81,5 +80,11 @@
   }
   100% {
     opacity: 0;
+  }
+}
+
+.button-block {
+  :first-child {
+    margin-right: 25px;
   }
 }
