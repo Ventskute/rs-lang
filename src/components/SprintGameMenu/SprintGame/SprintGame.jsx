@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import './SprintGame.scss';
 import SprintTimer from '../SprintTimer/SprintTimer';
 import { useDispatch, useSelector } from 'react-redux';
+import actions from '../../../utils/actions';
 
 import {
   pointsLogic,
@@ -22,7 +23,7 @@ function SprintGame({ setSprintState, sprintState }) {
   });
 
   // const { truelyAnswers, falsyAnswers } = useSelector(state => state);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const { words, randomTranslationWordIndex, currentWordIndex, pointsStrick } = sprintGameState;
 
@@ -39,7 +40,7 @@ function SprintGame({ setSprintState, sprintState }) {
   });
 
   React.useEffect(() => {
-    fetch(`http://localhost:3000/words?page=${pageSettings-1}&group=${levelSettings-1}`)
+    fetch(`http://localhost:3000/words?page=${pageSettings - 1}&group=${levelSettings - 1}`)
       .then((res) => res.json())
       .then((words) => setSprintGameState({ ...sprintGameState, words: words }));
   }, []);
@@ -62,7 +63,7 @@ function SprintGame({ setSprintState, sprintState }) {
 
   const openSignupForm = () => {
     dispatch({
-      type: actions.SET_SPRINT_ANSWERS,
+      type: 'SET_SPRINT_ANSWERS',
       payload: { isFormOpen: true, isSignup: true },
     });
   };
@@ -92,6 +93,10 @@ function SprintGame({ setSprintState, sprintState }) {
       currPoints: sprintState.currPoints + (points[0] * sprintGameState.pointsPerWord) / 10,
       truelyAnswers: points[0] ? [...truelyAnswers, words[currentWordIndex]] : truelyAnswers,
       falsyAnswers: !points[0] ? [...falsyAnswers, words[currentWordIndex]] : falsyAnswers,
+    });
+    dispatch({
+      type: 'SET_SPRINT_ANSWERS',
+      payload: { falsy: falsyAnswers, truely: truelyAnswers },
     });
   };
 
