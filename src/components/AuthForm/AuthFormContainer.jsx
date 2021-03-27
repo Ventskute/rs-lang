@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import actions from "../../utils/actions";
-import { signin, signup } from "../../utils/api";
+import { signin, signup } from "../../utils/api/api";
 import AuthForm from "./AuthForm";
 
 const AuthFormContainer = ({ isSignup, closeForm }) => {

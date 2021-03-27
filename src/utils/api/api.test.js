@@ -1,4 +1,4 @@
-import { getQuery, getWords } from "./api";
+import { getWords } from "./api";
 import "@babel/polyfill";
 
 describe("API tests", () => {
@@ -20,14 +20,6 @@ describe("API tests", () => {
   });
   afterEach(() => {
     fetch.mockRestore();
-  });
-
-  it("Should return proper query", () => {
-    const testQueryParams = { testValue: "test77", testValue2: "test88" };
-    const testQuery = "?testValue=test77&testValue2=test88";
-
-    expect(getQuery()).toBeNull();
-    expect(getQuery(testQueryParams)).toBe(testQuery);
   });
 
   describe("Get words", () => {
