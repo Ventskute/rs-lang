@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AuthFormContainer from "../AuthForm/AuthFormContainer";
 import actions from "../../utils/actions";
-import { userLS } from "../../utils/localStor";
+import { userLS } from "../../utils/localStore";
 
 const Header = () => {
   const dispatch = useDispatch();

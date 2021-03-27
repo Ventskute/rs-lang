@@ -1,5 +1,5 @@
 import { BASE_URL } from "./api";
-import { userLS } from "../localStor";
+import { userLS } from "../localStore";
 import "@babel/polyfill";
 
 export const getQuery = (params) => {
@@ -23,10 +23,10 @@ const refreshRequest = (id, refreshToken) => {
       if (res.status === 200) {
         return res.json();
       }
-      console.log(res.status);
     })
     .then((data) => data)
     .catch((e) => {
+      console.log(e);
       throw new Error("refresh req", e);
     });
 };

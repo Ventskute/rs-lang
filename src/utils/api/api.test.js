@@ -1,4 +1,4 @@
-import { getWords } from "./api";
+import { getWords, BASE_URL } from "./api";
 import "@babel/polyfill";
 
 describe("API tests", () => {
@@ -21,13 +21,13 @@ describe("API tests", () => {
   afterEach(() => {
     fetch.mockRestore();
   });
-
+  //
   describe("Get words", () => {
     it("Should use proper url", () => {
       const queries = [
-        "https://rs-lang-team-52.herokuapp.com/words?group=1&pageNum=5",
-        "https://rs-lang-team-52.herokuapp.com/words?group=2",
-        "https://rs-lang-team-52.herokuapp.com/words",
+        `${BASE_URL}words?group=1&pageNum=5`,
+        `${BASE_URL}words?group=2`,
+        `${BASE_URL}words`,
       ];
 
       getWords(1, 5);

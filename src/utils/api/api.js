@@ -1,5 +1,5 @@
 import { fetchWrapper, getQuery } from "./api.utils";
-import { userLS } from "../localStor";
+import { userLS } from "../localStore";
 
 export const BASE_URL = "http://localhost:3000/";
 // export const BASE_URL = "https://rs-lang-team-52.herokuapp.com/";
