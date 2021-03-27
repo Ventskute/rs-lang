@@ -1,5 +1,5 @@
 import { BASE_URL } from "./api";
-import { user } from "../localStor";
+import { userLS } from "../localStor";
 import "@babel/polyfill";
 
 export const getQuery = (params) => {
@@ -37,11 +37,11 @@ export const fetchWrapper = async (url, config = {}) => {
     ...config,
   };
 
-  newConfig.headers.Authorization = `Bearer ${user.getTokenFromLS()}`;
+  newConfig.headers.Authorization = `Bearer ${userLS.getTokenFromLS()}`;
 
   let res = await fetch(url, newConfig);
 
-  let refreshToken = user.getRefreshTokenFromLS();
+  let refreshToken = userLS.getRefreshTokenFromLS();
   if (!refreshToken && res.status === 401) {
     throw new Error("Should signin");
   }
@@ -49,17 +49,18 @@ export const fetchWrapper = async (url, config = {}) => {
   if (res.status === 200) {
     return res;
   }
-
   if (res.status === 401) {
-    return refreshRequest(user.getUserIdFromLS(), refreshToken)
+    return refreshRequest(userLS.getUserIdFromLS(), refreshToken)
       .then(async (tokens) => {
-        user.set(tokens);
-        newConfig.headers.Authorization = `Bearer ${user.getTokenFromLS()}`;
+        userLS.setUser(tokens);
+        newConfig.headers.Authorization = `Bearer ${userLS.getTokenFromLS()}`;
         res = await fetch(url, newConfig);
         return res;
       })
       .catch((e) => {
         throw new Error("error in 43", e);
       });
+  } else {
+    return res;
   }
 };

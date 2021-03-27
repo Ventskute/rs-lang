@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import actions from "../../utils/actions";
 import { signin, signup } from "../../utils/api/api";
 import AuthForm from "./AuthForm";
 
@@ -10,7 +8,6 @@ const AuthFormContainer = ({ isSignup, closeForm }) => {
   );
   const [nameValue, setNameValue] = useState("");
   const [namePlaceHolder, setNamePlaceHolder] = useState("name");
-  const dispatch = useDispatch();
   const reader = new FileReader();
 
   reader.onload = (e) => {
@@ -25,25 +22,21 @@ const AuthFormContainer = ({ isSignup, closeForm }) => {
     setNameValue(e.target.value);
   };
 
-  const setUser = (user) => {
-    dispatch({ type: actions.SET_USER, user: user });
-  };
+  // const setUser = (user) => {
+  //   dispatch({ type: actions.SET_USER, user: user });
+  // };
 
   const handleSignin = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     const res = await signin(data);
-    const resStatus = await res.status;
-    // const { token, refreshToken, userId, name } = await res.user;
-    const resUser = await res.user;
-    // if (resStatus === 403) {
-    //     setNameValue("");
-    //     setNamePlaceHolder("incorrect email or password");
-    //   }
-    if (resStatus === 200) {
-      setUser(resUser);
-
+    if (res.status === 403) {
+      //     setNameValue("");
+      //     setNamePlaceHolder("incorrect email or password");
+      throw new Error("incorrect email or password");
+    }
+    if (res.status === 200) {
       closeForm();
     }
   };
@@ -60,7 +53,7 @@ const AuthFormContainer = ({ isSignup, closeForm }) => {
     //   setNamePlaceHolder("incorrect email or password");
     // }
     if (resStatus === 200) {
-      setUser(resUser);
+      // setUser(resUser);
 
       closeForm();
     }

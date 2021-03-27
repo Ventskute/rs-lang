@@ -52,17 +52,9 @@ export default function rootReducer(state = initialState, action) {
       };
     }
     case actions.SET_USER: {
-      localStorage.setItem("user", JSON.stringify(action.user));
       return {
         ...state,
-        user: getData("user", null),
-      };
-    }
-    case actions.REMOVE_USER: {
-      localStorage.setItem("user", JSON.stringify(null));
-      return {
-        ...state,
-        user: getData("user", null),
+        user: action.user,
       };
     }
     case actions.SEARCH: {

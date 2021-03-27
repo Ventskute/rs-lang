@@ -1,22 +1,32 @@
-export const user = {
-  set(user) {
+export const userLS = {
+  setUser(user) {
     const prevUser = JSON.parse(localStorage.getItem("user"));
-    localStorage.setItem("user", JSON.stringify({ ...prevUser, ...user }));
+    if (user && "message" in user) {
+      delete user.message;
+    }
+
+    const newUser = user && { ...prevUser, ...user };
+
+    localStorage.setItem("user", JSON.stringify(newUser));
+
+    const event = new Event("userUpdate");
+    event.newValue = newUser;
+    window.dispatchEvent(event);
   },
-  get() {
+  getUser() {
     const user = localStorage.getItem("user") || null;
     return user && JSON.parse(user);
   },
   getTokenFromLS() {
-    const { token } = this.get() || { token: null };
+    const { token } = this.getUser() || { token: null };
     return token;
   },
   getRefreshTokenFromLS() {
-    const { refreshToken } = this.get() || { refreshToken: null };
+    const { refreshToken } = this.getUser() || { refreshToken: null };
     return refreshToken;
   },
   getUserIdFromLS() {
-    const { userId } = this.get() || { userId: null };
+    const { userId } = this.getUser() || { userId: null };
     return userId;
   },
 };

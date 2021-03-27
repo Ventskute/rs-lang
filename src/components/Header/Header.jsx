@@ -2,13 +2,13 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AuthFormContainer from "../AuthForm/AuthFormContainer";
 import actions from "../../utils/actions";
+import { userLS } from "../../utils/localStor";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { authForm } = useSelector((state) => state);
+  const { authForm, user } = useSelector((state) => state);
   const logoutUser = () => {
-    dispatch({ type: actions.REMOVE_USER });
-    throw new Error("not implemented");
+    userLS.setUser(null);
   };
   const openSignupForm = () => {
     dispatch({
@@ -37,6 +37,7 @@ const Header = () => {
   };
   return (
     <>
+      {user && user.name}
       <button className="login-button" onClick={openSignupForm}>
         signup
       </button>
