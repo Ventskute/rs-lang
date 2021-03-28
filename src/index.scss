@@ -1,21 +1,30 @@
-@import './variables.scss';
+@import "./variables.scss";
+// @import "~bootstrap/scss/bootstrap";
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-decoration: none;
 }
 
 body {
-  background-color: $color-body;
+  // background-color: $color-body;
   overflow-x: hidden;
 
   &.dark-theme {
-    background-color: $color-bg-dark;
+    //   background-color: $color-bg-dark;
     color: $color-text-light;
   }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
 }
 
 .container {
