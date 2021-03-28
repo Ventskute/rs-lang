@@ -26,7 +26,6 @@ const refreshRequest = (id, refreshToken) => {
     })
     .then((data) => data)
     .catch((e) => {
-      console.log(e);
       throw new Error("refresh req", e);
     });
 };
@@ -36,9 +35,7 @@ export const fetchWrapper = async (url, config = {}) => {
     headers: {},
     ...config,
   };
-
   newConfig.headers.Authorization = `Bearer ${userLS.getTokenFromLS()}`;
-
   let res = await fetch(url, newConfig);
 
   let refreshToken = userLS.getRefreshTokenFromLS();

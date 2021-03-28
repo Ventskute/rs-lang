@@ -1,6 +1,6 @@
 export const userLS = {
   setUser(user) {
-    const prevUser = JSON.parse(localStorage.getItem("user"));
+    const prevUser = this.getUser() || {};
     if (user && "message" in user) {
       delete user.message;
     }
@@ -14,8 +14,11 @@ export const userLS = {
     window.dispatchEvent(event);
   },
   getUser() {
-    const user = localStorage.getItem("user") || null;
-    return user && JSON.parse(user);
+    let user = localStorage.getItem("user");
+    if (!user || user === "undefined" || user === "null") {
+      return null;
+    }
+    return JSON.parse(user);
   },
   getTokenFromLS() {
     const { token } = this.getUser() || { token: null };
