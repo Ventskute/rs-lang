@@ -48,3 +48,29 @@ export const signup = (body) => {
     })
     .catch((e) => console.log("cant signup with error", e));
 };
+
+export const getAggregatedWords = async (userId, group, pageNum, wordsPerPage, filter) => {
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  if (!userId) {
+    throw new Error('you should pass "userId" to "getAggregatedWords"');
+  }
+  const query = getQuery({
+    group,
+    pageNum,
+    wordsPerPage,
+  });
+  if (filter) {
+    const param = new URLSearchParams();
+    param.set("filter", JSON.stringify(filter));
+    query.concat("&", param.toString());
+  }
+  const fetchedData = await fetchWrapper(`${BASE_URL}users/${userId}/aggregatedWords${query}`)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((e) => {
+      console.log("cant get aggregated words with error", e);
+    });
+  return fetchedData[0].paginatedResults;
+};
