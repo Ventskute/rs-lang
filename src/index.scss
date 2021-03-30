@@ -1,15 +1,15 @@
-@import './variables.scss';
+@import "./variables.scss";
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-decoration: none;
 }
 
 body {
-  // background-color: $color-body;
+  background-color: $color-bg;
   overflow-x: hidden;
 
   &.dark-theme {
