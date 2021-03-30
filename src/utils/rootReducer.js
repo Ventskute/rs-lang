@@ -1,4 +1,4 @@
-import actions from "./actions";
+import actions from './actions';
 
 const getData = (key, initialValue) => {
   const data = localStorage.getItem(key);
@@ -18,11 +18,12 @@ const getData = (key, initialValue) => {
 };
 
 export const initialState = {
-  locale: getData("lang", "ru_RU"),
+  sprintGameStats: { sprintTruelyAnswers: [], sprintFalsyAnswers: [], sprintPoints: 0 },
+  locale: getData('lang', 'ru_RU'),
   dict: {},
-  user: getData("user", null),
-  darkTheme: getData("darkTheme", false),
-  searchValue: "",
+  user: getData('user', null),
+  darkTheme: getData('darkTheme', false),
+  searchValue: '',
   authForm: {
     isFormOpen: false,
     isSignup: true,
@@ -32,14 +33,14 @@ export const initialState = {
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case actions.CHANGE_THEME: {
-      localStorage.setItem("darkTheme", action.payload);
+      localStorage.setItem('darkTheme', action.payload);
       return {
         ...state,
         darkTheme: action.payload,
       };
     }
     case actions.SET_LOCALE: {
-      localStorage.setItem("lang", action.payload);
+      localStorage.setItem('lang', action.payload);
       return {
         ...state,
         locale: action.payload,
@@ -69,6 +70,16 @@ export default function rootReducer(state = initialState, action) {
         authForm: {
           ...state.authForm,
           ...action.payload,
+        },
+      };
+    }
+    case actions.SET_SPRINT_ANSWERS: {
+      return {
+        ...state,
+        sprintGameStats: {
+          sprintTruelyAnswers: action.payload.truely,
+          sprintFalsyAnswers: action.payload.falsy,
+          sprintPoints: action.payload.points,
         },
       };
     }

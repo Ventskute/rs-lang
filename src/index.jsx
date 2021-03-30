@@ -4,11 +4,14 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import SprintGameMenu from './components/SprintGameMenu/SprintGameMenu'
+import AudioChallenge from "./components/AudioChallenge/AudioChallenge";
+import { UserUpdater } from "./components/UserUpdater/UserUpdater";
+import Main from "./views/Main/Main";
 
 import rootReducer from "./utils/rootReducer";
-import AudioChallenge from "./components/AudioChallenge/AudioChallenge";
-import Main from "./views/Main/Main";
-import { UserUpdater } from "./components/UserUpdater/UserUpdater";
+import sprintReducer from './utils/reducerSprint'
+import './index.scss'
 
 import "./index.scss";
 
@@ -20,6 +23,7 @@ export default function App() {
       <UserUpdater>
         <Router>
           <Switch>
+            <Route path="/sprint" component={SprintGameMenu} />
             <Route path="/" exact component={Main} />
             <Route path="/audioChallenge" component={AudioChallenge} />
           </Switch>
