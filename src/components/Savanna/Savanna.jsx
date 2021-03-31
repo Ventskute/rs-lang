@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import drop from "../../assets/images/drop.png";
 import "./Savanna.scss";
 
 let interval;
-
+let point = 0;
 export default function Savanna() {
   const [words, setWords] = useState([]);
   const [randomWords, setRandomWords] = useState([]);
@@ -16,11 +17,15 @@ export default function Savanna() {
   const [wordPosition, setWordPosition] = useState(0);
   const [dropSize, setDropSize] = useState(100);
   const [answersCount, setAnswersCount] = useState(1);
+  const [rightAnswers, setRightAnswers] = useState([]);
+  const [wrongAnswers, setWrongAnswers] = useState([]);
   let { group, page } = useParams();
+  const dispatch = useDispatch();
 
   function nextWord(words) {
     clearInterval(interval);
     setAnswersCount(answersCount + 1);
+
     if (answersCount + 1 < words.length) {
       setWordPosition(0);
       let word;
@@ -44,9 +49,12 @@ export default function Savanna() {
           setLivesCount((livesCount) => {
             if (livesCount - 1 > 0) {
               nextWord(words);
+              wrongAnswers.push(word);
+              setWrongAnswers(wrongAnswers);
               return livesCount - 1;
             }
-
+            wrongAnswers.push(word);
+            setWrongAnswers(wrongAnswers);
             clearInterval(interval);
             return 0;
           });
@@ -136,14 +144,50 @@ export default function Savanna() {
   if (answersCount + 1 == words.length) {
     gameField = (
       <div className="game-over">
-        <p>YOU WON!</p>
+        <div className="point">
+          <p>Amount point: {point}</p>
+        </div>
+        <>
+          <ul>
+            <li>Right answers</li>
+            {rightAnswers.map((value, index) => {
+              return <li key={index}>{value}</li>;
+            })}
+          </ul>
+          <ul>
+            <li>Wrong answers</li>
+            {wrongAnswers.map((value, index) => {
+              return <li key={index}>{value}</li>;
+            })}
+          </ul>
+        </>
       </div>
     );
     livesCounter = "";
   } else if (livesCount == 0) {
     gameField = (
       <div className="game-over">
-        <p>YOU LOST!</p>
+        <div className="point text-muted">
+          <p>Amount point: {point}</p>
+        </div>
+        <>
+          <ul>
+            <li>Right answers</li>
+            {rightAnswers
+              ? rightAnswers.map((word, index) => {
+                  return <li key={index + word.word}>{word.word}</li>;
+                })
+              : ""}
+          </ul>
+          <ul>
+            <li>Wrong answers</li>
+            {wrongAnswers
+              ? wrongAnswers.map((word, index) => {
+                  return <li key={index + word.word}>{word.word}</li>;
+                })
+              : ""}
+          </ul>
+        </>
       </div>
     );
   } else if (word) {
@@ -153,14 +197,19 @@ export default function Savanna() {
           <p>{word.word}</p>
         </div>
         <ul className="words-list">
-          {randomAnswers.map((elem, i) => {
+          {randomAnswers.map((answer, i) => {
             return (
               <li
                 onClick={() => {
                   clearInterval(interval);
-                  if (elem === word.wordTranslate) {
+                  if (answer === word.wordTranslate) {
+                    rightAnswers.push(word);
+                    point++;
+                    setRightAnswers(rightAnswers);
                     setDropSize(dropSize + 10);
                   } else {
+                    wrongAnswers.push(word);
+                    setWrongAnswers(wrongAnswers);
                     setLivesCount(livesCount - 1);
                   }
                   nextWord(words);
@@ -168,7 +217,7 @@ export default function Savanna() {
                 key={i}
                 data-key={i + 1}
               >
-                {i + 1}. {elem}
+                {i + 1}. {answer}
               </li>
             );
           })}
@@ -183,7 +232,11 @@ export default function Savanna() {
       {livesCounter}
       {gameField}
       <div className="drop">
-        <img src={drop} style={{ width: dropSize, height: dropSize }} />
+        <img
+          src={drop}
+          alt="drop"
+          style={{ width: dropSize, height: dropSize }}
+        />
       </div>
     </div>
   );

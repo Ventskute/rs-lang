@@ -51,18 +51,29 @@
     bottom: 50px;
   }
   .difficulty-level {
-    width: 60px;
+    width: 150px;
   }
   .game-over {
     text-align: center;
-    margin: 15% auto;
+    margin: 3% auto;
     font-size: 40px;
-    display: block;
+    display: flex;
+    justify-content: center;
+
+    ul {
+      list-style: none;
+      margin-right: 100px;
+      margin-top: 55px;
+    }
+    .point {
+      position: absolute;
+    }
     p {
-      display: inline-block;
-      padding: 10px;
-      border-radius: 6px;
-      background-color: rgba(234, 151, 123, 0.6);
+      font-family: Open Sans;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 40px;
+      color: #1153e6;
     }
   }
 }
