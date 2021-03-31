@@ -35,7 +35,7 @@ export default function App() {
                 <Link to="/savanna">Component</Link>
               </li>
               <li>
-                <Link to="/savanna/1/2">From page</Link>
+                <Link to="/savanna/1/1">From page</Link>
               </li>
             </ul>
           </Router>
