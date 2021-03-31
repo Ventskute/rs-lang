@@ -12,6 +12,7 @@ import Main from "./views/Main/Main";
 import rootReducer from "./utils/rootReducer";
 import sprintReducer from './utils/reducerSprint'
 import './index.scss'
+import Fillwords from "./views/Fillwords/Fillwords";
 
 import "./index.scss";
 
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/sprint" component={SprintGameMenu} />
             <Route path="/" exact component={Main} />
             <Route path="/audioChallenge" component={AudioChallenge} />
+            <Route path="/fillwords" component={Fillwords} />
           </Switch>
         </Router>
       </UserUpdater>
