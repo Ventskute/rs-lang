@@ -1,29 +1,57 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
+import drop from "../../assets/images/drop.png";
 import "./Savanna.scss";
 
+let interval;
 export default function Savanna() {
   const [words, setWords] = useState([]);
   const [randomWords, setRandomWords] = useState([]);
+  const [randomAnswers, setRandomAnswers] = useState([]);
   const [word, setWord] = useState();
   const [livesCount, setLivesCount] = useState(5);
   const [difficLevel, setDifficLevel] = useState(1);
+  const [wordPosition, setWordPosition] = useState(0);
+  const [dropSize, setDropSize] = useState(100);
   let { group, page } = useParams();
 
-  useEffect(() => {
+  function nextWord(words) {
+    clearInterval(interval);
+    setWords(words);
+    setWordPosition(0);
+    let randWords = getRandomWords(words);
+    let word = randWords.pop();
+    setWord(word);
+    setRandomWords(randWords);
+    setRandomAnswers(getRandomAnswers(word.wordTranslate, words));
+    interval = setInterval(() => {
+      setWordPosition((wordPosition) => {
+        return wordPosition < 90
+          ? wordPosition + 0.05
+          : clearInterval(interval);
+      });
+    }, 1);
+  }
+  function randomPage() {
+    let page = Math.floor(Math.random() * 30);
+    return page;
+  }
+
+  function getWords() {
     fetch(
       `http://localhost:3000/words?group=${group ? group : difficLevel}&page=${
-        page ? page : 1
+        page ? page : randomPage()
       }`
     )
       .then((res) => res.json())
       .then((words) => {
-        setWords(words);
-        let randWords = GetRandomWords(words);
-        setWord(randWords.pop());
-        setRandomWords(randWords);
+        nextWord(words);
       });
+  }
+
+  useEffect(() => {
+    getWords();
   }, []);
 
   return (
@@ -33,8 +61,11 @@ export default function Savanna() {
       ) : (
         <div>
           <select
+            className="form-control"
+            id="exampleSelect1"
             onChange={(e) => {
               setDifficLevel(e.target.value);
+              getWords();
             }}
           >
             <option>1</option>
@@ -53,26 +84,24 @@ export default function Savanna() {
         <>
           {word ? (
             <>
-              <div className="word">
+              <div className="word" style={{ top: wordPosition + "%" }}>
                 <p>{word.word}</p>
               </div>
               <ul className="words-list">
-                {GetRandomAnswers(word.wordTranslate, words).map((elem, i) => {
+                {randomAnswers.map((elem, i) => {
                   return (
                     <li
                       onClick={() => {
                         if (elem === word.wordTranslate) {
-                          setWord(randomWords.pop());
-                          setRandomWords(randomWords);
+                          setDropSize(dropSize + 10);
                         } else {
-                          setWord(randomWords.pop());
-                          setRandomWords(randomWords);
                           setLivesCount(livesCount - 1);
                         }
+                        nextWord(words);
                       }}
                       key={i}
                     >
-                      {elem}
+                      {i + 1}. {elem}
                     </li>
                   );
                 })}
@@ -83,29 +112,32 @@ export default function Savanna() {
           )}
         </>
       )}
+      <div className="drop">
+        <img src={drop} style={{ width: dropSize, height: dropSize }} />
+      </div>
     </div>
   );
 }
 
-function GetRandomWords(words) {
+function getRandomWords(words) {
   let previousIndexes = [];
   let randomWords = [];
   for (let i = 0; i < words.length; i++) {
-    randomWords.push(words[RandomIndex(previousIndexes, words.length)]);
+    randomWords.push(words[randomIndex(previousIndexes, words.length)]);
   }
   return randomWords;
 }
 
-function RandomIndex(previousIndexes, seed) {
+function randomIndex(previousIndexes, seed) {
   let index = Math.floor(Math.random() * seed);
   if (previousIndexes.includes(index)) {
-    return RandomIndex(previousIndexes, seed);
+    return randomIndex(previousIndexes, seed);
   }
   previousIndexes.push(index);
   return index;
 }
 
-function GetRandomAnswers(answer, words) {
+function getRandomAnswers(answer, words) {
   let answers = [answer];
   do {
     const rand = Math.floor(Math.random() * words.length);
@@ -125,13 +157,9 @@ function shuffle(array) {
     temporaryValue,
     randomIndex;
 
-  // While there remain elements to shuffle...
   while (0 !== currentIndex) {
-    // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-
-    // And swap it with the current element.
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;

@@ -1,6 +1,6 @@
 @import "./variables.scss";
-// @import "~bootstrap/scss/bootstrap";
 
+@import "~bootstrap/scss/bootstrap";
 * {
   padding: 0;
   margin: 0;
@@ -14,7 +14,7 @@ body {
   overflow-x: hidden;
 
   &.dark-theme {
-    //   background-color: $color-bg-dark;
+    background-color: $color-bg-dark;
     color: $color-text-light;
   }
 }
