@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
+import Card from "../../components/Card/Card";
 import { getWords } from "../../utils/api";
 import { Filler } from "../../utils/fillWords";
 
@@ -12,6 +13,7 @@ export default function Fillwords({ difficulty = 0 }) {
   const [selection, setSelection] = useState([]);
   const [mouseDown, setMouseDown] = useState(false);
   const [isWin, setIsWin] = useState(false);
+  const [foundWords, setFoundWords] = useState([]);
 
   const size = 5 + difficulty;
 
@@ -102,6 +104,7 @@ export default function Fillwords({ difficulty = 0 }) {
     if (words.some(el => el.word === buildWord()) &&
         selection.every(el => el.dataset.word === selection[0].dataset.word)) {
       selection.forEach((el) => el.classList.add('found'));
+      setFoundWords([words.find(el => el.word === buildWord()), ...foundWords]);
     } else {
       selection.forEach((el) => el.style.backgroundColor = '')
     }
@@ -121,6 +124,9 @@ export default function Fillwords({ difficulty = 0 }) {
               <div className="word-card" key={i} data-word={letter[1]} onMouseEnter={handleMouseEnter}>{letter[0]}</div>
             ))}
           )}
+        </div>
+        <div className="found-cards-wrapper">
+          {foundWords.map((el,i) => <Card {...el} key={i}></Card>)}
         </div>
       </Container>
     </div>

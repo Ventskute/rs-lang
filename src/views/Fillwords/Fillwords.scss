@@ -19,5 +19,11 @@
       user-select: none;
       color: white;
     }
+
+  }
+
+  .found-cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
   }
 }

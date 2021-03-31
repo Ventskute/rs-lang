@@ -7,3 +7,7 @@ export const getWords = (group, page) => {
       console.log("cant get words with error", e);
     });
 };
+
+export const getStaticURL = (route) => {
+  return `${url}${route}`;
+}
