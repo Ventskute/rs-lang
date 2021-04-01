@@ -9,6 +9,7 @@ import {
   getTruelyTranslationIndex,
   getCurrentWord,
 } from '../gameLogic';
+import { getWords } from '../../../utils/api';
 
 function SprintGame({ setSprintState, sprintState }) {
   const [isRandomTranslation, setIsRandomTranslation] = React.useState(0);
@@ -41,8 +42,7 @@ function SprintGame({ setSprintState, sprintState }) {
   });
 
   React.useEffect(() => {
-    fetch(`http://localhost:3000/words?page=${pageSettings - 1}&group=${levelSettings - 1}`)
-      .then((res) => res.json())
+    getWords(levelSettings - 1, pageSettings - 1)
       .then((words) => setSprintGameState({ ...sprintGameState, words: words }));
     console.log(sprintGameState);
   }, []);
