@@ -11,10 +11,10 @@ import Main from "./views/Main/Main";
 
 import rootReducer from "./utils/rootReducer";
 import sprintReducer from "./utils/reducerSprint";
-import "./index.scss";
-import Savanna from "./components/Savanna/Savanna";
 
 import "./index.scss";
+import SavannaMenu from "./components/Savanna/SavannaMenu/SavannaMenu";
+import Savanna from "./components/Savanna/Savanna";
 
 export default function App() {
   const store = createStore(rootReducer, composeWithDevTools());
@@ -25,19 +25,12 @@ export default function App() {
         <UserUpdater>
           <Router>
             <Switch>
+              <Route path={"/savannaMenu"} exact component={SavannaMenu} />
               <Route path={"/savanna"} exact component={Savanna} />
               <Route path={"/savanna/:group/:page"} exact component={Savanna} />
               <Route path="/sprint" component={SprintGameMenu} />
               <Route path="/" exact component={Main} />
             </Switch>
-            <ul>
-              <li>
-                <Link to="/savanna">Component</Link>
-              </li>
-              <li>
-                <Link to="/savanna/1/1">From page</Link>
-              </li>
-            </ul>
           </Router>
         </UserUpdater>
       </Provider>

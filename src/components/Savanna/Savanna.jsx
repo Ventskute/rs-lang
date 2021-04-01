@@ -2,11 +2,14 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import drop from "../../assets/images/drop.png";
 import "./Savanna.scss";
 
+import SavannaStatistics from "./SavannaStatistics/SavannaStatistics";
+import Drop from "./Drop/Drop";
+import LivesCounter from "./LivesCounter/LivesCounter";
+
 let interval;
-let point = 0;
+
 export default function Savanna() {
   const [words, setWords] = useState([]);
   const [randomWords, setRandomWords] = useState([]);
@@ -136,60 +139,15 @@ export default function Savanna() {
   }
 
   let gameField = "";
-  let livesCounter = (
-    <div className="lives-counter">
-      <span>{livesCount}</span>
-    </div>
-  );
-  if (answersCount + 1 == words.length) {
+  let livesCounter = <LivesCounter livesCount={livesCount} />;
+  if (answersCount + 1 == words.length || livesCount == 0) {
     gameField = (
-      <div className="game-over">
-        <div className="point">
-          <p>Amount point: {point}</p>
-        </div>
-        <>
-          <ul>
-            <li>Right answers</li>
-            {rightAnswers.map((value, index) => {
-              return <li key={index}>{value}</li>;
-            })}
-          </ul>
-          <ul>
-            <li>Wrong answers</li>
-            {wrongAnswers.map((value, index) => {
-              return <li key={index}>{value}</li>;
-            })}
-          </ul>
-        </>
-      </div>
+      <SavannaStatistics
+        rightAnswers={rightAnswers}
+        wrongAnswers={wrongAnswers}
+      />
     );
     livesCounter = "";
-  } else if (livesCount == 0) {
-    gameField = (
-      <div className="game-over">
-        <div className="point text-muted">
-          <p>Amount point: {point}</p>
-        </div>
-        <>
-          <ul>
-            <li>Right answers</li>
-            {rightAnswers
-              ? rightAnswers.map((word, index) => {
-                  return <li key={index + word.word}>{word.word}</li>;
-                })
-              : ""}
-          </ul>
-          <ul>
-            <li>Wrong answers</li>
-            {wrongAnswers
-              ? wrongAnswers.map((word, index) => {
-                  return <li key={index + word.word}>{word.word}</li>;
-                })
-              : ""}
-          </ul>
-        </>
-      </div>
-    );
   } else if (word) {
     gameField = (
       <>
@@ -204,7 +162,6 @@ export default function Savanna() {
                   clearInterval(interval);
                   if (answer === word.wordTranslate) {
                     rightAnswers.push(word);
-                    point++;
                     setRightAnswers(rightAnswers);
                     setDropSize(dropSize + 10);
                   } else {
@@ -231,13 +188,7 @@ export default function Savanna() {
       {difficultySelector}
       {livesCounter}
       {gameField}
-      <div className="drop">
-        <img
-          src={drop}
-          alt="drop"
-          style={{ width: dropSize, height: dropSize }}
-        />
-      </div>
+      <Drop dropSize={dropSize} />
     </div>
   );
 }
