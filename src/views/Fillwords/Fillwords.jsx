@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
 import Card from "../../components/Card/Card";
-import { getWords } from "../../utils/api";
+import { getStaticURL, getWords } from "../../utils/api";
 import { Filler } from "../../utils/fillWords";
 
 import "./Fillwords.scss";
@@ -146,6 +146,10 @@ export default function Fillwords({ difficulty = 0 }) {
     }
   }
 
+  const playAudio = (audio) => {
+    new Audio(getStaticURL(audio)).play();
+  }
+
   return (<>
     <div className="game game-fillwords">
       <Container className='description'>
@@ -160,6 +164,9 @@ export default function Fillwords({ difficulty = 0 }) {
             ))}
           )}
         </div>
+        <Button onClick={() => playAudio(words.find((el) => !foundWords.includes(el)).audio)} disabled={isWin} className='button-hint'>
+          Подсказка
+        </Button>
         <div className="found-cards-wrapper">
           {foundWords.map((el,i) => <Card {...el} key={i}></Card>)}
         </div>
