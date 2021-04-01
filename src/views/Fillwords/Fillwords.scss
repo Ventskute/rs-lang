@@ -1,0 +1,39 @@
+.game-fillwords {
+
+  .description {
+    color: white;
+    text-align: center;
+  }
+
+  .button-hint {
+    margin: 10px auto;
+    display: block;
+  }
+
+  .game-field {
+    display: grid;
+    border: 1px solid black;
+    width: fit-content;
+    margin: 0 auto;
+
+    .word-card {
+      background-color: rgb(47, 47, 47);
+      border: 1px solid black;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 700;
+      font-size: 28px;
+      cursor: pointer;
+      user-select: none;
+      color: white;
+    }
+
+  }
+
+  .found-cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
