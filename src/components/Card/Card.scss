@@ -2,4 +2,14 @@
   width: 25%;
   min-width: 18rem;
   margin: 15px 20px;
+
+  .text-button {
+    display: flex;
+    justify-content: space-between;
+
+    .play {
+      line-height: 10px;
+      height: 34px;
+    }
+  }
 }
