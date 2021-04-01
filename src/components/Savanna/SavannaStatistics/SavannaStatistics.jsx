@@ -3,9 +3,10 @@ import Savanna from "../Savanna";
 
 import "./SavannaStatistics.scss";
 const SavannaStatisticsTitles = {
-  POINT: "Points",
-  RIGHT: "Right answers",
-  WRONG: "Wrong answers",
+  POINT: "Количество очков",
+  RIGHT: "Правильные ответы",
+  WRONG: "Неправильные ответы",
+  NEWGame: "Новая игра",
 };
 
 export default function SavannaStatistics(props) {
@@ -21,7 +22,7 @@ export default function SavannaStatistics(props) {
             document.location.reload();
           }}
         >
-          New Game
+          {SavannaStatisticsTitles.NEWGame}
         </button>
       </div>
       <div className="answers">

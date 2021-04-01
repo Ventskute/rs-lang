@@ -19,20 +19,27 @@ export default function Savanna() {
   const [difficultyLevel, setDifficultyLevel] = useState(1);
   const [wordPosition, setWordPosition] = useState(0);
   const [dropSize, setDropSize] = useState(100);
-  const [answersCount, setAnswersCount] = useState(1);
   const [rightAnswers, setRightAnswers] = useState([]);
   const [wrongAnswers, setWrongAnswers] = useState([]);
   let { group, page } = useParams();
   const dispatch = useDispatch();
-
+  function isGameOver() {
+    return (
+      randomWords.length == 0 &&
+      rightAnswers.length + wrongAnswers.length == words.length
+    );
+  }
   function nextWord(words) {
     clearInterval(interval);
-    setAnswersCount(answersCount + 1);
 
-    if (answersCount + 1 < words.length) {
+    if (!isGameOver()) {
       setWordPosition(0);
       let word;
-      if (randomWords.length == 0) {
+      if (
+        randomWords.length == 0 &&
+        rightAnswers.length == 0 &&
+        wrongAnswers.length == 0
+      ) {
         let randWords = getRandomWords(words);
         word = randWords.pop();
         setWord(word);
@@ -58,9 +65,9 @@ export default function Savanna() {
             }
             wrongAnswers.push(word);
             setWrongAnswers(wrongAnswers);
-            clearInterval(interval);
             return 0;
           });
+          clearInterval(interval);
         });
       }, 1);
     } else {
@@ -140,7 +147,7 @@ export default function Savanna() {
 
   let gameField = "";
   let livesCounter = <LivesCounter livesCount={livesCount} />;
-  if (answersCount + 1 == words.length || livesCount == 0) {
+  if (isGameOver() || livesCount == 0) {
     gameField = (
       <SavannaStatistics
         rightAnswers={rightAnswers}
@@ -159,7 +166,6 @@ export default function Savanna() {
             return (
               <li
                 onClick={() => {
-                  clearInterval(interval);
                   if (answer === word.wordTranslate) {
                     rightAnswers.push(word);
                     setRightAnswers(rightAnswers);
