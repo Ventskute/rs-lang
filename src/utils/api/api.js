@@ -49,14 +49,14 @@ export const signup = (body) => {
     .catch((e) => console.log("cant signup with error", e));
 };
 
-export const getAggregatedWords = async (userId, group, pageNum, wordsPerPage, filter) => {
+export const getAggregatedWords = async (userId, group, page, wordsPerPage, filter) => {
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (!userId) {
     throw new Error('you should pass "userId" to "getAggregatedWords"');
   }
   const query = getQuery({
     group,
-    pageNum,
+    page,
     wordsPerPage,
   });
   if (filter) {
