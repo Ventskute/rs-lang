@@ -8,7 +8,7 @@ import {
   getRandomTranslationWordIndex,
   getTruelyTranslationIndex,
   getCurrentWord,
-} from '../gameLogic';
+} from '../../../utils/games/sprint';
 import { getWords } from '../../../utils/api';
 
 function SprintGame({ setSprintState, sprintState }) {

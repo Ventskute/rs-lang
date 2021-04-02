@@ -32,6 +32,7 @@ export default function App() {
             <Route path="/sprint" component={SprintGameMenu} />
             <Route path="/" exact component={Main} />
             <Route path="/fillwords" component={Fillwords} />
+            <Route path="/textbook" exact component={Textbook} />
             <Route path="/wordslist" component={WordsList} />
             <Route path="/audioChallenge" component={AudioChallengeContainer} />
           </Switch>
