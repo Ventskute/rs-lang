@@ -32,7 +32,7 @@ export default function Savanna() {
   function nextWord(words) {
     clearInterval(interval);
 
-    if (!isGameOver()) {
+    if (!isGameOver() || (isGameOver() && isExactPage())) {
       setWordPosition(0);
       let word;
       if (
