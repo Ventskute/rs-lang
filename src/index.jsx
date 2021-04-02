@@ -12,6 +12,7 @@ import Fillwords from "./views/Fillwords/Fillwords";
 import WordsList from "./components/WordsList/WordsList";
 import SavannaMenu from "./components/Savanna/SavannaMenu/SavannaMenu";
 import Savanna from "./components/Savanna/Savanna";
+import Textbook from './components/Textbook/Textbook';
 
 import rootReducer from "./utils/rootReducer";
 import sprintReducer from "./utils/reducerSprint";
