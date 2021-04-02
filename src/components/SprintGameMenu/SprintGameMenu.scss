@@ -12,11 +12,12 @@
   background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
   width: 50%;
   font-size: 1.5vw;
-  top: 50%;
-  left: 50%;
+  top: 5%;
+  left: 5%;
   transform: translate(-50%, -50%);
   border-radius: 64px;
   p,
+ 
   h2,
   h3 {
     color: rgb(251, 201, 126);
@@ -25,12 +26,12 @@
 }
 
 #video-bg {
-  position: fixed;
+  // position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: hidden;
+  // overflow: hidden;
   z-index: 1;
   background: transparent;
   background-size: contain;
@@ -41,7 +42,7 @@
   top: 0;
   left: 0;
   min-width: 100%;
-  min-height: 100%;
+  // min-height: 100%;
   width: auto;
   height: auto;
 }
@@ -51,7 +52,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 150%;
     object-fit: cover;
   }
 }
