@@ -1,0 +1,21 @@
+.game-over {
+  text-align: center;
+  font-size: 40px;
+  .answers {
+    display: flex;
+    justify-content: center;
+  }
+  ul {
+    list-style: none;
+    margin-right: 100px;
+    margin-top: 55px;
+  }
+
+  p {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 40px;
+    color: #1153e6;
+  }
+}
