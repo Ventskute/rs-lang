@@ -36,8 +36,8 @@ function SprintGameMenu() {
   };
   return (
     <>
-      <div id="video-bg-sprint">
-        <video id="background-video" loop autoPlay>
+      <div className="sprint">
+        <video className="background-video" loop autoPlay>
           <source src={video} type="video/mp4" />
         </video>
         <div className="game-content">

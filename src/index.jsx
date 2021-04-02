@@ -18,6 +18,7 @@ import rootReducer from "./utils/rootReducer";
 import sprintReducer from "./utils/reducerSprint";
 
 import "./index.scss";
+import Menu from "./components/Menu/Menu";
 
 export default function App() {
   const store = createStore(rootReducer, composeWithDevTools());
@@ -25,6 +26,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <UserUpdater>
+        <Menu />
         <Router>
           <Switch>
             <Route path={"/savannaMenu"} exact component={SavannaMenu} />

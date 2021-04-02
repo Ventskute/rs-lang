@@ -20,29 +20,20 @@ body {
   }
 }
 
+.background-video {
+  position: fixed;
+  z-index: -1;
+}
+
+.game {
+  background-color: salmon;
+  min-height: 100vh;
+}
+
 html,
 body,
 #root {
-  height: 100%;
   width: 100%;
   margin: 0;
-}
-
-.container {
-  height: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  position: relative;
-
-  @media screen and (max-width: 1400px) {
-    max-width: 1024px;
-  }
-
-  @media screen and (max-width: 1024px) {
-    max-width: 768px;
-  }
-
-  @media screen and (max-width: 768px) {
-    max-width: 400px;
-  }
+  display: flex;
 }
