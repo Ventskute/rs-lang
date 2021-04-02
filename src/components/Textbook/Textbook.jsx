@@ -7,6 +7,7 @@ import Sonnet from 'react-bootstrap/Tabs';
 
 import SettingsBlock from './SettingsBlock/SettingsBlock';
 import GamesBlock from '../GamesBlock/GamesBlock';
+import WordsList from '../WordsList/WordsList';
 
 function Textbook() {
   const textBookSections = Array(6).fill(null);
@@ -37,7 +38,7 @@ function Textbook() {
           </div>
         </div>
         <SettingsBlock />
-        <div className="table"></div>
+        <WordsList />
         <GamesBlock />
       </div>
     </div>
