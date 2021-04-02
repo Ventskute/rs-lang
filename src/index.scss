@@ -1,4 +1,5 @@
-@import "./variables.scss";
+@import './variables.scss';
+@import "~bootstrap/scss/bootstrap";
 
 @import "~bootstrap/scss/bootstrap";
 * {
@@ -10,7 +11,7 @@
 }
 
 body {
-  background-color: $color-bg;
+  background-color: $color-bg-dark;
   overflow-x: hidden;
 
   &.dark-theme {
