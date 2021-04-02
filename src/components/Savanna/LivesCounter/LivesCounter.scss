@@ -1,0 +1,16 @@
+.lives-counter {
+  position: fixed;
+  right: 50px;
+  top: 10px;
+  width: 200px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 40px;
+  border-radius: 6px;
+  background-image: url(../../../assets/images/heart.png);
+  background-size: contain;
+  background-repeat: repeat-x;
+}
