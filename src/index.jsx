@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import SprintGameMenu from "./components/SprintGameMenu/SprintGameMenu";
-// import AudioChallenge from "./components/AudioChallenge/AudioChallenge";
+import AudioChallengeContainer from "./components/AudioChallenge/AudioChallengeContainer";
 import { UserUpdater } from "./components/UserUpdater/UserUpdater";
 import Main from "./views/Main/Main";
 import Fillwords from "./views/Fillwords/Fillwords";
@@ -30,8 +30,8 @@ export default function App() {
             <Route path={"/savanna/:group/:page"} exact component={Savanna} />
             <Route path="/sprint" component={SprintGameMenu} />
             <Route path="/" exact component={Main} />
-            {/* <Route path="/audioChallenge" component={AudioChallenge} /> */}
             <Route path="/fillwords" component={Fillwords} />
+            <Route path="/audioChallenge" component={AudioChallengeContainer} />
           </Switch>
         </Router>
       </UserUpdater>
