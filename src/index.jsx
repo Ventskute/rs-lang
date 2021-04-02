@@ -15,6 +15,7 @@ import './index.scss'
 import Fillwords from "./views/Fillwords/Fillwords";
 
 import "./index.scss";
+import WordsList from "./components/WordsList/WordsList";
 
 export default function App() {
   const store = createStore(rootReducer, composeWithDevTools());
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/" exact component={Main} />
             {/* <Route path="/audioChallenge" component={AudioChallenge} /> */}
             <Route path="/fillwords" component={Fillwords} />
+            <Route path="/cards" component={WordsList} />
           </Switch>
         </Router>
       </UserUpdater>
