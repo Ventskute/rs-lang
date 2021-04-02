@@ -1,0 +1,10 @@
+{
+  message: 'Successfully connect to DB',
+  level: 'info',
+  timestamp: '2021-04-01T08:42:48.941Z'
+}
+{
+  message: 'App is running on http://localhost:3000',
+  level: 'info',
+  timestamp: '2021-04-01T08:42:48.954Z'
+}

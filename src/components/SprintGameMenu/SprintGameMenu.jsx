@@ -1,6 +1,6 @@
 import React from 'react';
 import './SprintGameMenu.scss';
-import { checkInputForm } from './gameLogic';
+import { checkInputForm } from '../../utils/games/sprint';
 import SprintGame from './SprintGame/SprintGame';
 import SprintGameStatistics from './SprintGameStatistics/SprintGameStatistics';
 import video from '../../assets/images/background-video6.mp4';
@@ -36,25 +36,25 @@ function SprintGameMenu() {
   };
   return (
     <>
-      <div id="video-bg">
+      <div id="video-bg-sprint">
         <video id="background-video" loop autoPlay>
           <source src={video} type="video/mp4" />
         </video>
         <div className="game-content">
           {settingsMenu && (
             <div className="sprint-game__menu">
-              <h1 className="sprint-game__menu_title">Sprint Game</h1>
+              <h1 className="sprint-game__menu_title">Игра Спринт</h1>
               <p className="sprint-game__menu_subtitle">
-                Choose the level (1-6) and page of words (1-30)
+                Выберите уровень сложности (1-6) и страницу слов (1-30)
               </p>
-              <h3>Game rules : </h3>
+              <h3>Правила игры : </h3>
               <p className="sprint-game__menu_subtitle">
                 {' '}
-                Choose the right translations of the English words into Russian.
+                В игре необходимо ответить, верен ли перевод слова на русский язык.
               </p>
 
               <div className="sprint-game__menu_settings">
-                <p className="input__label">Level</p>
+                <p className="input__label">Уровень</p>
                 <input
                   className="input menu_settings__input"
                   type="text"
@@ -62,7 +62,7 @@ function SprintGameMenu() {
                   value={levelSettings}
                   onChange={changeSettingsHandler}
                 />
-                <p className="input__label">Page</p>
+                <p className="input__label">Страница</p>
                 <input
                   className="input menu_settings__input"
                   type="text"
@@ -73,10 +73,10 @@ function SprintGameMenu() {
               </div>
               <div className="sprint-game__menu_buttons">
                 <button className="button-start-total button" onClick={startGameHandler}>
-                  Total Words
+                  Общие слова
                 </button>
                 <button className="button-start-learned button" onClick={startGameHandler}>
-                  Learned Words
+                  Изученные слова
                 </button>
               </div>
             </div>
