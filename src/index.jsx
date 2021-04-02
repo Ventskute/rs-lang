@@ -9,13 +9,14 @@ import AudioChallengeContainer from "./components/AudioChallenge/AudioChallengeC
 import { UserUpdater } from "./components/UserUpdater/UserUpdater";
 import Main from "./views/Main/Main";
 import Fillwords from "./views/Fillwords/Fillwords";
+import WordsList from "./components/WordsList/WordsList";
+import SavannaMenu from "./components/Savanna/SavannaMenu/SavannaMenu";
+import Savanna from "./components/Savanna/Savanna";
 
 import rootReducer from "./utils/rootReducer";
 import sprintReducer from "./utils/reducerSprint";
 
 import "./index.scss";
-import SavannaMenu from "./components/Savanna/SavannaMenu/SavannaMenu";
-import Savanna from "./components/Savanna/Savanna";
 
 export default function App() {
   const store = createStore(rootReducer, composeWithDevTools());
@@ -31,6 +32,7 @@ export default function App() {
             <Route path="/sprint" component={SprintGameMenu} />
             <Route path="/" exact component={Main} />
             <Route path="/fillwords" component={Fillwords} />
+            <Route path="/wordslist" component={WordsList} />
             <Route path="/audioChallenge" component={AudioChallengeContainer} />
           </Switch>
         </Router>

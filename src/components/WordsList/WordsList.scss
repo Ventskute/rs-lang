@@ -1,0 +1,47 @@
+.card-collapsed {
+  width: 100%;
+  margin: 0;
+
+  .card {
+    width: 90%;
+  }
+
+  .content {
+    display: flex;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column-reverse;
+    }
+
+    .buttons-wrapper {
+      display: flex;
+      flex-direction: column;
+      margin-right: 40px;
+
+      @media screen and (max-width: 768px) {
+        margin-left: 40px;
+      }
+
+      .button-action {
+        height: 55px;
+        margin: 35px 0 0;
+      }
+    }
+
+  }
+
+  .wordlist-item {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    cursor: pointer;
+
+    p {
+      text-align: center;
+    }
+
+    &.difficultWord {
+      background-color: rgb(246, 109, 109);
+    }
+
+  }
+}
