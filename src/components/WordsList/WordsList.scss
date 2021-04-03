@@ -3,7 +3,8 @@
   margin: 0;
 
   .card {
-    width: 90%;
+    width: 100%;
+    margin: 0;
   }
 
   .content {
@@ -31,12 +32,13 @@
   }
 
   .wordlist-item {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    justify-content: space-evenly;
     cursor: pointer;
 
     p {
       text-align: center;
+      width: 33%;
     }
 
     &.difficultWord {

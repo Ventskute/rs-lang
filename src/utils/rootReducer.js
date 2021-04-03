@@ -28,6 +28,10 @@ export const initialState = {
     isFormOpen: false,
     isSignup: true,
   },
+  settings: {
+    translations: true,
+    buttons: true,
+  },
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -82,6 +86,15 @@ export default function rootReducer(state = initialState, action) {
           sprintPoints: action.payload.points,
         },
       };
+    }
+    case actions.SET_SETTINGS: {
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          ...action.payload
+        }
+      }
     }
     default:
       return state;
