@@ -26,6 +26,7 @@ function Textbook() {
       </video>
       <Container>
         <div className="textbook-content">
+        <SettingsBlock />
           <h1 className="textbook__title">Электронный учебник</h1>
           <div className="sections textbook__sections">
             <h2 className="sections__title">Секции сложности</h2>
@@ -39,7 +40,6 @@ function Textbook() {
               </Tabs>
             </div>
           </div>
-          <SettingsBlock />
           <WordsList />
           <GamesBlock />
         </div>
