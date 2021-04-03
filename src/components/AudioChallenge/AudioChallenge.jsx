@@ -42,7 +42,7 @@ const AudioChallenge = ({ handleAns, gameState, goNextWord, play }) => {
       <Header />
       <button className="close-btn">x</button>
       {/* <button className="mute-btn">mute</button> */}
-      <div className="game">
+      <div className="game game-audio">
         {gameState.userAnswer ? rightAnswer : speakerBtn("speaker-btn")}
         <div className="answers">
           {gameState.ansOptions.map((ans, i) => (

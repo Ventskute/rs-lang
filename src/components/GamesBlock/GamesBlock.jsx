@@ -10,7 +10,7 @@ function GamesBlock(onClick) {
   return (
     <div className="games">
       {gamesArr.map(({ name, className, link, description }, i) => (
-        <Card className={`game-item games__${className}`} style={{ width: '18rem' }} key={i}>
+        <Card className={`game-item games__${className}`} key={i}>
           <Card.Img variant="top" src={cardImage} />
           <Card.Body>
             <Card.Title>{name}</Card.Title>
