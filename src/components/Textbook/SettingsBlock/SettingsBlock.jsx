@@ -9,10 +9,6 @@ const SettingsModal = (props) => {
   const { settings } = useSelector(state => state);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setTimeout(() => setShowAnim(false), 2000)
-  }, [])
-
   const onCheckedInput = (e) => {
     dispatch({
       type: actions.SET_SETTINGS,
