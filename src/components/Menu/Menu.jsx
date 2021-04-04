@@ -22,7 +22,7 @@ export default function Menu() {
   return (
     <div className='menu-wrapper'>
       <Nav>
-        <Nav.Link>
+        <Nav.Link href='/Main'>
           <img className='icon' src={home} alt="home"/>
         </Nav.Link>
         <Nav.Link href='/Textbook'>

@@ -1,6 +1,15 @@
 import React from "react";
+import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 
-const Main = () => <Header />;
+import './Main.scss';
 
-export default Main;
+export default function Main() {
+  return (
+    <div className='main'>
+      <Header />
+      <main></main>
+      <Footer />
+    </div>
+  )
+}
