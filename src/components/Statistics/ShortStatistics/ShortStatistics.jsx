@@ -31,7 +31,7 @@ const games = {
   total: { countWord: 35, percentCorrectAnswers: 40 },
 };
 
-const data = {
+const dataCountWord = {
   labels: [
     games.savanna.nameGame,
     games.sprint.nameGame,
@@ -51,7 +51,7 @@ const data = {
     },
   ],
 };
-const data1 = {
+const dataMaxAnswers = {
   labels: [
     games.savanna.nameGame,
     games.sprint.nameGame,
@@ -75,7 +75,7 @@ const data1 = {
     },
   ],
 };
-const data3 = {
+const dataPercentCorrectAnswers = {
   labels: [
     games.savanna.nameGame,
     games.sprint.nameGame,
@@ -110,12 +110,12 @@ export default function ShortStatistics(props) {
         </Alert>
         <div className="countWord ">
           <h2>Количество слов</h2>
-          <Pie data={data} />
+          <Pie data={dataCountWord} />
         </div>
         <div className="maxAnswers">
           <h2> Самая длинная серия правильных ответов</h2>
           <Bar
-            data={data1}
+            data={dataMaxAnswers}
             options={{
               scales: {
                 yAxes: [
@@ -131,7 +131,7 @@ export default function ShortStatistics(props) {
         </div>
         <div className="percentCorrectAnswers">
           <h2> % правильных ответов</h2>
-          <Doughnut data={data3} />
+          <Doughnut data={dataPercentCorrectAnswers} />
         </div>
       </div>
     </div>
