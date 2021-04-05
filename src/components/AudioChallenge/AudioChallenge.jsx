@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../Header/Header";
-import { BASE_URL } from "../../utils/api/api";
 import AnswerOption from "./AnswerOption/AnswerOption";
+import Card from "../Card/Card";
 
 import "./AudioChallenge.scss";
 
@@ -28,22 +28,41 @@ const AudioChallenge = ({ handleAns, gameState, goNextWord, play }) => {
       />
     </button>
   );
+  const {
+    word,
+    image,
+    textExample,
+    transcription,
+    wordTranslate,
+    textMeaning,
+    textMeaningTranslate,
+    textExampleTranslate,
+    audio,
+    audioExample,
+    audioMeaning,
+  } = gameState.word;
   const rightAnswer = (
-    <div className="right-answer">
-      <div className="right-answer__word">
-        {speakerBtn("speaker-btn--mini")}
-        <h3>{gameState.word.word}</h3>
-      </div>
-      <img className="right-answer__img" src={BASE_URL + gameState.word.image} alt="pic" />
-    </div>
+    <Card
+      word={word}
+      image={image}
+      textExample={textExample}
+      transcription={transcription}
+      wordTranslate={wordTranslate}
+      textMeaning={textMeaning}
+      textMeaningTranslate={textMeaningTranslate}
+      textExampleTranslate={textExampleTranslate}
+      audio={audio}
+      audioExample={audioExample}
+      audioMeaning={audioMeaning}
+    />
   );
+
   return (
     <>
       <Header />
       <button className="close-btn">x</button>
-      {/* <button className="mute-btn">mute</button> */}
-      <div className="game game-audio">
-        {gameState.userAnswer ? rightAnswer : speakerBtn("speaker-btn")}
+      <div className="game">
+        {!gameState.userAnswer && speakerBtn("speaker-btn")}
         <div className="answers">
           {gameState.ansOptions.map((ans, i) => (
             <AnswerOption
@@ -57,6 +76,7 @@ const AudioChallenge = ({ handleAns, gameState, goNextWord, play }) => {
           ))}
         </div>
         {gameState.userAnswer ? nextBtn : idkBtn}
+        {gameState.userAnswer && rightAnswer}
       </div>
     </>
   );

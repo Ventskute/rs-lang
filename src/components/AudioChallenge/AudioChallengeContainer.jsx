@@ -6,7 +6,13 @@ import AudioChallenge from "./AudioChallenge";
 import { initialGameState, isGameOver } from "./audioChallenge.util";
 import { shuffle } from "../../utils/games/arrShuffle";
 import { getRand } from "../../utils/games/getRand";
-import { BASE_URL } from "../../utils/api/api";
+import {
+  BASE_URL,
+  submitGameResult,
+  submitRightAnswer,
+  submitWrongAnswer,
+} from "../../utils/api/api";
+import audio from "../../assets/audio/correct.mp3";
 
 const GameStats = ({ rightAnswers, wrongAnswers, rightAnswersStreak }) => {
   return (
@@ -46,7 +52,7 @@ const GameStart = ({ startGame }) => {
 };
 
 const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
-  const audios = [new Audio(BASE_URL + "files/audio/correct.mp3")];
+  const audios = [new Audio(audio)];
   const { user } = useSelector((state) => state);
   const [gameState, setGameState] = useState(initialGameState);
   const [words, setWords] = useState(null);
@@ -81,13 +87,19 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
   const stopGame = () => {
     setIsGameOpen(false);
     setIsGameStatsOpen(true);
-    console.dir(gameState);
   };
 
   const goNextWord = () => {
     const iteration = gameState.iteration + 1;
     const mistakes = gameState.mistakes;
     if (isGameOver(iteration, mistakes, words, stopGame)) {
+      submitGameResult(
+        user.userId,
+        "audioChallenge",
+        gameState.rightAnswersStreak,
+        gameState.rightAnswers.length,
+        gameState.wrongAnswers.length
+      );
       return;
     }
     const word = words[iteration];
@@ -108,12 +120,10 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
   const play = () => {
     gameState.audio.play();
   };
-
   const handleAns = (word) => {
     if (!gameState.isGamePaused) {
       let mistakes = gameState.mistakes;
       const newGameState = { ...gameState, userAnswer: word, isGamePaused: true };
-      console.dir(gameState);
       let currentRightAnswersStreak = gameState.currentRightAnswersStreak;
 
       let rightAnswersStreak = gameState.rightAnswersStreak;
@@ -131,7 +141,7 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
           rightAnswersStreak,
           rightAnswers,
         });
-        //submitRightAnswer(words[gameState.iteration]._id); ----
+        submitRightAnswer(user.userId, gameState.word._id);
       } else {
         // audios[1].play();
 
@@ -140,7 +150,7 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
         wrongAnswers.push(gameState.word);
         mistakes++;
         setGameState({ ...newGameState, mistakes, currentRightAnswersStreak, wrongAnswers });
-        //submitWrongAnswer(words[gameState.iteration]._id); ---
+        submitWrongAnswer(user.userId, gameState.word._id);
       }
     }
   };
@@ -166,7 +176,7 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
         setWords,
         gameState.difficulty || group,
         null,
-        getRand(29),
+        getRand(10),
         10,
         5
       );

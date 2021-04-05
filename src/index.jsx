@@ -13,7 +13,11 @@ import WordsList from "./components/WordsList/WordsList";
 import SavannaMenu from "./components/Savanna/SavannaMenu/SavannaMenu";
 import Savanna from "./components/Savanna/Savanna";
 import Textbook from "./components/Textbook/Textbook";
+<<<<<<< HEAD
 import Statistics from "./components/Statistics/Statistics";
+=======
+import Dictionary from "./components/Dictionary/Dictionary";
+>>>>>>> 8055544... feat: add funcs to get and set userWords
 
 import rootReducer from "./utils/rootReducer";
 import sprintReducer from "./utils/reducerSprint";

@@ -61,3 +61,72 @@ export const fetchWrapper = async (url, config = {}) => {
     return res;
   }
 };
+
+export const userWordOptions = (wordStatus = "learning", difficulty = "normal", date) => {
+  data = data ? data : Date.now();
+  return JSON.stringify({
+    difficulty,
+    optional: {
+      wordStatus,
+      date,
+    },
+  });
+};
+
+export const createStatistics = (
+  prevStats,
+  gameName,
+  newWinStreak,
+  newLearnedWords,
+  newRightAnswers,
+  newWrongAnswers
+) => {
+  if (!prevStats) {
+    prevStats = {
+      optional: {
+        savanna: {
+          winStreak: 0,
+          learnedWords: 0,
+          rightAnswers: [],
+          wrongAnswers: [],
+        },
+        audioChallenge: {
+          winStreak: 0,
+          learnedWords: 0,
+          rightAnswers: [],
+          wrongAnswers: [],
+        },
+        sprint: {
+          winStreak: 0,
+          learnedWords: 0,
+          rightAnswers: [],
+          wrongAnswers: [],
+        },
+        fillWords: {
+          winStreak: 0,
+          learnedWords: 0,
+          rightAnswers: [],
+          wrongAnswers: [],
+        },
+      },
+    };
+  }
+  let { learnedWords, winStreak, rightAnswers, wrongAnswers } = prevStats[gameName];
+
+  learnedWords += newLearnedWords;
+  if (winStreak < newWinStreak) {
+    winStreak = newWinStreak;
+  }
+  rightAnswers = rightAnswers.concat(newRightAnswers);
+  wrongAnswers = wrongAnswers.concat(newWrongAnswers);
+
+  const newStats = {
+    ...prevStats,
+    optional: {
+      ...prevStats.optional,
+      [gameName]: { learnedWords, winStreak, rightAnswers, wrongAnswers },
+    },
+  };
+
+  return newStats;
+};
