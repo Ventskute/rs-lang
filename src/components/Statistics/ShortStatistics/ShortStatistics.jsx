@@ -1,53 +1,139 @@
 import React from "react";
-import { Pie } from "react-chartjs-2";
+import { Pie, Bar, Doughnut } from "react-chartjs-2";
+import { Alert } from "react-bootstrap";
 
 import "./ShortStatistics.scss";
 const games = {
-  savanna: { countWord: 10, maxAnswers: 11, percentCorrectAnswers: 9 },
-  sprint: { countWord: 11, maxAnswers: 12, percentCorrectAnswers: 8 },
-  audioChallenge: { countWord: 12, maxAnswers: 13, percentCorrectAnswers: 7 },
-  fillWords: { countWord: 13, maxAnswers: 14, percentCorrectAnswers: 6 },
-  total: { countWord: 35, percentCorrectAnswers: 10 },
+  savanna: {
+    nameGame: "Саванна",
+    countWord: 10,
+    maxAnswers: 11,
+    percentCorrectAnswers: 9,
+  },
+  sprint: {
+    nameGame: "Спринт",
+    countWord: 11,
+    maxAnswers: 12,
+    percentCorrectAnswers: 8,
+  },
+  audioChallenge: {
+    nameGame: "Аудио",
+    countWord: 12,
+    maxAnswers: 13,
+    percentCorrectAnswers: 7,
+  },
+  fillWords: {
+    nameGame: "Филвордс",
+    countWord: 13,
+    maxAnswers: 14,
+    percentCorrectAnswers: 6,
+  },
+  total: { countWord: 35, percentCorrectAnswers: 40 },
 };
 
-const state = {
-  labels: ["January", "February", "March", "April", "May"],
+const data = {
+  labels: [
+    games.savanna.nameGame,
+    games.sprint.nameGame,
+    games.audioChallenge.nameGame,
+    games.fillWords.nameGame,
+  ],
   datasets: [
     {
-      label: "Rainfall",
-      backgroundColor: ["#B21F00", "#C9DE00", "#2FDE00", "#00A6B4", "#6800B4"],
-      hoverBackgroundColor: [
-        "#501800",
-        "#4B5000",
-        "#175000",
-        "#003350",
-        "#35014F",
+      data: [
+        games.savanna.countWord,
+        games.sprint.countWord,
+        games.audioChallenge.countWord,
+        games.fillWords.countWord,
       ],
-      data: [65, 59, 80, 81, 56],
+      backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#00A6B4"],
+      hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#003350"],
+    },
+  ],
+};
+const data1 = {
+  labels: [
+    games.savanna.nameGame,
+    games.sprint.nameGame,
+    games.audioChallenge.nameGame,
+    games.fillWords.nameGame,
+  ],
+  datasets: [
+    {
+      type: "bar",
+      label: "Количество ответов",
+      backgroundColor: "#36A2EB",
+      borderColor: "rgba(0,0,0,1)",
+      borderWidth: 1,
+
+      data: [
+        games.savanna.maxAnswers,
+        games.sprint.maxAnswers,
+        games.audioChallenge.maxAnswers,
+        games.fillWords.maxAnswers,
+      ],
+    },
+  ],
+};
+const data3 = {
+  labels: [
+    games.savanna.nameGame,
+    games.sprint.nameGame,
+    games.audioChallenge.nameGame,
+    games.fillWords.nameGame,
+  ],
+  datasets: [
+    {
+      data: [
+        games.savanna.percentCorrectAnswers,
+        games.sprint.percentCorrectAnswers,
+        games.audioChallenge.percentCorrectAnswers,
+        games.fillWords.percentCorrectAnswers,
+      ],
+      backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#00A6B4"],
+      hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#003350"],
     },
   ],
 };
 export default function ShortStatistics(props) {
   return (
-    <div className="shortStatistics">
-      <div className="countWord">
-        <Pie
-          data={state}
-          options={{
-            title: {
-              display: true,
-              text: "Average Rainfall per month",
-              fontSize: 20,
-            },
-            legend: {
-              display: true,
-              position: "right",
-            },
-          }}
-        />
+    <div className="container">
+      <div className="shortStatistics">
+        <Alert variant="primary">
+          <Alert.Heading>
+            Общее количество изученных слов :{games.total.countWord}
+          </Alert.Heading>
+          <hr />
+          <Alert.Heading>
+            % правильных ответов:{games.total.percentCorrectAnswers}{" "}
+          </Alert.Heading>
+        </Alert>
+        <div className="countWord ">
+          <h2>Количество слов</h2>
+          <Pie data={data} />
+        </div>
+        <div className="maxAnswers">
+          <h2> Самая длинная серия правильных ответов</h2>
+          <Bar
+            data={data1}
+            options={{
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                    },
+                  },
+                ],
+              },
+            }}
+          />
+        </div>
+        <div className="percentCorrectAnswers">
+          <h2> % правильных ответов</h2>
+          <Doughnut data={data3} />
+        </div>
       </div>
-      <div className="maxAnswers"></div>
-      <div className="percentCorrectAnswers"></div>
     </div>
   );
 }
