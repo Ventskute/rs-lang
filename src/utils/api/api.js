@@ -52,20 +52,21 @@ export const getAggregatedWords = async (userId, group, page, wordsPerPage, filt
   if (!userId) {
     throw new Error('you should pass "userId" to "getAggregatedWords"');
   }
-  const query = getQuery({
+  let query = getQuery({
     group,
     page,
     wordsPerPage,
+    filter: JSON.stringify(filter),
   });
-  if (filter) {
-    const param = new URLSearchParams();
-    param.set("filter", JSON.stringify(filter));
-    query.concat("&", param.toString());
-  }
+
   const fetchedData = await fetchWrapper(`${BASE_URL}users/${userId}/aggregatedWords${query}`)
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
+    .then((response) => {
+      if (response.status === 404) {
+        return [{ paginatedResults: null }];
+      }
+      return response.json().then((data) => {
+        return data;
+      });
     })
     .catch((e) => {
       console.log("cant get aggregated words with error", e);
@@ -112,16 +113,19 @@ export const getUserWords = async (userId) => {
   return response;
 };
 
-export const createUserWord = (userId, wordId, wordStatus, wordsDifficulty) => {
+export const createUserWord = (userId, wordId, wordStatus, wordsDifficulty, isAnsRight) => {
   if (!wordId) {
     throw new Error('you should pass "wordId" to "createUserWord"');
   }
   if (!userId) {
     throw new Error('you should pass "userId" to "createUserWord"');
   }
+  let rightAnswersCount = 0,
+    wrongAnswersCount = 0;
+  isAnsRight ? rightAnswersCount++ : wrongAnswersCount++;
   fetchWrapper(`${BASE_URL}users/${userId}/words/${wordId}`, {
     method: "POST",
-    body: userWordOptions(wordStatus, wordsDifficulty),
+    body: userWordOptions(wordStatus, wordsDifficulty, null, rightAnswersCount, wrongAnswersCount),
     headers: {
       "Content-Type": "application/json",
     },
@@ -136,7 +140,15 @@ export const createUserWord = (userId, wordId, wordStatus, wordsDifficulty) => {
     });
 };
 
-export const updateUserWord = (userId, wordId, wordStatus, wordsDifficulty) => {
+export const updateUserWord = (
+  userId,
+  wordId,
+  wordStatus,
+  wordsDifficulty,
+  date,
+  rightAnswersCount,
+  wrongAnswersCount
+) => {
   if (!wordId) {
     throw new Error('you should pass "wordId" to "updateUserWord"');
   }
@@ -145,7 +157,7 @@ export const updateUserWord = (userId, wordId, wordStatus, wordsDifficulty) => {
   }
   fetchWrapper(`${BASE_URL}users/${userId}/words/${wordId}`, {
     method: "PUT",
-    body: userWordOptions(wordStatus, wordsDifficulty),
+    body: userWordOptions(wordStatus, wordsDifficulty, date, rightAnswersCount, wrongAnswersCount),
     headers: {
       "Content-Type": "application/json",
     },
@@ -193,10 +205,21 @@ export const submitRightAnswer = async (userId, wordId) => {
 
   const word = await checkIfUserWordExist(userId, wordId);
 
+  if (word) {
+    const { difficulty, optional } = word;
+    let { wordStatus, date, rightAnswersCount, wrongAnswersCount } = optional;
+    updateUserWord(
+      userId,
+      wordId,
+      wordStatus,
+      difficulty,
+      date,
+      ++rightAnswersCount,
+      wrongAnswersCount
+    );
+  } //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (!word) {
-    // updateUserWord(userId, wordId, "learning", "normal");
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    createUserWord(userId, wordId, "learning", "normal");
+    createUserWord(userId, wordId, "learning", "normal", true);
   }
 };
 
@@ -210,25 +233,50 @@ export const submitWrongAnswer = async (userId, wordId) => {
 
   const word = await checkIfUserWordExist(userId, wordId);
 
+  if (word) {
+    const { difficulty, optional } = word;
+    let { wordStatus, date, rightAnswersCount, wrongAnswersCount } = optional;
+    updateUserWord(
+      userId,
+      wordId,
+      wordStatus,
+      difficulty,
+      date,
+      rightAnswersCount,
+      ++wrongAnswersCount
+    );
+  } //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (!word) {
-    // updateUserWord(userId, wordId, "learning", "normal");
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    createUserWord(userId, wordId, "learning", "hard");
+    createUserWord(userId, wordId, "learning", "normal", false);
   }
 };
 
 export const getDeletedWords = async (userId) => {
-  const deletedWords = await getAggregatedWords(userId, null, null, null, {
+  const deletedWords = await getAggregatedWords(userId, null, null, 3600, {
     "userWord.optional.wordStatus": "deleted",
   });
   return deletedWords ? deletedWords : [];
 };
 
 export const getLearningWords = async (userId) => {
-  const learningWords = await getAggregatedWords(userId, null, null, null, {
+  const learningWords = await getAggregatedWords(userId, null, null, 3600, {
     "userWord.optional.wordStatus": "learning",
   });
   return learningWords ? learningWords : [];
+};
+
+export const getHardWords = async (userId) => {
+  const hardWords = await getAggregatedWords(userId, null, null, 3600, {
+    "userWord.difficulty": "hard",
+  });
+  return hardWords ? hardWords : [];
+};
+
+export const getNormalWords = async (userId) => {
+  const normalWords = await getAggregatedWords(userId, null, null, 3600, {
+    "userWord.difficulty": "normal",
+  });
+  return normalWords ? normalWords : [];
 };
 
 export const getLongTermStats = async (userId) => {
@@ -282,13 +330,8 @@ export const submitGameResult = async (
   const prevStats = await getUserStatistics(userId);
   const rightAnswers = new Array(rightAnswersNum).fill(Date.now());
   const wrongAnswers = new Array(wrongAnswersNum).fill(Date.now());
-  const userStatistics = createStatistics(
-    prevStats,
-    gameName,
-    winStreak,
-    learnedWords,
-    rightAnswers,
-    wrongAnswers
+  const userStatistics = JSON.stringify(
+    createStatistics(prevStats, gameName, winStreak, learnedWords, rightAnswers, wrongAnswers)
   );
   setUserStatistics(userId, userStatistics);
 };

@@ -62,13 +62,21 @@ export const fetchWrapper = async (url, config = {}) => {
   }
 };
 
-export const userWordOptions = (wordStatus = "learning", difficulty = "normal", date) => {
-  data = data ? data : Date.now();
+export const userWordOptions = (
+  wordStatus = "learning",
+  difficulty = "normal",
+  date,
+  rightAnswersCount,
+  wrongAnswersCount
+) => {
+  date = date ? date : Date.now();
   return JSON.stringify({
     difficulty,
     optional: {
       wordStatus,
       date,
+      rightAnswersCount,
+      wrongAnswersCount,
     },
   });
 };
@@ -111,7 +119,8 @@ export const createStatistics = (
       },
     };
   }
-  let { learnedWords, winStreak, rightAnswers, wrongAnswers } = prevStats[gameName];
+  console.log(prevStats);
+  let { learnedWords, winStreak, rightAnswers, wrongAnswers } = prevStats.optional[gameName];
 
   learnedWords += newLearnedWords;
   if (winStreak < newWinStreak) {
