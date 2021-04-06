@@ -4,8 +4,8 @@ import { userLS } from "../localStore";
 // export const BASE_URL = "http://localhost:3000/";
 export const BASE_URL = "https://rs-lang-team-52.herokuapp.com/";
 
-export const getWords = (group, pageNum) => {
-  const query = getQuery({ group, pageNum });
+export const getWords = (group, page) => {
+  const query = getQuery({ group, page });
   return fetch(`${BASE_URL}words${query}`)
     .then((response) => response.json())
     .catch((e) => {

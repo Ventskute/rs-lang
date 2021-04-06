@@ -10,6 +10,7 @@ export const getQuery = (params) => {
         ? null
         : (query = query.concat(`${param}=${params[param]}&`));
     }
+    console.log(query)
     return query.slice(0, -1); //remove last &
   }
   return null;

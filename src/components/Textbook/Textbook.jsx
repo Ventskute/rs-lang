@@ -1,22 +1,24 @@
-import React from "react";
-import "./Textbook.scss";
-import video from "../../assets/images/background-video6.mp4";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
-import Sonnet from "react-bootstrap/Tabs";
+import React from 'react';
+import './Textbook.scss';
+import video from '../../assets/images/background-video6.mp4';
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
+import Sonnet from 'react-bootstrap/Tabs';
+import PaginationWordList from '../Pagination/Pagination';
 
-import SettingsBlock from "./SettingsBlock/SettingsBlock";
-import GamesBlock from "../GamesBlock/GamesBlock";
-import WordsList from "../WordsList/WordsList";
-import { Container } from "react-bootstrap";
-import Footer from "../Footer/Footer";
+import SettingsBlock from './SettingsBlock/SettingsBlock';
+import GamesBlock from '../GamesBlock/GamesBlock';
+import WordsList from '../WordsList/WordsList';
+import { Container } from 'react-bootstrap';
+import Footer from '../Footer/Footer';
 
 function Textbook() {
   const textBookSections = Array(6).fill(null);
-  const [key, setKey] = React.useState("0");
+  const [difficulty, setDifficulty] = React.useState('0');
+  const [page, setPage] = React.useState({ currentPage: 1 });
 
   const onClickCategory = (e) => {
-    setKey(e);
+    setDifficulty(e);
     console.log(e);
   };
 
@@ -31,11 +33,7 @@ function Textbook() {
         <div className="sections textbook__sections">
           <h2 className="sections__title">Секции сложности</h2>
           <div className="sections__content">
-            <Tabs
-              id="controlled-tab-example"
-              activeKey={key}
-              onSelect={(e) => onClickCategory(e)}
-            >
+            <Tabs id="controlled-tab-example" activeKey={difficulty} onSelect={(e) => onClickCategory(e)}>
               {textBookSections.map((el, i) => (
                 <Tab key={i} eventKey={i} title={i + 1}>
                   <Sonnet />
@@ -44,7 +42,8 @@ function Textbook() {
             </Tabs>
           </div>
         </div>
-        <WordsList />
+        <WordsList page={page.currentPage} difficulty={difficulty} />
+        <PaginationWordList state={page} setState={setPage} />
         <GamesBlock />
       </Container>
       <Footer />
