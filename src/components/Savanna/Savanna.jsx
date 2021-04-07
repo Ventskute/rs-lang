@@ -9,10 +9,10 @@ import Drop from "./Drop/Drop";
 import LivesCounter from "./LivesCounter/LivesCounter";
 
 let interval;
+let randomWords = [];
 
 export default function Savanna() {
   const [words, setWords] = useState([]);
-  const [randomWords, setRandomWords] = useState([]);
   const [randomAnswers, setRandomAnswers] = useState([]);
   const [word, setWord] = useState();
   const [livesCount, setLivesCount] = useState(5);
@@ -40,14 +40,12 @@ export default function Savanna() {
         rightAnswers.length == 0 &&
         wrongAnswers.length == 0
       ) {
-        let randWords = getRandomWords(words);
-        word = randWords.pop();
+        randomWords = getRandomWords(words);
+        word = randomWords.pop();
         setWord(word);
-        setRandomWords(randWords);
       } else {
         word = randomWords.pop();
         setWord(word);
-        setRandomWords(randomWords);
       }
       setRandomAnswers(getRandomAnswers(word.wordTranslate, words));
       interval = setInterval(() => {
@@ -58,9 +56,9 @@ export default function Savanna() {
 
           setLivesCount((livesCount) => {
             if (livesCount - 1 > 0) {
-              nextWord(words);
               wrongAnswers.push(word);
               setWrongAnswers(wrongAnswers);
+              nextWord(words);
               return livesCount - 1;
             }
             wrongAnswers.push(word);
@@ -77,7 +75,7 @@ export default function Savanna() {
 
   function getWords() {
     return fetch(
-      `http://localhost:3000/words?group=${
+      `https://rs-lang-team-52.herokuapp.com/words?group=${
         group ? group : difficultyLevel
       }&page=${page ? page : randomPage()}`
     )
