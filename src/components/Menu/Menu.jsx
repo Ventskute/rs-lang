@@ -22,8 +22,8 @@ export default function Menu() {
   return (
     <div className="menu-wrapper">
       <Nav>
-        <Nav.Link>
-          <img className="icon" src={home} alt="home" />
+        <Nav.Link href='/'>
+          <img className='icon' src={home} alt="home" />
         </Nav.Link>
         <Nav.Link href="/Textbook">
           <img className="icon" src={book} alt="textbook" />
@@ -40,7 +40,7 @@ export default function Menu() {
         <Nav.Link href="/fillwords">
           <img className="icon" src={fillwords} alt="fillwords" />
         </Nav.Link>
-        <Nav.Link>
+        <Nav.Link href="/statistics">
           <img className="icon" src={statistics} alt="statistics" />
         </Nav.Link>
         <Nav.Link href="/team">

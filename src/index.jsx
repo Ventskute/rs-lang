@@ -13,6 +13,7 @@ import WordsList from "./components/WordsList/WordsList";
 import SavannaMenu from "./components/Savanna/SavannaMenu/SavannaMenu";
 import Savanna from "./components/Savanna/Savanna";
 import Textbook from "./components/Textbook/Textbook";
+import Statistics from "./components/Statistics/Statistics";
 
 import rootReducer from "./utils/rootReducer";
 import sprintReducer from "./utils/reducerSprint";
@@ -30,6 +31,7 @@ export default function App() {
         <Menu />
         <Router>
           <Switch>
+            <Route path="/Main" component={Main} />
             <Route path={"/savannaMenu"} exact component={SavannaMenu} />
             <Route path={"/savanna"} exact component={Savanna} />
             <Route path={"/savanna/:group/:page"} exact component={Savanna} />
@@ -40,6 +42,7 @@ export default function App() {
             <Route path="/wordslist" component={WordsList} />
             <Route path="/audioChallenge" component={AudioChallengeContainer} />
             <Route path="/team" component={Team} />
+            <Route path="/statistics" component={Statistics} />
           </Switch>
         </Router>
       </UserUpdater>
