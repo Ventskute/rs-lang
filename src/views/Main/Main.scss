@@ -8,3 +8,32 @@
     flex: 1 0 auto;
   }
 }
+
+.highlight {
+  color: #cf0045;
+}
+
+.features {
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.feature-block {
+  display: flex;
+  &__image {
+    width: 150px;
+  }
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    width: 250px;
+
+  }
+}
+
+.feature-content {
+  &__title {
+  }
+}
