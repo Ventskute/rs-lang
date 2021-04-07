@@ -4,7 +4,7 @@ import Header from '../../components/Header/Header';
 import { url } from '../../utils/api';
 
 import featuresImage from '../../assets/images/background.jpg';
-
+import backgroundVideo from '../../assets/images/Mountain - 56493.mp4';
 import './Main.scss';
 
 export default function Main() {
@@ -43,6 +43,9 @@ export default function Main() {
   return (
     <div className="main">
       <Header />
+      <video className="background-video" loop autoPlay>
+        <source src={backgroundVideo} type="video/mp4" />
+      </video>
       <main className="main-content container">
         <h1 className="main-content__title">
           Изучай английский язык <span className="highlight">ЛЕГКО</span> и{' '}
