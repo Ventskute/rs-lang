@@ -36,7 +36,7 @@ const Header = () => {
     }
   };
   return (
-    <>
+    <header>
       {user && user.name}
       <button className="login-button" onClick={openSignupForm}>
         signup
@@ -50,7 +50,7 @@ const Header = () => {
       {authForm.isFormOpen && (
         <AuthFormContainer closeForm={closeAuthForm} isSignup={authForm.isSignup} />
       )}
-    </>
+    </header>
   );
 };
 

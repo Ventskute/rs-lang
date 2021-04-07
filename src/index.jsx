@@ -30,6 +30,7 @@ export default function App() {
         <Menu />
         <Router>
           <Switch>
+            <Route path="/Main" component={Main} />
             <Route path={"/savannaMenu"} exact component={SavannaMenu} />
             <Route path={"/savanna"} exact component={Savanna} />
             <Route path={"/savanna/:group/:page"} exact component={Savanna} />

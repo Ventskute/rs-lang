@@ -22,8 +22,8 @@ export default function Menu() {
   return (
     <div className="menu-wrapper">
       <Nav>
-        <Nav.Link>
-          <img className="icon" src={home} alt="home" />
+        <Nav.Link href='/'>
+          <img className='icon' src={home} alt="home" />
         </Nav.Link>
         <Nav.Link href="/Textbook">
           <img className="icon" src={book} alt="textbook" />
