@@ -20,6 +20,7 @@ import sprintReducer from "./utils/reducerSprint";
 
 import "./index.scss";
 import Menu from "./components/Menu/Menu";
+import Team from "./views/Team/Team";
 
 export default function App() {
   const store = createStore(rootReducer, composeWithDevTools());
@@ -40,6 +41,7 @@ export default function App() {
             <Route path="/textbook" exact component={Textbook} />
             <Route path="/wordslist" component={WordsList} />
             <Route path="/audioChallenge" component={AudioChallengeContainer} />
+            <Route path="/team" component={Team} />
             <Route path="/statistics" component={Statistics} />
           </Switch>
         </Router>

@@ -43,7 +43,7 @@ export default function Menu() {
         <Nav.Link href="/statistics">
           <img className="icon" src={statistics} alt="statistics" />
         </Nav.Link>
-        <Nav.Link>
+        <Nav.Link href="/team">
           <img className="icon" src={team} alt="team" />
         </Nav.Link>
       </Nav>
