@@ -1,10 +1,10 @@
-import { BASE_URL } from "./api";
-import { userLS } from "../localStore";
-import "@babel/polyfill";
+import { BASE_URL } from './api';
+import { userLS } from '../localStore';
+import '@babel/polyfill';
 
 export const getQuery = (params) => {
   if (params) {
-    let query = "?";
+    let query = '?';
     for (const param in params) {
       params[param] === undefined || params[param] === null
         ? null
@@ -26,7 +26,7 @@ const refreshRequest = (id, refreshToken) => {
     })
     .then((data) => data)
     .catch((e) => {
-      throw new Error("refresh req", e);
+      throw new Error('refresh req', e);
     });
 };
 
@@ -40,7 +40,7 @@ export const fetchWrapper = async (url, config = {}) => {
 
   let refreshToken = userLS.getRefreshTokenFromLS();
   if (!refreshToken && res.status === 401) {
-    throw new Error("Should signin");
+    throw new Error('Should signin');
   }
 
   if (res.status === 200) {
@@ -55,7 +55,7 @@ export const fetchWrapper = async (url, config = {}) => {
         return res;
       })
       .catch((e) => {
-        throw new Error("error in 43", e);
+        throw new Error('error in 43', e);
       });
   } else {
     return res;
