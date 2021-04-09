@@ -58,9 +58,9 @@ export default function Main() {
             height="315"
             src="https://www.youtube.com/embed/t8k71QcArnk"
             title="YouTube video player"
-            frameborder="0"
+            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
+            allowFullScreen></iframe>
         </div>
         <div className="main-content__descrioption-block">
           <p className="paragraph">
@@ -90,7 +90,7 @@ export default function Main() {
           <h2 className="features__title">Особенности приложения</h2>
           <div className="features__content">
             {featuresContent.map((el, i) => (
-              <div className={`feature-block block__${i}`} item>
+              <div className={`feature-block block__${i} item`} key={i}>
                 <img className="feature-block__image" src={el.img} alt="image" />
                 <div className="feature-block__content feature-content">
                   <h3 className="feature-content__title">{el.title}</h3>
