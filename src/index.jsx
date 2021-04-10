@@ -13,11 +13,7 @@ import WordsList from "./components/WordsList/WordsList";
 import SavannaMenu from "./components/Savanna/SavannaMenu/SavannaMenu";
 import Savanna from "./components/Savanna/Savanna";
 import Textbook from "./components/Textbook/Textbook";
-<<<<<<< HEAD
 import Statistics from "./components/Statistics/Statistics";
-=======
-import Dictionary from "./components/Dictionary/Dictionary";
->>>>>>> 8055544... feat: add funcs to get and set userWords
 
 import rootReducer from "./utils/rootReducer";
 import sprintReducer from "./utils/reducerSprint";
@@ -44,7 +40,7 @@ export default function App() {
             <Route path="/fillwords" component={Fillwords} />
             <Route path="/textbook" exact component={Textbook} />
             <Route path="/wordslist" component={WordsList} />
-            <Route path="/audioChallenge" component={AudioChallengeContainer} />
+            <Route path="/audioChallenge" exact component={AudioChallengeContainer} />
             <Route path="/team" component={Team} />
             <Route path="/statistics" component={Statistics} />
           </Switch>
