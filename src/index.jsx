@@ -40,7 +40,7 @@ export default function App() {
             <Route path="/fillwords" component={Fillwords} />
             <Route path="/textbook" exact component={Textbook} />
             <Route path="/wordslist" component={WordsList} />
-            <Route path="/audioChallenge" component={AudioChallengeContainer} />
+            <Route path="/audioChallenge" exact component={AudioChallengeContainer} />
             <Route path="/team" component={Team} />
             <Route path="/statistics" component={Statistics} />
           </Switch>
