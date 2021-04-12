@@ -73,10 +73,10 @@ function SprintGameMenu() {
               </div>
               <div className="sprint-game__menu_buttons">
                 <button className="button-start-total button" onClick={startGameHandler}>
-                  Общие слова
+                  Начать игру
                 </button>
                 <button className="button-start-learned button" onClick={startGameHandler}>
-                  Изученные слова
+                  Назад
                 </button>
               </div>
             </div>
