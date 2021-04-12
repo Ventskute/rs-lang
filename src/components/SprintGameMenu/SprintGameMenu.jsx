@@ -22,7 +22,7 @@ function SprintGameMenu() {
 
   const changeSettingsHandler = (e) => {
     const { name, value } = e.target;
-    setSprintState({ ...sprintState, [name]: value });
+    setSprintState({ ...sprintState, [name]: Number(value) });
     console.log(sprintState);
   };
 

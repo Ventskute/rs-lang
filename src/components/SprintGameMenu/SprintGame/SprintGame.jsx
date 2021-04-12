@@ -12,6 +12,7 @@ import {
 import { getWords } from '../../../utils/api';
 
 function SprintGame({ setSprintState, sprintState }) {
+  const [answerAnimation, setAnsverAnimation] = React.useState(null);
   const [isRandomTranslation, setIsRandomTranslation] = React.useState(0);
   const [sprintGameState, setSprintGameState] = React.useState({
     words: null,
@@ -19,17 +20,10 @@ function SprintGame({ setSprintState, sprintState }) {
     randomTranslationWordIndex: 0,
     currentWordIndex: 0,
     pointsStrick: 0,
-    response: null,
   });
 
   const dispatch = useDispatch();
-  const {
-    words,
-    randomTranslationWordIndex,
-    currentWordIndex,
-    pointsStrick,
-    response,
-  } = sprintGameState;
+  const { words, randomTranslationWordIndex, currentWordIndex, pointsStrick } = sprintGameState;
   const { truelyAnswers, falsyAnswers, levelSettings, pageSettings, currPoints } = sprintState;
   const buttonsArr = [true, false];
 
@@ -42,28 +36,27 @@ function SprintGame({ setSprintState, sprintState }) {
   });
 
   React.useEffect(() => {
-    getWords(levelSettings - 1, pageSettings - 1)
-      .then((words) => setSprintGameState({ ...sprintGameState, words: words }));
-    console.log(sprintGameState);
-  }, []);
+    console.log(sprintState);
+    getWords(levelSettings - 1, pageSettings - 1).then((words) =>
+      setSprintGameState({ ...sprintGameState, words: words }),
+    );
+    console.log('da', sprintGameState.words);
+  }, [pageSettings]);
 
   React.useEffect(() => {
-    console.log(sprintGameState.currentWordIndex, 'word eng');
-    console.log(randomTranslationWordIndex, 'word rus');
-    console.log(pointsStrick, 'strick');
+    // console.log(sprintGameState.currentWordIndex, 'word eng');
+    // console.log(randomTranslationWordIndex, 'word rus');
+    // console.log(pointsStrick, 'strick');
     setAnswersStore();
   }, [sprintState]);
 
   React.useEffect(() => {
-    if (response || response == false) {
+    if (answerAnimation || answerAnimation == false) {
       setTimeout(() => {
-        setSprintGameState({
-          ...sprintGameState,
-          response: null,
-        });
+        setAnsverAnimation(null);
       }, 500);
     }
-  }, [response]);
+  }, [answerAnimation]);
 
   const setAnswersStore = () => {
     dispatch({
@@ -91,7 +84,6 @@ function SprintGame({ setSprintState, sprintState }) {
       pointsStrick: points[1],
       pointsPerWord:
         points[1] < 3 ? 10 : points[1] < 6 ? 20 : points[1] < 9 ? 30 : points[1] < 12 ? 40 : 50,
-      response: points[0] == 10 ? true : false,
     });
 
     setSprintState({
@@ -99,16 +91,30 @@ function SprintGame({ setSprintState, sprintState }) {
       currPoints: sprintState.currPoints + (points[0] * sprintGameState.pointsPerWord) / 10,
       truelyAnswers: points[0] ? [...truelyAnswers, words[currentWordIndex]] : truelyAnswers,
       falsyAnswers: !points[0] ? [...falsyAnswers, words[currentWordIndex]] : falsyAnswers,
+      levelSettings:
+        pageSettings == 30 && currentWordIndex === 19 && levelSettings < 6
+          ? levelSettings + 1
+          : pageSettings == 30 && currentWordIndex === 19 && levelSettings === 6
+          ? 1
+          : levelSettings,
+      pageSettings:
+        currentWordIndex === 19 && pageSettings < 30
+          ? pageSettings + 1
+          : currentWordIndex === 19 && pageSettings == 30
+          ? 1
+          : pageSettings,
     });
+    console.log(levelSettings, pageSettings);
+    setAnsverAnimation(points[0] == 10 ? true : false);
   };
 
   return (
     <div className="sprint-game">
-      {response === null ? (
+      {answerAnimation === null ? (
         ''
       ) : (
-        <div className="result-response" style={{ color: response ? 'green' : 'red' }}>
-          {response ? 'True' : 'False'}
+        <div className="result-response" style={{ color: answerAnimation ? 'green' : 'red' }}>
+          {answerAnimation ? 'True' : 'False'}
         </div>
       )}
       <SprintTimer
