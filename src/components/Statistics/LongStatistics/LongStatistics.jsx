@@ -38,45 +38,43 @@ const stateCountWordsLearned = {
 };
 export default function LongStatistics(props) {
   return (
-    <div className="container">
-      <div className="longStatistics">
-        <div className="countWords">
-          <h2>Количество изученных слов за каждый день изучения</h2>
-          <Line
-            data={stateCountWords}
-            options={{
-              scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      beginAtZero: true,
-                    },
+    <div className="longStatistics">
+      <div className="countWords">
+        <h2>Количество изученных слов за каждый день изучения</h2>
+        <Line
+          data={stateCountWords}
+          options={{
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
                   },
-                ],
-              },
-            }}
-          />
-        </div>
-        <div className="countWordsLearned">
-          <h2>
-            Увеличение общего количества изученных слов за весь период изучения
-            по дням
-          </h2>
-          <Line
-            data={stateCountWordsLearned}
-            options={{
-              scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      beginAtZero: true,
-                    },
+                },
+              ],
+            },
+          }}
+        />
+      </div>
+      <div className="countWordsLearned">
+        <h2>
+          Увеличение общего количества изученных слов за весь период изучения
+          по дням
+        </h2>
+        <Line
+          data={stateCountWordsLearned}
+          options={{
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
                   },
-                ],
-              },
-            }}
-          />
-        </div>
+                },
+              ],
+            },
+          }}
+        />
       </div>
     </div>
   );

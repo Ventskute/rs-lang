@@ -1,8 +1,8 @@
 import React from "react";
-import { Tabs, Tab } from "react-bootstrap";
+import { Tabs, Tab, Container } from "react-bootstrap";
 import LongStatistics from "./LongStatistics/LongStatistics";
-
 import ShortStatistics from "./ShortStatistics/ShortStatistics";
+import Header from '../Header/Header';
 
 import "./Statistics.scss";
 
@@ -13,8 +13,10 @@ const StatisticsTitles = {
 
 export default function Statistics(props) {
   return (
-    <div className="container">
-      <div className="statistics">
+    <div className="statistics">
+      <Header />
+      <Container>
+        <h2>Статистика</h2>
         <Tabs defaultActiveKey="day" transition={false} id="noanim-tab-example">
           <Tab eventKey="day" title={StatisticsTitles.DAY}>
             <ShortStatistics />
@@ -23,7 +25,7 @@ export default function Statistics(props) {
             <LongStatistics />
           </Tab>
         </Tabs>
-      </div>
+      </Container>
     </div>
   );
 }
