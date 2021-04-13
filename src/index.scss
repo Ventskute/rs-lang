@@ -1,7 +1,6 @@
 @import './variables.scss';
 @import "~bootstrap/scss/bootstrap";
 
-@import "~bootstrap/scss/bootstrap";
 * {
   padding: 0;
   margin: 0;
@@ -11,7 +10,7 @@
 }
 
 body {
-  background-color: $color-bg-dark;
+  background-color: $color-bg;
   overflow-x: hidden;
 
   &.dark-theme {
@@ -26,14 +25,46 @@ body {
 }
 
 .game {
-  background-color: salmon;
   min-height: 100vh;
 }
 
-html,
-body,
 #root {
-  width: 100%;
-  margin: 0;
-  display: flex;
+  padding-left: $menu-width-desktop;
+
+  @media screen and (max-width: 768px) {
+    padding-left: 0;
+    padding-top: 114px;
+  }
+}
+
+.btn {
+  &-primary {
+    background-color: $color-accent;
+    border-color: $color-accent;
+    
+    &:hover, &:focus, &:active {
+      background-color: $color-accent-hover !important;
+      border-color: $color-accent !important;
+    }
+  }
+}
+
+.page-link {
+  background-color: transparent;
+  color: $color-accent;
+  font-size: 20px;
+  
+  .active & {
+    background-color: $color-bg-card !important;
+    color: $color-text-dark !important;
+    border-color: $color-accent !important;
+  }
+}
+
+a {
+  color: $color-accent;
+
+  &:hover {
+    color: $color-accent-hover;
+  }
 }

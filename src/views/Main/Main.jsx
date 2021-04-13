@@ -6,6 +6,8 @@ import { url } from '../../utils/api';
 import featuresImage from '../../assets/images/background.jpg';
 import backgroundVideo from '../../assets/images/Mountain - 56493.mp4';
 import './Main.scss';
+import { Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function Main() {
   const featuresContent = [
@@ -40,16 +42,15 @@ export default function Main() {
       description: 'Твой петомец будет расти вместе с ростом твоего прогресса в изучении языка ',
     },
   ];
+
+  
   return (
     <div className="main">
       <Header />
-      <video className="background-video" loop autoPlay>
-        <source src={backgroundVideo} type="video/mp4" />
-      </video>
       <main className="main-content container">
         <h1 className="main-content__title">
           Изучай английский язык <span className="highlight">ЛЕГКО</span> и{' '}
-          <span className="highlight">КОМФОРТНО</span> <br /> вместе с{' '}
+          <span className="highlight">КОМФОРТНО</span> вместе с{' '}
           <span className="highlight">RS Lang</span>
         </h1>
         <div className="main-content__video">
@@ -62,9 +63,9 @@ export default function Main() {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen></iframe>
         </div>
-        <div className="main-content__descrioption-block">
+        <div className="main-content__description-block">
           <p className="paragraph">
-            Игровое приложение, которое обеспечит вам удобно и с интересом изучать английский язык.
+            Игровое приложение, которое позволит вам удобно и с интересом изучать английский язык.
             Здесь используется сборник из{' '}
             <span className="highlight">3600 самых популярных английских слов</span>, все слова
             разбиты на разделы, в зависимости от сложности.
@@ -90,17 +91,16 @@ export default function Main() {
           <h2 className="features__title">Особенности приложения</h2>
           <div className="features__content">
             {featuresContent.map((el, i) => (
-              <div className={`feature-block block__${i} item`} key={i}>
-                <img className="feature-block__image" src={el.img} alt="image" />
-                <div className="feature-block__content feature-content">
-                  <h3 className="feature-content__title">{el.title}</h3>
-                  <p className="feature-content__description">{el.description}</p>
-                </div>
-              </div>
+              <Card key={i} className="feature-block">
+                <Card.Img variant="top" src={el.img} />
+                <Card.Body>
+                  <Card.Title>{el.title}</Card.Title>
+                  <Card.Text className="text-muted"> {el.description}</Card.Text>
+                </Card.Body>
+              </Card>
             ))}
           </div>
         </div>
-        <button className="main-content__register-button button">Зарегистрироваться!</button>
       </main>
       <Footer />
     </div>

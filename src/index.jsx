@@ -28,8 +28,8 @@ export default function App() {
   return (
     <Provider store={store}>
       <UserUpdater>
-        <Menu />
         <Router>
+          <Menu />
           <Switch>
             <Route path="/Main" component={Main} />
             <Route path={"/savannaMenu"} exact component={SavannaMenu} />
