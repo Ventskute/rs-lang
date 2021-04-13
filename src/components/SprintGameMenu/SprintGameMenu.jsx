@@ -5,8 +5,7 @@ import SprintGame from './SprintGame/SprintGame';
 import SprintGameStatistics from './SprintGameStatistics/SprintGameStatistics';
 import video from '../../assets/images/background-video6.mp4';
 
-function SprintGameMenu({words=[], group = 1, page = 1 }) {
-  // console.log(words);
+function SprintGameMenu({ words = [], group = 1, page = 1 }) {
   const [sprintState, setSprintState] = React.useState({
     isTimeOver: false,
     settingsMenu: true,
@@ -24,7 +23,6 @@ function SprintGameMenu({words=[], group = 1, page = 1 }) {
   const changeSettingsHandler = (e) => {
     const { name, value } = e.target;
     setSprintState({ ...sprintState, [name]: Number(value) });
-    console.log(sprintState);
   };
 
   const startGameHandler = () => {
@@ -82,14 +80,20 @@ function SprintGameMenu({words=[], group = 1, page = 1 }) {
                 <button className="button-start-total button" onClick={startGameHandler}>
                   Начать игру
                 </button>
-                <button className="button-start-learned button" onClick={startGameHandler}>
+                <button
+                  className="button-start-learned button"
+                  onClick={() => alert('прикрутить выход в предыдущее меню')}>
                   Назад
                 </button>
               </div>
             </div>
           )}
           {sprintState.startGameTotal && (
-            <SprintGame dictionaryWords={words} sprintState={sprintState} setSprintState={setSprintState} />
+            <SprintGame
+              dictionaryWords={words}
+              sprintState={sprintState}
+              setSprintState={setSprintState}
+            />
           )}
           {isTimeOver && (
             <SprintGameStatistics setSprintState={setSprintState} sprintState={sprintState} />

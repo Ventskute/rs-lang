@@ -42,20 +42,17 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
     x4Strick: pointsStrick >= 9,
     x5Strick: pointsStrick >= 12,
   });
-  console.log(dictionaryWords);
 
   React.useEffect(() => {
-    (words && words.length - 1 <= currentWordIndex || !dictionaryWords.length) 
-      ? getWords(levelSettings - 1, pageSettings - 1).then((words) =>
+    (words && words.length - 1 <= currentWordIndex) ||
+      (!dictionaryWords.length &&
+        getWords(levelSettings - 1, pageSettings - 1).then((words) =>
           setSprintGameState({ ...sprintGameState, words: words }),
-        )
-      : console.log('h');
-    console.log('da', sprintGameState.words);
+        ));
   }, [pageSettings]);
 
   React.useEffect(() => {
     setAnswersStore();
-    console.log(sprintGameState.words);
   }, [sprintState]);
 
   React.useEffect(() => {
@@ -115,7 +112,7 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
     const points = pointsLogic(randomTranslationWordIndex, currentWordIndex, boolean, pointsStrick);
     getRandom();
     const randomTranslationIndex = isRandomTranslation
-      ? getRandomTranslationWordIndex(words.length-1)
+      ? getRandomTranslationWordIndex(words.length - 1)
       : getTruelyTranslationIndex(currentWordIndex);
 
     setSprintGameState({
@@ -176,12 +173,10 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
           ))}
       </div>
       <div className="sprint-game__words-block words-block">
-        <div className="words-block__eng-word">
-          {words && words[currentWordIndex].word}
-        </div>
+        <div className="words-block__eng-word">{words && words[currentWordIndex].word}</div>
         <h2>?</h2>
         <div className="words-block__rus-word">
-          {words && words[randomTranslationWordIndex].wordTranslate }
+          {words && words[randomTranslationWordIndex].wordTranslate}
         </div>
       </div>
       <div className="sprint-game__button-block button-block">
