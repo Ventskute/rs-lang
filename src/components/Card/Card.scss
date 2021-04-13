@@ -1,7 +1,10 @@
 .card {
   width: 25%;
-  min-width: 18rem;
-  margin: 15px 20px;
+  margin: 15px 10px;
+
+  @media screen and (max-width: 768px) {
+    width: calc(50% - 20px);
+  }
 
   .text-button {
     display: flex;

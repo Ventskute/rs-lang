@@ -1,17 +1,58 @@
 @import '../../variables.scss';
 
 .menu-wrapper {
-  width: 100px;
+  display: flex;
+  align-items: center;
   height: 100%;
-  background: $color-bg-card-dark;
+  width: $menu-width-desktop;
+  background: $color-text-light;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  transition: bottom 0.25s ease;
+  z-index: 90;
+
+  @media screen and (max-width: 768px) {
+    &.hidden {
+      bottom: calc(100vh - 114px);
+    }
+  }
 
   .icon {
     width: 60px;
   }
 
-  .link--active {
-    background: white;
-    padding: 20px;
+  .nav-link {
+    text-align: center;
     width: 100%;
+  }
+
+  .link--active {
+    background: $color-bg-dark;
+  }
+
+}
+
+.burger {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: $menu-width-desktop;
+  height: 114px;
+  background: $color-accent;
+  color: $color-text-light;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 64px;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background: $color-accent-hover;
   }
 }

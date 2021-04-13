@@ -4,29 +4,30 @@ import AnswerOption from "./AnswerOption/AnswerOption";
 import Card from "../Card/Card";
 
 import "./AudioChallenge.scss";
+import { Button } from 'react-bootstrap';
 
 const AudioChallenge = ({ handleAns, gameState, goNextWord, play }) => {
   const idkBtn = (
-    <button
-      className="game-btn"
+    <Button 
+      variant="primary" 
       onClick={() => handleAns("answer, that can't be right)))) nice crutch")}
     >
-      не знаю
-    </button>
+      Не знаю
+    </Button>
   );
   const nextBtn = (
-    <button className="game-btn" onClick={() => goNextWord()}>
-      -{">"}
-    </button>
+    <Button variant="primary" onClick={() => goNextWord()}>
+      Дальше
+    </Button>
   );
   const speakerBtn = (className) => (
-    <button className={className} onClick={() => play()}>
+    <Button variant="primary" onClick={() => play()}>
       <img
         className={className}
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Speaker_Icon_gray.svg/1200px-Speaker_Icon_gray.svg.png"
         alt="repeat audio"
       />
-    </button>
+    </Button>
   );
   const {
     word,
@@ -60,8 +61,7 @@ const AudioChallenge = ({ handleAns, gameState, goNextWord, play }) => {
   return (
     <>
       <Header />
-      <button className="close-btn">x</button>
-      <div className="game">
+      <div className="game game-audio">
         {!gameState.userAnswer && speakerBtn("speaker-btn")}
         <div className="answers">
           {gameState.ansOptions.map((ans, i) => (

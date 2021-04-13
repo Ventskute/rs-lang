@@ -23,12 +23,14 @@ export default function Savanna() {
   const [wrongAnswers, setWrongAnswers] = useState([]);
   let { group, page } = useParams();
   const dispatch = useDispatch();
+  
   function isGameOver() {
     return (
       randomWords.length == 0 &&
       rightAnswers.length + wrongAnswers.length == words.length
     );
   }
+  
   function nextWord(words) {
     clearInterval(interval);
 
@@ -41,12 +43,11 @@ export default function Savanna() {
         wrongAnswers.length == 0
       ) {
         randomWords = getRandomWords(words);
-        word = randomWords.pop();
-        setWord(word);
-      } else {
-        word = randomWords.pop();
-        setWord(word);
       }
+      
+      word = randomWords.pop();
+      setWord(word);
+
       setRandomAnswers(getRandomAnswers(word.wordTranslate, words));
       interval = setInterval(() => {
         setWordPosition((wordPosition) => {

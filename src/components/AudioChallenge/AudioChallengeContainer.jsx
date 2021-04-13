@@ -8,11 +8,13 @@ import { shuffle } from "../../utils/games/arrShuffle";
 import { getRand } from "../../utils/games/getRand";
 import {
   BASE_URL,
+  getWords,
   submitGameResult,
   submitRightAnswer,
   submitWrongAnswer,
 } from "../../utils/api/api";
 import audio from "../../assets/audio/correct.mp3";
+import { Button } from 'react-bootstrap';
 
 const GameStats = ({ rightAnswers, wrongAnswers, rightAnswersStreak }) => {
   return (
@@ -44,9 +46,9 @@ const GameStart = ({ startGame }) => {
     <div className="game-start">
       <h2>Аудиовызов</h2>
       <p>Тренировка улучшает восприятие речи на слух.</p>
-      <button className="game-start_btn" onClick={startGame}>
+      <Button variant="primary" onClick={startGame}>
         Начать
-      </button>
+      </Button>
     </div>
   );
 };
@@ -93,7 +95,7 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
     const iteration = gameState.iteration + 1;
     const mistakes = gameState.mistakes;
     if (isGameOver(iteration, mistakes, words, stopGame)) {
-      submitGameResult(
+      user && submitGameResult(
         user.userId,
         "audioChallenge",
         gameState.rightAnswersStreak,
@@ -141,7 +143,8 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
           rightAnswersStreak,
           rightAnswers,
         });
-        submitRightAnswer(user.userId, gameState.word._id);
+        
+        user && submitRightAnswer(user.userId, gameState.word._id);
       } else {
         // audios[1].play();
 
@@ -150,7 +153,7 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
         wrongAnswers.push(gameState.word);
         mistakes++;
         setGameState({ ...newGameState, mistakes, currentRightAnswersStreak, wrongAnswers });
-        submitWrongAnswer(user.userId, gameState.word._id);
+        user && submitWrongAnswer(user.userId, gameState.word._id);
       }
     }
   };
@@ -172,7 +175,7 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
   useEffect(() => {
     if (isGameOpen) {
       setActualWords(
-        user.userId,
+        user && user.userId,
         setWords,
         gameState.difficulty || group,
         null,

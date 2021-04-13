@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from 'react-router-dom';
 import { Nav } from "react-bootstrap";
 
 import home from "../../assets/icons/home.png";
@@ -12,41 +13,74 @@ import team from "../../assets/icons/teamwork.png";
 
 import "./Menu.scss";
 
+const items = [
+  {
+    to: "/",
+    name: "Главная страница",
+    img: home
+  },
+  {
+    to: "/Textbook",
+    name: "Электронный учебник",
+    img: book
+  },
+  {
+    to: "/Savanna",
+    name: "Игра \"Саванна\"",
+    img: savannah
+  },
+  {
+    to: "/audioChallenge",
+    name: "Игра \"Аудиовызов\"",
+    img: audioChallenge
+  },
+  {
+    to: "/sprint",
+    name: "Игра \"Спринт\"",
+    img: sprint
+  },
+  {
+    to: "/fillwords",
+    name: "Игра \"Филворды\"",
+    img: fillwords
+  },
+  {
+    to: "/statistics",
+    name: "Статистика",
+    img: statistics
+  },
+  {
+    to: "/team",
+    name: "О Команже",
+    img: team
+  },
+]
+
 export default function Menu() {
+  const [isHidden, setHide] = useState(true);
+  const location = useLocation();
+
   useEffect(() => {
+    const current = document.querySelector('.link--active');
+    current && current.classList.remove('link--active');
+
     const a = document.querySelector(`.nav-link[href='${location.pathname}']`);
+    
     if (a) {
       a.classList.add("link--active");
     }
   }, [location.pathname]);
-  return (
-    <div className="menu-wrapper">
+
+  return (<>
+    <div className="burger" onClick={() => setHide(!isHidden)}>&#8801;</div>
+    <div className={`menu-wrapper ${isHidden ? "hidden" : ""}`}>
       <Nav>
-        <Nav.Link href='/'>
-          <img className='icon' src={home} alt="home" />
-        </Nav.Link>
-        <Nav.Link href="/Textbook">
-          <img className="icon" src={book} alt="textbook" />
-        </Nav.Link>
-        <Nav.Link href="/Savanna">
-          <img className="icon" src={savannah} alt="savannah" />
-        </Nav.Link>
-        <Nav.Link href="/audioChallenge">
-          <img className="icon" src={audioChallenge} alt="audio challenge" />
-        </Nav.Link>
-        <Nav.Link href="/sprint">
-          <img className="icon" src={sprint} alt="sprint" />
-        </Nav.Link>
-        <Nav.Link href="/fillwords">
-          <img className="icon" src={fillwords} alt="fillwords" />
-        </Nav.Link>
-        <Nav.Link href="/statistics">
-          <img className="icon" src={statistics} alt="statistics" />
-        </Nav.Link>
-        <Nav.Link href="/team">
-          <img className="icon" src={team} alt="team" />
-        </Nav.Link>
+        { items.map((item, i) => (
+          <Link key={i} className="nav-link" to={item.to}>
+            <img className="icon" src={item.img} alt={item.name} title={item.name} />
+          </Link>
+        ))}
       </Nav>
     </div>
-  );
+  </>);
 }
