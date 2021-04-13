@@ -26,8 +26,8 @@ export const pointsLogic = (
   return [plusPoints, strick];
 };
 
-export const getRandomTranslationWordIndex = () => {
-  const randomTranslationIndex = Math.floor(Math.random() * Math.floor(20));
+export const getRandomTranslationWordIndex = (length) => {
+  const randomTranslationIndex = Math.floor(Math.random() * Math.floor(length));
   return randomTranslationIndex;
 };
 
@@ -37,7 +37,8 @@ export const getTruelyTranslationIndex = (currentWordIndex) => {
 };
 
 export const getCurrentWord = (words, isWordTranslate, index) => {
-  const currentWord = words[index][isWordTranslate];
+  console.log(words[index]);
+  const currentWord = words[index][isWordTranslate] ? words[index][isWordTranslate] : '';
   return currentWord;
 };
 

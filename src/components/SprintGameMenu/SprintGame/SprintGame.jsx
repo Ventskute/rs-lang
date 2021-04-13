@@ -9,15 +9,14 @@ import {
   pointsLogic,
   getRandomTranslationWordIndex,
   getTruelyTranslationIndex,
-  getCurrentWord,
 } from '../../../utils/games/sprint';
 import { getWords } from '../../../utils/api';
 
-function SprintGame({ setSprintState, sprintState }) {
+function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
   const [answerAnimation, setAnswerAnimation] = React.useState(null);
   const [isRandomTranslation, setIsRandomTranslation] = React.useState(0);
   const [sprintGameState, setSprintGameState] = React.useState({
-    words: null,
+    words: dictionaryWords.length ? dictionaryWords : null,
     pointsPerWord: 10,
     randomTranslationWordIndex: 0,
     currentWordIndex: 0,
@@ -43,17 +42,20 @@ function SprintGame({ setSprintState, sprintState }) {
     x4Strick: pointsStrick >= 9,
     x5Strick: pointsStrick >= 12,
   });
+  console.log(dictionaryWords);
 
   React.useEffect(() => {
-    console.log(sprintState);
-    getWords(levelSettings - 1, pageSettings - 1).then((words) =>
-      setSprintGameState({ ...sprintGameState, words: words }),
-    );
+    (words && words.length - 1 <= currentWordIndex || !dictionaryWords.length) 
+      ? getWords(levelSettings - 1, pageSettings - 1).then((words) =>
+          setSprintGameState({ ...sprintGameState, words: words }),
+        )
+      : console.log('h');
     console.log('da', sprintGameState.words);
   }, [pageSettings]);
 
   React.useEffect(() => {
     setAnswersStore();
+    console.log(sprintGameState.words);
   }, [sprintState]);
 
   React.useEffect(() => {
@@ -113,7 +115,7 @@ function SprintGame({ setSprintState, sprintState }) {
     const points = pointsLogic(randomTranslationWordIndex, currentWordIndex, boolean, pointsStrick);
     getRandom();
     const randomTranslationIndex = isRandomTranslation
-      ? getRandomTranslationWordIndex()
+      ? getRandomTranslationWordIndex(words.length-1)
       : getTruelyTranslationIndex(currentWordIndex);
 
     setSprintGameState({
@@ -132,15 +134,15 @@ function SprintGame({ setSprintState, sprintState }) {
       truelyAnswers: points[0] ? [...truelyAnswers, words[currentWordIndex]] : truelyAnswers,
       falsyAnswers: !points[0] ? [...falsyAnswers, words[currentWordIndex]] : falsyAnswers,
       levelSettings:
-        pageSettings == 30 && currentWordIndex === 19 && levelSettings < 6
+        pageSettings == 30 && currentWordIndex === words.length - 1 && levelSettings < 6
           ? levelSettings + 1
-          : pageSettings == 30 && currentWordIndex === 19 && levelSettings === 6
+          : pageSettings == 30 && currentWordIndex === words.length - 1 && levelSettings === 6
           ? 1
           : levelSettings,
       pageSettings:
-        currentWordIndex === 19 && pageSettings < 30
+        currentWordIndex >= words.length - 2 && pageSettings < 30
           ? pageSettings + 1
-          : currentWordIndex === 19 && pageSettings == 30
+          : currentWordIndex >= words.length - 2 && pageSettings == 30
           ? 1
           : pageSettings,
     });
@@ -175,11 +177,11 @@ function SprintGame({ setSprintState, sprintState }) {
       </div>
       <div className="sprint-game__words-block words-block">
         <div className="words-block__eng-word">
-          {words && getCurrentWord(words, 'word', currentWordIndex)}
+          {words && words[currentWordIndex].word}
         </div>
         <h2>?</h2>
         <div className="words-block__rus-word">
-          {words && getCurrentWord(words, 'wordTranslate', randomTranslationWordIndex)}
+          {words && words[randomTranslationWordIndex].wordTranslate }
         </div>
       </div>
       <div className="sprint-game__button-block button-block">

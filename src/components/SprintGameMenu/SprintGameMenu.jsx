@@ -5,14 +5,15 @@ import SprintGame from './SprintGame/SprintGame';
 import SprintGameStatistics from './SprintGameStatistics/SprintGameStatistics';
 import video from '../../assets/images/background-video6.mp4';
 
-function SprintGameMenu() {
+function SprintGameMenu({words=[], group = 1, page = 1 }) {
+  // console.log(words);
   const [sprintState, setSprintState] = React.useState({
     isTimeOver: false,
     settingsMenu: true,
     startGameTotal: false,
     startGameLearned: false,
-    levelSettings: 1,
-    pageSettings: 1,
+    levelSettings: group || 1,
+    pageSettings: page || 1,
     currPoints: 0,
     truelyAnswers: [],
     falsyAnswers: [],
@@ -45,7 +46,9 @@ function SprintGameMenu() {
             <div className="sprint-game__menu">
               <h1 className="sprint-game__menu_title">Игра Спринт</h1>
               <p className="sprint-game__menu_subtitle">
-                Выберите уровень сложности (1-6) и страницу слов (1-30)
+                {!words.length
+                  ? 'Выберите уровень сложности (1-6) и страницу слов (1-30)'
+                  : 'Игра начнется с выбранным списком слов со страницы словаря'}
               </p>
               <h3>Правила игры : </h3>
               <p className="sprint-game__menu_subtitle">
@@ -53,24 +56,28 @@ function SprintGameMenu() {
                 В игре необходимо ответить, верен ли перевод слова на русский язык.
               </p>
 
-              <div className="sprint-game__menu_settings">
-                <p className="input__label">Уровень</p>
-                <input
-                  className="input menu_settings__input"
-                  type="text"
-                  name="levelSettings"
-                  value={levelSettings}
-                  onChange={changeSettingsHandler}
-                />
-                <p className="input__label">Страница</p>
-                <input
-                  className="input menu_settings__input"
-                  type="text"
-                  name="pageSettings"
-                  value={pageSettings}
-                  onChange={changeSettingsHandler}
-                />
-              </div>
+              {!words.length ? (
+                <div className="sprint-game__menu_settings">
+                  <p className="input__label">Уровень</p>
+                  <input
+                    className="input menu_settings__input"
+                    type="text"
+                    name="levelSettings"
+                    value={levelSettings}
+                    onChange={changeSettingsHandler}
+                  />
+                  <p className="input__label">Страница</p>
+                  <input
+                    className="input menu_settings__input"
+                    type="text"
+                    name="pageSettings"
+                    value={pageSettings}
+                    onChange={changeSettingsHandler}
+                  />
+                </div>
+              ) : (
+                ''
+              )}
               <div className="sprint-game__menu_buttons">
                 <button className="button-start-total button" onClick={startGameHandler}>
                   Начать игру
@@ -82,7 +89,7 @@ function SprintGameMenu() {
             </div>
           )}
           {sprintState.startGameTotal && (
-            <SprintGame sprintState={sprintState} setSprintState={setSprintState} />
+            <SprintGame dictionaryWords={words} sprintState={sprintState} setSprintState={setSprintState} />
           )}
           {isTimeOver && (
             <SprintGameStatistics setSprintState={setSprintState} sprintState={sprintState} />
