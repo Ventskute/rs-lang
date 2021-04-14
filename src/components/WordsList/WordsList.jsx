@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Accordion, Button, Card, Container } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { getWords } from '../../utils/api/api';
-import Cards from '../Card/Card';
+import React, { useEffect, useState } from "react";
+import { Accordion, Button, Card, Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { getWords } from "../../utils/api/api";
+import Cards from "../Card/Card";
 
-import './WordsList.scss';
+import "./WordsList.scss";
 
 export default function WordsList({ incomingWords, difficulty, page }) {
   const { translations, buttons } = useSelector((state) => state.settings);
@@ -16,7 +16,10 @@ export default function WordsList({ incomingWords, difficulty, page }) {
         setWords(arr);
       });
     }
-  }, [difficulty, page]);
+    if (incomingWords) {
+      setWords(incomingWords);
+    }
+  }, [difficulty, page, incomingWords]);
 
   return (
     <Container>
@@ -24,7 +27,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
         {words &&
           words.map((el, i) => {
             return (
-              <Card key={i} className="card-collapsed" bg={false ? 'danger' : 'light'}>
+              <Card key={i} className="card-collapsed" bg={false ? "danger" : "light"}>
                 <Accordion.Toggle as={Card.Header} eventKey={i + 1} className="wordlist-item">
                   <p>{el.word}</p>
                   <p>{el.transcription}</p>
