@@ -3,8 +3,12 @@ import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import { url } from '../../utils/api';
 
-import featuresImage from '../../assets/images/background.jpg';
-import backgroundVideo from '../../assets/images/Mountain - 56493.mp4';
+import gamesPic from '../../assets/images/games.jpg';
+import bookPic from '../../assets/images/book.png';
+import animalPic from '../../assets/images/animal.png';
+import pronounPic from '../../assets/images/pronoun.png';
+import settingsPic from '../../assets/images/settings_preview.png';
+import statsPic from '../../assets/images/stats.jpg';
 import './Main.scss';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -12,38 +16,38 @@ import { Link } from 'react-router-dom';
 export default function Main() {
   const featuresContent = [
     {
-      img: featuresImage,
+    img: gamesPic,
       title: 'Игры',
-      description: 'бла бла бла, что-то там про эту особенность',
+      description: 'Совмещай приятное с полезным — изучай английский играя в крутые мини-игры! ',
     },
     {
-      img: featuresImage,
+      img: statsPic,
       title: 'Статистика',
-      description: 'бла бла бла, что-то там про эту особенность',
+      description: 'Сохраняй статистику своего изучения, чтобы наглядно видеть прогресс!',
     },
     {
-      img: featuresImage,
+      img: pronounPic,
       title: 'Произношение',
-      description: 'бла бла бла, что-то там про эту особенность',
+      description: 'Тренируй произношение слов, чтобы говорить красиво!',
     },
     {
-      img: featuresImage,
+      img: settingsPic,
       title: 'Настройки',
-      description: 'бла бла бла, что-то там про эту особенность',
+      description: 'Подстрой приложение под себя!',
     },
     {
-      img: featuresImage,
-      title: 'Словарь и его кастомизация',
-      description: 'бла бла бла, что-то там про эту особенность',
+      img: bookPic,
+      title: 'Словарь',
+      description: 'Добавляйте слова в словарь, помечайте как сложные или удаляйте их!',
     },
     {
-      img: featuresImage,
-      title: 'Личный петомец',
-      description: 'Твой петомец будет расти вместе с ростом твоего прогресса в изучении языка ',
+      img: animalPic,
+      title: 'Личный питомец',
+      description: 'Твой питомец будет расти по ходу твоего прогресса в изучении языка!',
     },
   ];
 
-  
+
   return (
     <div className="main">
       <Header />

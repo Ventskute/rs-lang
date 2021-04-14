@@ -61,7 +61,7 @@ export default function Team() {
     <div className="team">
       {team.map((elem, i) => {
         return (
-          <Card style={{ width: '18rem' }}>
+          <Card key={i} style={{ width: '18rem' }}>
             <Card.Img variant="top" src={elem.foto} />
             <Card.Body>
               <Card.Title>{elem.fullName}</Card.Title>

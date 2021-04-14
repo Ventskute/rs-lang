@@ -7,17 +7,23 @@
   flex-direction: column;
   background-position-x: 100%;
   background-repeat: no-repeat;
-  
+
   main {
     flex: 1 0 auto;
     padding: 20px;
   }
 
   &-content__video {
+    text-align: center;
+
     iframe {
       width: 100%;
       max-width: 560px;
     }
+  }
+
+  &-content__description-block {
+    margin-top: 20px;
   }
 }
 
