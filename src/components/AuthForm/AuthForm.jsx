@@ -19,7 +19,7 @@ const AuthForm = ({
         <div className="close" onClick={closeForm}>
           X
         </div>
-        <h2 className="auth-form--title">{isSignup ? "signup" : "signin"}</h2>
+        <h2 className="auth-form--title">{isSignup ? "регистрация" : "вход"}</h2>
         <form className="auth-form" onSubmit={isSignup ? handleSignup : handleSignin}>
           {isSignup && (
             <input
@@ -36,7 +36,7 @@ const AuthForm = ({
             name="email"
             type="email"
             required
-            placeholder={"email"}
+            placeholder={"Email"}
             className="auth-form--input"
           />
           <input
@@ -44,7 +44,8 @@ const AuthForm = ({
             name="password"
             className="auth-form--input"
             required
-            placeholder={"password"}
+            placeholder={"Пароль"}
+            autoComplete="current-password"
           />
           {isSignup && (
             <label
@@ -52,10 +53,10 @@ const AuthForm = ({
               style={{ backgroundImage: `url(${imgUrl})` }}
             >
               <input type="file" accept="image/*" name="profileImg" onChange={readImg} />
-              {"add avatar"}
+              {"Выбрать фото"}
             </label>
           )}
-          <input type="submit" className="auth-form_submit" value={"submit"} />
+          <input type="submit" className="auth-form_submit" value={"Подтвердить"} />
         </form>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { getAggregatedWords } from "../api/api";
+import { getAggregatedWords, getWords } from "../api/api";
 
 const nullable = (data, init) => (data === null ? init : data);
 
@@ -13,11 +13,10 @@ export const setActualWords = async (
   wordsNum = 10,
   ansOptions = 1
 ) => {
-  if (!userId) {
-    throw new Error("you should provide userId to setActualWords");
-  }
   const wordsPerPage = nullable(wordsNum, 10) * nullable(ansOptions, 1);
-  const fetchedWords = await getAggregatedWords(userId, difficulty, page, wordsPerPage);
+  const fetchedWords = userId 
+    ? await getAggregatedWords(userId, difficulty, page, wordsPerPage)
+    : await getWords(difficulty, page);
 
   if (ansOptions > 1) {
     const wordsWithoutFakeTranslates = fetchedWords.slice(0, wordsNum);

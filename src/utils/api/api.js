@@ -24,8 +24,10 @@ export const signin = (body) => {
           if ("message" in data) {
             delete data.message;
           }
-          userLS.setUser(data);
-        });
+          return data;
+        }).then((data) => {
+          return fetchWrapper(`${BASE_URL}users/${data.userId}`, { Authorization: `Bearer ${data.token}` })
+        }).then((res) => res.json()).then((data) => userLS.setUser(data))
       }
       return res;
     })

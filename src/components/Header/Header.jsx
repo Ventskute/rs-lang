@@ -3,13 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import AuthFormContainer from "../AuthForm/AuthFormContainer";
 import actions from "../../utils/actions";
 import { userLS } from "../../utils/localStore";
+import { Button, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { getStaticURL } from '../../utils/api';
+
+import './Header.scss';
 
 const Header = () => {
   const dispatch = useDispatch();
   const { authForm, user } = useSelector((state) => state);
+
   const logoutUser = () => {
     userLS.setUser(null);
   };
+
   const openSignupForm = () => {
     dispatch({
       type: actions.SET_AUTHFORM,
@@ -23,31 +30,38 @@ const Header = () => {
     });
   };
   const closeAuthForm = (e) => {
-    if (!e) {
-      dispatch({
-        type: actions.SET_AUTHFORM,
-        payload: { isFormOpen: false },
-      });
-    } else if (e.target === e.currentTarget) {
+    if (!e || e.target === e.currentTarget) {
       dispatch({
         type: actions.SET_AUTHFORM,
         payload: { isFormOpen: false },
       });
     }
   };
+
   return (
     <header>
-      {user && user.name}
-      <button className="login-button" onClick={openSignupForm}>
-        signup
-      </button>
-      <button className="login-button" onClick={openSigninForm}>
-        login
-      </button>
-      <button className="login-button" onClick={logoutUser}>
-        logout
-      </button>
-      {authForm.isFormOpen && (
+      <Container>
+        <Link to="/">
+          <h1 className="logo_title"><span className="logo_title--rs">RS</span> LANG</h1>
+        </Link>
+        <div className="login-buttons">
+          { !user && <>
+            <Button variant="primary" className="login-button" onClick={openSignupForm}>Зарегистрироваться</Button>
+            <Button variant="primary" className="login-button" onClick={openSigninForm}>Войти</Button>
+          </>}
+          { user && <>
+            { user.avatar &&
+              <div className="avatar-wrapper">
+                <img src={user.avatar} />
+              </div>
+            }
+            {user.profileImg && <img src={getStaticURL(user.profileImg)} className="user-avatar" />}
+            <h5 className="user-name">{user.name}</h5>
+            <Button variant="primary" className="login-button" onClick={logoutUser}>Выйти</Button>
+          </>}
+        </div>
+      </Container>
+      { authForm.isFormOpen && (
         <AuthFormContainer closeForm={closeAuthForm} isSignup={authForm.isSignup} />
       )}
     </header>

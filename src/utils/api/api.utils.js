@@ -35,7 +35,7 @@ export const fetchWrapper = async (url, config = {}) => {
     headers: {},
     ...config,
   };
-  newConfig.headers.Authorization = `Bearer ${userLS.getTokenFromLS()}`;
+  newConfig.headers.Authorization = config.Authorization || `Bearer ${userLS.getTokenFromLS()}`;
   let res = await fetch(url, newConfig);
 
   let refreshToken = userLS.getRefreshTokenFromLS();
@@ -55,7 +55,7 @@ export const fetchWrapper = async (url, config = {}) => {
         return res;
       })
       .catch((e) => {
-        throw new Error('error in 43', e);
+        throw new Error('error in 401', e);
       });
   } else {
     return res;

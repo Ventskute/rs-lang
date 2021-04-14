@@ -1,6 +1,20 @@
 .settings {
   &--img {
     filter: invert(1);
+    width: 32px;
+    margin: 10px 0 10px 10px;
+    transform: rotate(0deg) scale(1);
+    transition: 0.25s ease-out;
+    
+  }
+  
+  &--button {
     float: right;
+    
+    &:hover {
+      & > img {
+        transform: rotate(90deg) scale(1.1)
+      }
+    }
   }
 }

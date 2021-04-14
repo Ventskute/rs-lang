@@ -7,7 +7,7 @@ const AuthFormContainer = ({ isSignup, closeForm }) => {
     "https://www.pinclipart.com/picdir/big/15-154296_gender-neutral-user-account-icon-png-clipart.png"
   );
   const [nameValue, setNameValue] = useState("");
-  const [namePlaceHolder, setNamePlaceHolder] = useState("name");
+  const [namePlaceHolder, setNamePlaceHolder] = useState("Имя");
   const reader = new FileReader();
 
   reader.onload = (e) => {

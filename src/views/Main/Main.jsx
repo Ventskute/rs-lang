@@ -3,53 +3,58 @@ import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import { url } from '../../utils/api';
 
-import featuresImage from '../../assets/images/background.jpg';
-import backgroundVideo from '../../assets/images/Mountain - 56493.mp4';
+import gamesPic from '../../assets/images/games.jpg';
+import bookPic from '../../assets/images/book.png';
+import animalPic from '../../assets/images/animal.png';
+import pronounPic from '../../assets/images/pronoun.png';
+import settingsPic from '../../assets/images/settings_preview.png';
+import statsPic from '../../assets/images/stats.jpg';
 import './Main.scss';
+import { Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function Main() {
   const featuresContent = [
     {
-      img: featuresImage,
+    img: gamesPic,
       title: 'Игры',
-      description: 'бла бла бла, что-то там про эту особенность',
+      description: 'Совмещай приятное с полезным — изучай английский играя в крутые мини-игры! ',
     },
     {
-      img: featuresImage,
+      img: statsPic,
       title: 'Статистика',
-      description: 'бла бла бла, что-то там про эту особенность',
+      description: 'Сохраняй статистику своего изучения, чтобы наглядно видеть прогресс!',
     },
     {
-      img: featuresImage,
+      img: pronounPic,
       title: 'Произношение',
-      description: 'бла бла бла, что-то там про эту особенность',
+      description: 'Тренируй произношение слов, чтобы говорить красиво!',
     },
     {
-      img: featuresImage,
+      img: settingsPic,
       title: 'Настройки',
-      description: 'бла бла бла, что-то там про эту особенность',
+      description: 'Подстрой приложение под себя!',
     },
     {
-      img: featuresImage,
-      title: 'Словарь и его кастомизация',
-      description: 'бла бла бла, что-то там про эту особенность',
+      img: bookPic,
+      title: 'Словарь',
+      description: 'Добавляйте слова в словарь, помечайте как сложные или удаляйте их!',
     },
     {
-      img: featuresImage,
-      title: 'Личный петомец',
-      description: 'Твой петомец будет расти вместе с ростом твоего прогресса в изучении языка ',
+      img: animalPic,
+      title: 'Личный питомец',
+      description: 'Твой питомец будет расти по ходу твоего прогресса в изучении языка!',
     },
   ];
+
+
   return (
     <div className="main">
       <Header />
-      <video className="background-video" loop autoPlay>
-        <source src={backgroundVideo} type="video/mp4" />
-      </video>
       <main className="main-content container">
         <h1 className="main-content__title">
           Изучай английский язык <span className="highlight">ЛЕГКО</span> и{' '}
-          <span className="highlight">КОМФОРТНО</span> <br /> вместе с{' '}
+          <span className="highlight">КОМФОРТНО</span> вместе с{' '}
           <span className="highlight">RS Lang</span>
         </h1>
         <div className="main-content__video">
@@ -62,9 +67,9 @@ export default function Main() {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen></iframe>
         </div>
-        <div className="main-content__descrioption-block">
+        <div className="main-content__description-block">
           <p className="paragraph">
-            Игровое приложение, которое обеспечит вам удобно и с интересом изучать английский язык.
+            Игровое приложение, которое позволит вам удобно и с интересом изучать английский язык.
             Здесь используется сборник из{' '}
             <span className="highlight">3600 самых популярных английских слов</span>, все слова
             разбиты на разделы, в зависимости от сложности.
@@ -90,17 +95,16 @@ export default function Main() {
           <h2 className="features__title">Особенности приложения</h2>
           <div className="features__content">
             {featuresContent.map((el, i) => (
-              <div className={`feature-block block__${i} item`} key={i}>
-                <img className="feature-block__image" src={el.img} alt="image" />
-                <div className="feature-block__content feature-content">
-                  <h3 className="feature-content__title">{el.title}</h3>
-                  <p className="feature-content__description">{el.description}</p>
-                </div>
-              </div>
+              <Card key={i} className="feature-block">
+                <Card.Img variant="top" src={el.img} />
+                <Card.Body>
+                  <Card.Title>{el.title}</Card.Title>
+                  <Card.Text className="text-muted"> {el.description}</Card.Text>
+                </Card.Body>
+              </Card>
             ))}
           </div>
         </div>
-        <button className="main-content__register-button button">Зарегистрироваться!</button>
       </main>
       <Footer />
     </div>

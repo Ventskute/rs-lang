@@ -1,4 +1,5 @@
 import React from "react";
+import Header from '../../components/Header/Header';
 
 import "./Team.scss";
 
@@ -9,6 +10,7 @@ import AndrewImg from "../../assets/images/fotoTeam/Andrew.png";
 import AlekseiImg from "../../assets/images/fotoTeam/Aleksei.png";
 import GitHub from "../../assets/images/GitHub.png";
 import Telegram from "../../assets/images/telegram.png";
+import { Card } from 'react-bootstrap';
 
 const team = [
   {
@@ -54,32 +56,30 @@ const team = [
 ];
 
 export default function Team() {
-  return (
+  return (<>
+    <Header />
     <div className="team">
       {team.map((elem, i) => {
         return (
-          <div className="team_card">
-            <img src={elem.foto} className="team_foto" />
-            <div className="team_info">
-              <h4 className="team_fullName">{elem.fullName}</h4>
-              <h5 className="team_position">{elem.position}</h5>
-              <p className="team_work">{elem.work}</p>
-              <div className="team_contacts">
-                <a href={elem.gitHub} target="_blank">
-                  <img src={GitHub} alt="GitHub" className="github_logo" />
-                </a>
-                <a href={elem.telegram} target="_blank">
-                  <img
-                    src={Telegram}
-                    alt="Telegram"
-                    className="telegram_logo"
-                  />
-                </a>
-              </div>
-            </div>
-          </div>
+          <Card key={i} style={{ width: '18rem' }}>
+            <Card.Img variant="top" src={elem.foto} />
+            <Card.Body>
+              <Card.Title>{elem.fullName}</Card.Title>
+              <Card.Subtitle>{elem.position}</Card.Subtitle>
+              <Card.Text>{elem.work}</Card.Text>
+            </Card.Body>
+            <Card.Footer>
+            <Card.Link className="social_logo" href={elem.gitHub} target="_blank">
+              <img src={GitHub} alt="GitHub" />
+            </Card.Link>
+            <Card.Link className="social_logo" href={elem.telegram} target="_blank">
+              <img src={Telegram} alt="Telegram"
+              />
+            </Card.Link>
+            </Card.Footer>
+          </Card>
         );
       })}
     </div>
-  );
+  </>);
 }

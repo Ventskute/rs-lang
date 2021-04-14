@@ -1,44 +1,18 @@
 .team {
-  h4,
-  h5 {
-    font-family: "Josefin Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  }
-  h5 {
-    font-style: italic;
-    font-size: 18px;
-    color: #727377;
-  }
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   max-width: 1197px;
   margin: auto;
-}
-.team_card {
-  display: flex;
-  margin: 6px 0;
-  overflow: hidden;
-  background-color: #fff;
-}
-.team_foto {
-  width: 187px;
-  object-fit: cover;
-}
-.team_info {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 310px;
-  height: 100%;
-  padding-top: 35px;
-  padding-bottom: 24px;
-  padding-left: 24px;
-}
-.github_logo {
-  width: 35px;
-  height: 35px;
-}
-.telegram_logo {
-  width: 35px;
-  height: 35px;
+  
+  .social_logo {
+    img {
+      width: 35px;
+      height: 35px;
+    }
+
+    &:hover {
+      filter: contrast(0);
+    }
+  }
 }

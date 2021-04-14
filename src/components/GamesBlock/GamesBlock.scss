@@ -7,10 +7,9 @@
 
 .game-item {
   width: calc(25% - 20px);
-  min-width: 18rem !important;
+  min-width: 20rem !important;
   margin: 10px;
-  cursor: pointer;
-  box-shadow: 7px 5px 10px 3px rgb(0 0 0 / 20%);
+  box-shadow: 5px 5px 10px 3px rgb(0 0 0 / 10%);
   transition: transform filter width 0.15s ease-out;
   filter: grayscale(0.5);
 

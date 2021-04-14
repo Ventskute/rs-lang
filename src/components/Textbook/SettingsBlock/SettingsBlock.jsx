@@ -61,7 +61,10 @@ function SettingsBlock() {
   const [showModal, setShowModal] = useState(false);
 
   return (<>
-    <img src={settingsIcon} alt="settings" className='settings--img' onClick={() => setShowModal(true)}/>
+    <Button variant="primary" className="settings--button" onClick={() => setShowModal(true)}>
+      Настройки
+      <img src={settingsIcon} alt="settings" className='settings--img'/>
+    </Button>
     <SettingsModal show={showModal} onHide={() => setShowModal(false)}/>
   </>);
 }

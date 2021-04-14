@@ -97,42 +97,40 @@ const dataPercentCorrectAnswers = {
 };
 export default function ShortStatistics(props) {
   return (
-    <div className="container">
-      <div className="shortStatistics">
-        <Alert variant="primary">
-          <Alert.Heading>
-            Общее количество изученных слов :{games.total.countWord}
-          </Alert.Heading>
-          <hr />
-          <Alert.Heading>
-            % правильных ответов:{games.total.percentCorrectAnswers}{" "}
-          </Alert.Heading>
-        </Alert>
-        <div className="countWord ">
-          <h2>Количество слов</h2>
-          <Pie data={dataCountWord} />
-        </div>
-        <div className="maxAnswers">
-          <h2> Самая длинная серия правильных ответов</h2>
-          <Bar
-            data={dataMaxAnswers}
-            options={{
-              scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      beginAtZero: true,
-                    },
+    <div className="shortStatistics">
+      <Alert variant="primary">
+        <Alert.Heading>
+          Общее количество изученных слов :{games.total.countWord}
+        </Alert.Heading>
+        <hr />
+        <Alert.Heading>
+          % правильных ответов:{games.total.percentCorrectAnswers}{" "}
+        </Alert.Heading>
+      </Alert>
+      <div className="countWord ">
+        <h2>Количество слов</h2>
+        <Pie data={dataCountWord} />
+      </div>
+      <div className="maxAnswers">
+        <h2> Самая длинная серия правильных ответов</h2>
+        <Bar
+          data={dataMaxAnswers}
+          options={{
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
                   },
-                ],
-              },
-            }}
-          />
-        </div>
-        <div className="percentCorrectAnswers">
-          <h2> % правильных ответов</h2>
-          <Doughnut data={dataPercentCorrectAnswers} />
-        </div>
+                },
+              ],
+            },
+          }}
+        />
+      </div>
+      <div className="percentCorrectAnswers">
+        <h2> % правильных ответов</h2>
+        <Doughnut data={dataPercentCorrectAnswers} />
       </div>
     </div>
   );
