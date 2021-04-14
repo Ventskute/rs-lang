@@ -5,17 +5,18 @@ import actions from "../../utils/actions";
 import { userLS } from "../../utils/localStore";
 import { Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { getStaticURL } from '../../utils/api';
 
 import './Header.scss';
 
 const Header = () => {
   const dispatch = useDispatch();
   const { authForm, user } = useSelector((state) => state);
-  
+
   const logoutUser = () => {
     userLS.setUser(null);
   };
-  
+
   const openSignupForm = () => {
     dispatch({
       type: actions.SET_AUTHFORM,
@@ -54,8 +55,9 @@ const Header = () => {
                 <img src={user.avatar} />
               </div>
             }
-            <h3 className="login-name">{user.login}</h3>
-            <button className="login-button" onClick={logoutUser}>Выйти</button>
+            {user.profileImg && <img src={getStaticURL(user.profileImg)} className="user-avatar" />}
+            <h5 className="user-name">{user.name}</h5>
+            <Button variant="primary" className="login-button" onClick={logoutUser}>Выйти</Button>
           </>}
         </div>
       </Container>

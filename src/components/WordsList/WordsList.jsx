@@ -12,12 +12,9 @@ export default function WordsList({ incomingWords, difficulty, page }) {
 
   useEffect(() => {
     if (!incomingWords) {
-      {
-        getWords(difficulty, page).then((arr) => {
-          console.log(arr);
-          setWords(arr);
-        });
-      }
+      getWords(difficulty, page).then((arr) => {
+        setWords(arr);
+      });
     }
   }, [difficulty, page]);
 

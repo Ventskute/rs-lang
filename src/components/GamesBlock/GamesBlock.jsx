@@ -4,14 +4,12 @@ import { Link } from 'react-router-dom';
 import { gamesArr } from '../../utils/games/blockArrays';
 import { Button, Card } from 'react-bootstrap';
 
-import cardImage from '../../assets/images/background.jpg';
-
 function GamesBlock(onClick) {
   return (
     <div className="games">
-      {gamesArr.map(({ name, className, link, description }, i) => (
+      {gamesArr.map(({ name, className, link, description, img }, i) => (
         <Card className={`game-item games__${className}`} key={i}>
-          <Card.Img variant="top" src={cardImage} />
+          <Card.Img variant="top" src={img} />
           <Card.Body>
             <Card.Title>{name}</Card.Title>
             <Card.Text>{description}</Card.Text>

@@ -25,6 +25,11 @@
   .nav-link {
     text-align: center;
     width: 100%;
+    transition: 0.15s ease;
+
+    &:hover {
+      background: rgba($color: $color-bg-dark, $alpha: 0.5);
+    }
   }
 
   .link--active {
