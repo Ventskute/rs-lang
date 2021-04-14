@@ -31,13 +31,13 @@ function SprintGameStatistics({ setSprintState, sprintState }) {
         <div className="falsy-answers-log answers-log">
           <h3 className="falsy-answers-log__title">Неправильные ответы:</h3>
           <div className="answers-log__content">
-          {sprintFalsyAnswers.map((el, i) => (
-            <div key={i}>
-              <span>{`${el.word} `}</span>
-              <span>{`${el.transcription} `}</span>
-              <span>{`${el.wordTranslate}`}</span>
-            </div>
-          ))}
+            {sprintFalsyAnswers.map((el, i) => (
+              <div key={i}>
+                <span>{`${el.word} `}</span>
+                <span>{`${el.transcription} `}</span>
+                <span>{`${el.wordTranslate}`}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@ function SprintGameStatistics({ setSprintState, sprintState }) {
         </button>
         <button
           className="spring-game-statistics__buttons_get-back button"
-          onClick={() => console.log('прикрутить выход из игры')}>
+          onClick={() => alert('прикрутить выход из игры')}>
           Выход
         </button>
       </div>

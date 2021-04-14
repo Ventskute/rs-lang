@@ -9,7 +9,6 @@ function SprintTimer({ setSprintState, sprintState }) {
       startGameTotal: false,
       isTimeOver: true,
     });
-    console.log(sprintState, 'sprintState');
   }
   return (
     <div>
