@@ -1,4 +1,9 @@
-import { createStatistics, fetchWrapper, getQuery, userWordOptions } from "./api.utils";
+import {
+  createStatistics,
+  fetchWrapper,
+  getQuery,
+  userWordOptions,
+} from "./api.utils";
 import { userLS } from "../localStore";
 
 export const BASE_URL = "https://rs-lang-team-52.herokuapp.com/";
@@ -50,7 +55,13 @@ export const signup = (body) => {
     .catch((e) => console.log("cant signup with error", e));
 };
 
-export const getAggregatedWords = async (userId, group, page, wordsPerPage, filter) => {
+export const getAggregatedWords = async (
+  userId,
+  group,
+  page,
+  wordsPerPage,
+  filter
+) => {
   if (!userId) {
     throw new Error('you should pass "userId" to "getAggregatedWords"');
   }
@@ -61,7 +72,9 @@ export const getAggregatedWords = async (userId, group, page, wordsPerPage, filt
     filter: JSON.stringify(filter),
   });
 
-  const fetchedData = await fetchWrapper(`${BASE_URL}users/${userId}/aggregatedWords${query}`)
+  const fetchedData = await fetchWrapper(
+    `${BASE_URL}users/${userId}/aggregatedWords${query}`
+  )
     .then((response) => {
       if (response.status === 404) {
         return [{ paginatedResults: null }];
@@ -83,7 +96,9 @@ export const getUserWord = async (userId, wordId) => {
   if (!userId) {
     throw new Error('you should pass "userId" to "getUserWord"');
   }
-  const response = await fetchWrapper(`${BASE_URL}users/${userId}/words/${wordId}`)
+  const response = await fetchWrapper(
+    `${BASE_URL}users/${userId}/words/${wordId}`
+  )
     .then((res) => {
       if (res.status === 404) {
         return Promise.resolve("word not found");
@@ -112,7 +127,13 @@ export const getUserWords = async (userId) => {
   return response;
 };
 
-export const createUserWord = (userId, wordId, wordStatus, wordsDifficulty, isAnsRight) => {
+export const createUserWord = (
+  userId,
+  wordId,
+  wordStatus,
+  wordsDifficulty,
+  isAnsRight
+) => {
   if (!wordId) {
     throw new Error('you should pass "wordId" to "createUserWord"');
   }
@@ -124,7 +145,13 @@ export const createUserWord = (userId, wordId, wordStatus, wordsDifficulty, isAn
   isAnsRight ? rightAnswersCount++ : wrongAnswersCount++;
   fetchWrapper(`${BASE_URL}users/${userId}/words/${wordId}`, {
     method: "POST",
-    body: userWordOptions(wordStatus, wordsDifficulty, null, rightAnswersCount, wrongAnswersCount),
+    body: userWordOptions(
+      wordStatus,
+      wordsDifficulty,
+      null,
+      rightAnswersCount,
+      wrongAnswersCount
+    ),
     headers: {
       "Content-Type": "application/json",
     },
@@ -156,7 +183,13 @@ export const updateUserWord = (
   }
   fetchWrapper(`${BASE_URL}users/${userId}/words/${wordId}`, {
     method: "PUT",
-    body: userWordOptions(wordStatus, wordsDifficulty, date, rightAnswersCount, wrongAnswersCount),
+    body: userWordOptions(
+      wordStatus,
+      wordsDifficulty,
+      date,
+      rightAnswersCount,
+      wrongAnswersCount
+    ),
     headers: {
       "Content-Type": "application/json",
     },
@@ -302,7 +335,9 @@ export const setUserStatistics = (userId, statistics) => {
 };
 
 export const getUserStatistics = async (userId) => {
-  const response = await fetchWrapper(`${BASE_URL}users/${userId}/statistics`).then((res) => {
+  const response = await fetchWrapper(
+    `${BASE_URL}users/${userId}/statistics`
+  ).then((res) => {
     if (res.status === 404) {
       return null;
     }
@@ -330,7 +365,14 @@ export const submitGameResult = async (
   const rightAnswers = new Array(rightAnswersNum).fill(Date.now());
   const wrongAnswers = new Array(wrongAnswersNum).fill(Date.now());
   const userStatistics = JSON.stringify(
-    createStatistics(prevStats, gameName, winStreak, learnedWords, rightAnswers, wrongAnswers)
+    createStatistics(
+      prevStats,
+      gameName,
+      winStreak,
+      learnedWords,
+      rightAnswers,
+      wrongAnswers
+    )
   );
   setUserStatistics(userId, userStatistics);
 };
