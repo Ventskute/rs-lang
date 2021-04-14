@@ -4,7 +4,7 @@ import './SprintGame.scss';
 import SprintTimer from '../SprintTimer/SprintTimer';
 import { useDispatch } from 'react-redux';
 import audioCorrect from '../../../assets/audio/correctAnswer.mp3';
-import audioWrong from '../../../assets/audio/wrongAnswer.mp3';
+import audioWrong from '../../../assets/audio/WrongAnswer.mp3';
 import {
   pointsLogic,
   getRandomTranslationWordIndex,
@@ -110,7 +110,9 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
 
   const onClickAnswer = (boolean) => {
     const points = pointsLogic(randomTranslationWordIndex, currentWordIndex, boolean, pointsStrick);
+
     getRandom();
+
     const randomTranslationIndex = isRandomTranslation
       ? getRandomTranslationWordIndex(words.length - 1)
       : getTruelyTranslationIndex(currentWordIndex);
