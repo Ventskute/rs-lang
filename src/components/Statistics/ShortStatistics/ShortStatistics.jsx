@@ -7,7 +7,7 @@ import { getShortTermStats } from "../../../utils/api/api";
 import "./ShortStatistics.scss";
 
 const nameGame = {
-  audioChallenge: "Аудио",
+  audioChallenge: "Аудиовызов",
   fillWords: "Филвордс",
   savanna: "Саванна",
   sprint: "Спринт",
@@ -183,11 +183,11 @@ export default function ShortStatistics() {
     <div className="shortStatistics">
       <Alert variant="primary">
         <Alert.Heading>
-          Общее количество изученных слов :{games.total.countWord}
+          Общее количество изученных слов: {totalWordsCount}
         </Alert.Heading>
         <hr />
         <Alert.Heading>
-          % правильных ответов:{games.total.percentCorrectAnswers}{" "}
+          % правильных ответов: {totalPercentCorrectAnswers}
         </Alert.Heading>
       </Alert>
       <div className="countWord ">

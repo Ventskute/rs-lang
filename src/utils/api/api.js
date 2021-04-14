@@ -18,6 +18,7 @@ export const getWords = (group, page) => {
 };
 
 export const signin = (body) => {
+  let temp = {};
   return fetchWrapper(`${BASE_URL}signin`, {
     headers: { "Content-Type": "application/json" },
     method: "POST",
@@ -29,10 +30,11 @@ export const signin = (body) => {
           if ("message" in data) {
             delete data.message;
           }
+          temp = data;
           return data;
         }).then((data) => {
           return fetchWrapper(`${BASE_URL}users/${data.userId}`, { Authorization: `Bearer ${data.token}` })
-        }).then((res) => res.json()).then((data) => userLS.setUser(data))
+        }).then((res) => res.json()).then((r) => userLS.setUser({...temp, ...r}))
       }
       return res;
     })

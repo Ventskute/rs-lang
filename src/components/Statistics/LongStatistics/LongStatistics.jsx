@@ -37,20 +37,22 @@ export default function LongStatistics() {
   });
 
   function getDayAndCount() {
-    return getLongTermStats(user.userId).then((data) => {
-      let dataUser = data.map((el) => {
-        return `${new Date(el).getDate()}.${
-          new Date(el).getMonth() + 1
-        }.${new Date(el).getFullYear()}`;
+    if (user) {
+      return getLongTermStats(user.userId).then((data) => {
+        let dataUser = data.map((el) => {
+          return `${new Date(el).getDate()}.${
+            new Date(el).getMonth() + 1
+          }.${new Date(el).getFullYear()}`;
+        });
+        let count = dataUser.reduce(function (acc, el) {
+          acc[el] = (acc[el] || 0) + 1;
+
+          return acc;
+        }, {});
+
+        return count;
       });
-      let count = dataUser.reduce(function (acc, el) {
-        acc[el] = (acc[el] || 0) + 1;
-
-        return acc;
-      }, {});
-
-      return count;
-    });
+    } else return Promise.resolve(0)
   }
 
   getDayAndCount().then((data) => {
