@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Accordion, Button, Card, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { getWords } from "../../utils/api/api";
-import Cards from "../Card/Card";
+import { Accordion, Button, Card, Container } from "react-bootstrap";
+import Cards from "../../Card/Card";
 
-import "./WordsList.scss";
-
-export default function WordsList({ incomingWords, difficulty, page }) {
+const LearningWords = ({ incomingWords }) => {
   const { translations, buttons } = useSelector((state) => state.settings);
   const [words, setWords] = useState(incomingWords);
-
   useEffect(() => {
-    if (!incomingWords) {
-      getWords(difficulty, page).then((arr) => {
-        setWords(arr);
-      });
-    }
     if (incomingWords) {
       setWords(incomingWords);
     }
-  }, [difficulty, page, incomingWords]);
+  }, [incomingWords]);
 
   return (
     <Container>
@@ -32,6 +23,8 @@ export default function WordsList({ incomingWords, difficulty, page }) {
                   <p>{el.word}</p>
                   <p>{el.transcription}</p>
                   {translations && <p>{el.wordTranslate}</p>}
+                  <p>{el.userWord.optional.rightAnswersCount}</p>
+                  <p>{el.userWord.optional.wrongAnswersCount}</p>
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey={i + 1}>
                   <div className="content">
@@ -50,4 +43,6 @@ export default function WordsList({ incomingWords, difficulty, page }) {
       </Accordion>
     </Container>
   );
-}
+};
+
+export default LearningWords;

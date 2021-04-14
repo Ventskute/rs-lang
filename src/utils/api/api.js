@@ -98,9 +98,6 @@ export const getUserWord = async (userId, wordId) => {
 };
 
 export const getUserWords = async (userId) => {
-  if (!wordId) {
-    throw new Error('you should pass "wordId" to "getUserWord"');
-  }
   if (!userId) {
     throw new Error('you should pass "userId" to "getUserWord"');
   }
