@@ -25,7 +25,7 @@ describe("API tests", () => {
   describe("Get words", () => {
     it("Should use proper url", () => {
       const queries = [
-        `${BASE_URL}words?group=1&pageNum=5`,
+        `${BASE_URL}words?group=1&page=5`,
         `${BASE_URL}words?group=2`,
         `${BASE_URL}words`,
       ];
