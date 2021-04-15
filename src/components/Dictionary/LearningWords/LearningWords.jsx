@@ -17,8 +17,9 @@ const LearningWords = ({ incomingWords }) => {
       <Accordion>
         {words &&
           words.map((el, i) => {
+            const isHard = (el.userWord && el.userWord.difficulty !== "normal");
             return (
-              <Card key={i} className="card-collapsed" bg={false ? "danger" : "light"}>
+              <Card key={i} className="card-collapsed" bg={isHard ? "danger" : "light"}>
                 <Accordion.Toggle as={Card.Header} eventKey={i + 1} className="wordlist-item">
                   <p>{el.word}</p>
                   <p>{el.transcription}</p>
@@ -31,7 +32,12 @@ const LearningWords = ({ incomingWords }) => {
                     <Card.Body>{Cards(el)}</Card.Body>
                     {buttons && (
                       <div className="buttons-wrapper">
-                        <Button className="button-action">Добавить в раздел "Сложные слова"</Button>
+                        { isHard &&
+                          <Button className="button-action">Восстановить</Button>
+                        }
+                        { !isHard &&
+                          <Button className="button-action">Добавить в раздел "Сложные слова"</Button>
+                        }
                         <Button className="button-action">Удалить</Button>
                       </div>
                     )}

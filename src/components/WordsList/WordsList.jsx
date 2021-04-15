@@ -27,7 +27,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
         {words &&
           words.map((el, i) => {
             return (
-              <Card key={i} className="card-collapsed" bg={false ? "danger" : "light"}>
+              <Card key={i} className="card-collapsed" bg={(el.userWord && el.userWord.difficulty !== "normal") ? "danger" : "light"}>
                 <Accordion.Toggle as={Card.Header} eventKey={i + 1} className="wordlist-item">
                   <p>{el.word}</p>
                   <p>{el.transcription}</p>

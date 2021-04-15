@@ -1,110 +1,193 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Pie, Bar, Doughnut } from "react-chartjs-2";
 import { Alert } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { getShortTermStats } from "../../../utils/api/api";
 
 import "./ShortStatistics.scss";
-const games = {
-  savanna: {
-    nameGame: "Саванна",
-    countWord: 10,
-    maxAnswers: 11,
-    percentCorrectAnswers: 9,
-  },
-  sprint: {
-    nameGame: "Спринт",
-    countWord: 11,
-    maxAnswers: 12,
-    percentCorrectAnswers: 8,
-  },
-  audioChallenge: {
-    nameGame: "Аудио",
-    countWord: 12,
-    maxAnswers: 13,
-    percentCorrectAnswers: 7,
-  },
-  fillWords: {
-    nameGame: "Филвордс",
-    countWord: 13,
-    maxAnswers: 14,
-    percentCorrectAnswers: 6,
-  },
-  total: { countWord: 35, percentCorrectAnswers: 40 },
-};
 
-const dataCountWord = {
-  labels: [
-    games.savanna.nameGame,
-    games.sprint.nameGame,
-    games.audioChallenge.nameGame,
-    games.fillWords.nameGame,
-  ],
-  datasets: [
-    {
-      data: [
-        games.savanna.countWord,
-        games.sprint.countWord,
-        games.audioChallenge.countWord,
-        games.fillWords.countWord,
-      ],
-      backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#00A6B4"],
-      hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#003350"],
-    },
-  ],
+const nameGame = {
+  audioChallenge: "Аудиовызов",
+  fillWords: "Филвордс",
+  savanna: "Саванна",
+  sprint: "Спринт",
 };
-const dataMaxAnswers = {
-  labels: [
-    games.savanna.nameGame,
-    games.sprint.nameGame,
-    games.audioChallenge.nameGame,
-    games.fillWords.nameGame,
-  ],
-  datasets: [
-    {
-      type: "bar",
-      label: "Количество ответов",
-      backgroundColor: "#36A2EB",
-      borderColor: "rgba(0,0,0,1)",
-      borderWidth: 1,
+export default function ShortStatistics() {
+  const { user } = useSelector((state) => state);
+  const [dataCountWord, setDataCountWord] = useState({
+    labels: [
+      nameGame.audioChallenge,
+      nameGame.fillWords,
+      nameGame.savanna,
+      nameGame.sprint,
+    ],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#00A6B4"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#003350"],
+      },
+    ],
+  });
 
-      data: [
-        games.savanna.maxAnswers,
-        games.sprint.maxAnswers,
-        games.audioChallenge.maxAnswers,
-        games.fillWords.maxAnswers,
-      ],
-    },
-  ],
-};
-const dataPercentCorrectAnswers = {
-  labels: [
-    games.savanna.nameGame,
-    games.sprint.nameGame,
-    games.audioChallenge.nameGame,
-    games.fillWords.nameGame,
-  ],
-  datasets: [
-    {
-      data: [
-        games.savanna.percentCorrectAnswers,
-        games.sprint.percentCorrectAnswers,
-        games.audioChallenge.percentCorrectAnswers,
-        games.fillWords.percentCorrectAnswers,
-      ],
-      backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#00A6B4"],
-      hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#003350"],
-    },
-  ],
-};
-export default function ShortStatistics(props) {
+  const [dataMaxAnswers, setDataMaxAnswers] = useState({
+    labels: [
+      nameGame.audioChallenge,
+      nameGame.fillWords,
+      nameGame.savanna,
+      nameGame.sprint,
+    ],
+    datasets: [
+      {
+        type: "bar",
+        label: "Количество ответов",
+        backgroundColor: "#36A2EB",
+        borderColor: "rgba(0,0,0,1)",
+        borderWidth: 1,
+
+        data: [],
+      },
+    ],
+  });
+  const [dataPercentCorrectAnswers, setDataPercentCorrectAnswers] = useState({
+    labels: [
+      nameGame.audioChallenge,
+      nameGame.fillWords,
+      nameGame.savanna,
+      nameGame.sprint,
+    ],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#00A6B4"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#003350"],
+      },
+    ],
+  });
+  const [totalWordsCount, setTotalWordsCount] = useState(0);
+  const [totalPercentCorrectAnswers, setTotalPercentCorrectAnswers] = useState(
+    0
+  );
+
+  useEffect(() => {
+    getShortTermStats(user.userId).then((data) => {
+      let totalCount =
+        data.optional.audioChallenge.learnedWords +
+        data.optional.fillWords.learnedWords +
+        data.optional.savanna.learnedWords +
+        data.optional.sprint.learnedWords;
+
+      setTotalWordsCount(totalCount);
+
+      let totalRightAnswers =
+        data.optional.audioChallenge.rightAnswers.length +
+        data.optional.fillWords.rightAnswers.length +
+        data.optional.savanna.rightAnswers.length +
+        data.optional.sprint.rightAnswers.length;
+
+      let totalWrongAnswers =
+        data.optional.audioChallenge.wrongAnswers.length +
+        data.optional.fillWords.wrongAnswers.length +
+        data.optional.savanna.wrongAnswers.length +
+        data.optional.sprint.wrongAnswers.length;
+      setTotalPercentCorrectAnswers(
+        percentCorrectAnswers(totalRightAnswers, totalWrongAnswers)
+      );
+
+      setDataCountWord({
+        labels: [
+          nameGame.audioChallenge,
+          nameGame.fillWords,
+          nameGame.savanna,
+          nameGame.sprint,
+        ],
+        datasets: [
+          {
+            data: [
+              data.optional.audioChallenge.learnedWords,
+              data.optional.fillWords.learnedWords,
+              data.optional.savanna.learnedWords,
+              data.optional.sprint.learnedWords,
+            ],
+            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#00A6B4"],
+            hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#003350"],
+          },
+        ],
+      });
+      setDataMaxAnswers({
+        labels: [
+          nameGame.audioChallenge,
+          nameGame.fillWords,
+          nameGame.savanna,
+          nameGame.sprint,
+        ],
+        datasets: [
+          {
+            type: "bar",
+            label: "Количество ответов",
+            backgroundColor: "#36A2EB",
+            borderColor: "rgba(0,0,0,1)",
+            borderWidth: 1,
+            data: [
+              data.optional.audioChallenge.winStreak,
+              data.optional.fillWords.winStreak,
+              data.optional.savanna.winStreak,
+              data.optional.sprint.winStreak,
+            ],
+          },
+        ],
+      });
+      setDataPercentCorrectAnswers({
+        labels: [
+          nameGame.audioChallenge,
+          nameGame.fillWords,
+          nameGame.savanna,
+          nameGame.sprint,
+        ],
+        datasets: [
+          {
+            data: [
+              percentCorrectAnswers(
+                data.optional.audioChallenge.rightAnswers.length,
+                data.optional.audioChallenge.wrongAnswers.length
+              ),
+              percentCorrectAnswers(
+                data.optional.fillWords.rightAnswers.length,
+                data.optional.fillWords.wrongAnswers.length
+              ),
+              percentCorrectAnswers(
+                data.optional.savanna.rightAnswers.length,
+                data.optional.savanna.wrongAnswers.length
+              ),
+              percentCorrectAnswers(
+                data.optional.sprint.rightAnswers.length,
+                data.optional.sprint.wrongAnswers.length
+              ),
+            ],
+            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#00A6B4"],
+            hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#003350"],
+          },
+        ],
+      });
+    });
+  }, []);
+
+  function percentCorrectAnswers(right, wrong) {
+    let sum = right + wrong;
+    let percent = right / (sum * 100);
+    let roundPercent = Math.round(percent * 1000) / 1000;
+    return roundPercent;
+  }
+
   return (
     <div className="shortStatistics">
       <Alert variant="primary">
         <Alert.Heading>
-          Общее количество изученных слов :{games.total.countWord}
+          Общее количество изученных слов: {totalWordsCount}
         </Alert.Heading>
         <hr />
         <Alert.Heading>
-          % правильных ответов:{games.total.percentCorrectAnswers}{" "}
+          % правильных ответов: {totalPercentCorrectAnswers}
         </Alert.Heading>
       </Alert>
       <div className="countWord ">

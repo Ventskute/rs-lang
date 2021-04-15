@@ -6,6 +6,7 @@ import { userLS } from "../../utils/localStore";
 import { Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getStaticURL } from '../../utils/api';
+import avatarFallback from '../../assets/images/avatar_fallback.png';
 
 import './Header.scss';
 
@@ -55,7 +56,17 @@ const Header = () => {
                 <img src={user.avatar} />
               </div>
             }
-            {user.profileImg && <img src={getStaticURL(user.profileImg)} className="user-avatar" />}
+            {user.profileImg &&
+              <div className="avatar-wrapper">
+                <img src={getStaticURL(user.profileImg)}
+                  className="user-avatar"
+                  onError={(e) => {
+                    e.target.src = avatarFallback;
+                    e.target.parentElement.dataset.letter = user.name[0].toUpperCase();
+                  }}
+                />
+              </div>
+            }
             <h5 className="user-name">{user.name}</h5>
             <Button variant="primary" className="login-button" onClick={logoutUser}>Выйти</Button>
           </>}
