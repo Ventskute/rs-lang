@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Accordion, Button, Card, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { getWords } from "../../utils/api/api";
+import { addWordToHard, deleteWord, getWords } from "../../utils/api/api";
 import Cards from "../Card/Card";
 
 import "./WordsList.scss";
@@ -9,6 +9,7 @@ import "./WordsList.scss";
 export default function WordsList({ incomingWords, difficulty, page }) {
   const { translations, buttons } = useSelector((state) => state.settings);
   const [words, setWords] = useState(incomingWords);
+  const { user } = useSelector((state) => state);
 
   useEffect(() => {
     if (!incomingWords) {
@@ -27,7 +28,11 @@ export default function WordsList({ incomingWords, difficulty, page }) {
         {words &&
           words.map((el, i) => {
             return (
-              <Card key={i} className="card-collapsed" bg={(el.userWord && el.userWord.difficulty !== "normal") ? "danger" : "light"}>
+              <Card
+                key={i}
+                className="card-collapsed"
+                bg={el.userWord && el.userWord.difficulty !== "normal" ? "danger" : "light"}
+              >
                 <Accordion.Toggle as={Card.Header} eventKey={i + 1} className="wordlist-item">
                   <p>{el.word}</p>
                   <p>{el.transcription}</p>
@@ -36,10 +41,20 @@ export default function WordsList({ incomingWords, difficulty, page }) {
                 <Accordion.Collapse eventKey={i + 1}>
                   <div className="content">
                     <Card.Body>{Cards(el)}</Card.Body>
-                    {buttons && (
+                    {buttons && user && (
                       <div className="buttons-wrapper">
-                        <Button className="button-action">Добавить в раздел "Сложные слова"</Button>
-                        <Button className="button-action">Удалить</Button>
+                        <Button
+                          onClick={() => addWordToHard(user.userId, el.id)}
+                          className="button-action"
+                        >
+                          Добавить в раздел "Сложные слова"
+                        </Button>
+                        <Button
+                          className="button-action"
+                          onClick={() => deleteWord(user.userId, el.id)}
+                        >
+                          Удалить
+                        </Button>
                       </div>
                     )}
                   </div>

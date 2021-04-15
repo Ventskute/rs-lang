@@ -38,7 +38,6 @@ const GroupSeparator = ({ words, WordsListImplementation }) => {
   const wordsList = words.slice((activePage - 1) * 20, activePage * 20);
   return (
     <>
-      {console.log(wordsList)}
       {WordsListImplementation ? (
         <WordsListImplementation incomingWords={wordsList} />
       ) : (

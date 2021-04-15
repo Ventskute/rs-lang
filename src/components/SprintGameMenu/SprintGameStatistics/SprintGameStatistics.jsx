@@ -1,10 +1,10 @@
-import React from 'react';
-import './SprintGameStatistics.scss';
-import { useSelector } from 'react-redux';
+import React from "react";
+import "./SprintGameStatistics.scss";
+import { useSelector } from "react-redux";
 
 function SprintGameStatistics({ setSprintState, sprintState }) {
   const { sprintTruelyAnswers, sprintFalsyAnswers, sprintPoints } = useSelector(
-    (state) => state.sprintGameStats,
+    (state) => state.sprintGameStats
   );
 
   const restartGameHandler = () => {
@@ -44,12 +44,14 @@ function SprintGameStatistics({ setSprintState, sprintState }) {
       <div className="spring-game-statistics__buttons">
         <button
           className="spring-game-statistics__buttons_restart-game button"
-          onClick={restartGameHandler}>
+          onClick={restartGameHandler}
+        >
           Новая игра
         </button>
         <button
           className="spring-game-statistics__buttons_get-back button"
-          onClick={() => alert('прикрутить выход из игры')}>
+          onClick={() => alert("прикрутить выход из игры")}
+        >
           Выход
         </button>
       </div>

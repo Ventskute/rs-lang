@@ -1,9 +1,9 @@
-import React from 'react';
-import './SprintGameMenu.scss';
-import { checkInputForm } from '../../utils/games/sprint';
-import SprintGame from './SprintGame/SprintGame';
-import SprintGameStatistics from './SprintGameStatistics/SprintGameStatistics';
-import video from '../../assets/images/background-video6.mp4';
+import React from "react";
+import "./SprintGameMenu.scss";
+import { checkInputForm } from "../../utils/games/sprint";
+import SprintGame from "./SprintGame/SprintGame";
+import SprintGameStatistics from "./SprintGameStatistics/SprintGameStatistics";
+import video from "../../assets/images/background-video6.mp4";
 
 function SprintGameMenu({ words = [], group = 1, page = 1 }) {
   const [sprintState, setSprintState] = React.useState({
@@ -45,12 +45,12 @@ function SprintGameMenu({ words = [], group = 1, page = 1 }) {
               <h1 className="sprint-game__menu_title">Игра Спринт</h1>
               <p className="sprint-game__menu_subtitle">
                 {!words.length
-                  ? 'Выберите уровень сложности (1-6) и страницу слов (1-30)'
-                  : 'Игра начнется с выбранным списком слов со страницы словаря'}
+                  ? "Выберите уровень сложности (1-6) и страницу слов (1-30)"
+                  : "Игра начнется с выбранным списком слов со страницы словаря"}
               </p>
               <h3>Правила игры : </h3>
               <p className="sprint-game__menu_subtitle">
-                {' '}
+                {" "}
                 В игре необходимо ответить, верен ли перевод слова на русский язык.
               </p>
 
@@ -74,7 +74,7 @@ function SprintGameMenu({ words = [], group = 1, page = 1 }) {
                   />
                 </div>
               ) : (
-                ''
+                ""
               )}
               <div className="sprint-game__menu_buttons">
                 <button className="button-start-total button" onClick={startGameHandler}>
@@ -82,7 +82,8 @@ function SprintGameMenu({ words = [], group = 1, page = 1 }) {
                 </button>
                 <button
                   className="button-start-learned button"
-                  onClick={() => alert('прикрутить выход в предыдущее меню')}>
+                  onClick={() => alert("прикрутить выход в предыдущее меню")}
+                >
                   Назад
                 </button>
               </div>

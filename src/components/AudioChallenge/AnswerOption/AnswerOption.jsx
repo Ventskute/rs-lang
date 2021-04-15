@@ -21,7 +21,6 @@ const AnswerOption = ({ word, handleAns, i, userAnswer, answer }) => {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      console.log("key down");
       if (Number(e.key) === index) {
         e.preventDefault();
         handleAns(word);

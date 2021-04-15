@@ -2,7 +2,7 @@ export const pointsLogic = (
   randomTranslationWordIndex,
   currentWordIndex,
   boolean,
-  pointsStrick,
+  pointsStrick
 ) => {
   let plusPoints = 0;
   let strick = pointsStrick;
@@ -37,24 +37,23 @@ export const getTruelyTranslationIndex = (currentWordIndex) => {
 };
 
 export const getCurrentWord = (words, isWordTranslate, index) => {
-  console.log(words[index]);
-  const currentWord = words[index][isWordTranslate] ? words[index][isWordTranslate] : '';
+  const currentWord = words[index][isWordTranslate] ? words[index][isWordTranslate] : "";
   return currentWord;
 };
 
 export function checkInputForm(state) {
   const errors = {};
-  if (state.levelSettings === '0') {
-    errors.levels = 'Please, choose level 1-6';
+  if (state.levelSettings === "0") {
+    errors.levels = "Please, choose level 1-6";
   }
-  if (state.pageSettings === '0') {
-    errors.pages = 'Please, choose level 1-30';
+  if (state.pageSettings === "0") {
+    errors.pages = "Please, choose level 1-30";
   }
   if (state.levelSettings > 6) {
-    errors.levels = 'Oh, sorry, we have only 6 levels';
+    errors.levels = "Oh, sorry, we have only 6 levels";
   }
   if (state.pageSettings > 30) {
-    errors.pages = 'Oh, sorry, we have only 30 pages';
+    errors.pages = "Oh, sorry, we have only 30 pages";
   }
 
   return {

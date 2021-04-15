@@ -102,7 +102,6 @@ function PaginationWordList({ state, setState }, props) {
     };
 
     setState({ currentPage });
-    console.log(state.currentPage);
   };
 
   const handleClick = (page) => (evt) => {

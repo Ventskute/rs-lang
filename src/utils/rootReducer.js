@@ -1,4 +1,4 @@
-import actions from './actions';
+import actions from "./actions";
 
 const getData = (key, initialValue) => {
   const data = localStorage.getItem(key);
@@ -24,11 +24,11 @@ export const initialState = {
     sprintPoints: 0,
     maxPointsStrick: 0,
   },
-  locale: getData('lang', 'ru_RU'),
+  locale: getData("lang", "ru_RU"),
   dict: {},
-  user: getData('user', null),
-  darkTheme: getData('darkTheme', false),
-  searchValue: '',
+  user: getData("user", null),
+  darkTheme: getData("darkTheme", false),
+  searchValue: "",
   authForm: {
     isFormOpen: false,
     isSignup: true,
@@ -42,14 +42,14 @@ export const initialState = {
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case actions.CHANGE_THEME: {
-      localStorage.setItem('darkTheme', action.payload);
+      localStorage.setItem("darkTheme", action.payload);
       return {
         ...state,
         darkTheme: action.payload,
       };
     }
     case actions.SET_LOCALE: {
-      localStorage.setItem('lang', action.payload);
+      localStorage.setItem("lang", action.payload);
       return {
         ...state,
         locale: action.payload,
