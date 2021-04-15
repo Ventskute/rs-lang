@@ -75,7 +75,6 @@ export default function Fillwords({ difficulty = 0 }) {
       setMatrix(a);
     }
 
-    console.log(selected);
     return selected;
   };
 
@@ -217,9 +216,16 @@ export default function Fillwords({ difficulty = 0 }) {
                 ));
               })}
           </div>
-          <Button onClick={() => handleHelpButton()} disabled={isWin} className="button-hint">
-            Подсказка
-          </Button>
+          { !isWin &&
+            <Button onClick={() => handleHelpButton()} className="button-hint">
+              Подсказка
+            </Button>
+          }
+          { isWin &&
+            <Button onClick={() => window.location.reload()} className="button-hint">
+              Начать заново
+            </Button>
+          }
           <div className="found-cards-wrapper">
             {foundWords.map((el, i) => (
               <Card {...el} key={i}></Card>

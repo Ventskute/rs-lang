@@ -12,7 +12,7 @@ export default function sprintReducer(state = initialState, action) {
         ...state,
         truelyAnswers: action.payload.truely,
         falsyAnswers: action.payload.falsy,
-        sprintPoints: action.payload.points
+        sprintPoints: action.payload.points,
       };
     }
     default:

@@ -1,16 +1,17 @@
-import React from 'react';
-import classNames from 'classnames';
-import './SprintGame.scss';
-import SprintTimer from '../SprintTimer/SprintTimer';
-import { useDispatch } from 'react-redux';
-import audioCorrect from '../../../assets/audio/correctAnswer.mp3';
-import audioWrong from '../../../assets/audio/WrongAnswer.mp3';
+import React, { useEffect, useState } from "react";
+import classNames from "classnames";
+import "./SprintGame.scss";
+import SprintTimer from "../SprintTimer/SprintTimer";
+import { useDispatch, useSelector } from "react-redux";
+import audioCorrect from "../../../assets/audio/correctAnswer.mp3";
+import audioWrong from "../../../assets/audio/WrongAnswer.mp3";
 import {
   pointsLogic,
   getRandomTranslationWordIndex,
   getTruelyTranslationIndex,
-} from '../../../utils/games/sprint';
-import { getWords } from '../../../utils/api';
+} from "../../../utils/games/sprint";
+import { getWords } from "../../../utils/api";
+import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../../utils/api/api";
 
 function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
   const [answerAnimation, setAnswerAnimation] = React.useState(null);
@@ -23,6 +24,9 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
     pointsStrick: 0,
     maxPointsStrick: 0,
   });
+  const [winStreak, setWinStreak] = useState(0);
+  const [finalWinStreak, setFinalWinStreak] = useState(0);
+  const { user } = useSelector((state) => state);
   const audiosArr = [new Audio(audioCorrect), new Audio(audioWrong)];
   const dispatch = useDispatch();
   const {
@@ -36,7 +40,7 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
   const buttonsArr = [true, false];
 
   const strickClass = classNames({
-    'strick-block__strick-point': true,
+    "strick-block__strick-point": true,
     x2Strick: pointsStrick >= 3,
     x3Strick: pointsStrick >= 6,
     x4Strick: pointsStrick >= 9,
@@ -47,13 +51,13 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
     (words && words.length - 1 <= currentWordIndex) ||
       (!dictionaryWords.length &&
         getWords(levelSettings - 1, pageSettings - 1).then((words) =>
-          setSprintGameState({ ...sprintGameState, words: words }),
+          setSprintGameState({ ...sprintGameState, words: words })
         ));
   }, [pageSettings]);
 
-  React.useEffect(() => {
-    setAnswersStore();
-  }, [sprintState]);
+  // React.useEffect(() => {
+  //   setAnswersStore();
+  // }, [sprintState]);
 
   React.useEffect(() => {
     if (answerAnimation) {
@@ -69,10 +73,10 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
   }, [answerAnimation]);
 
   React.useEffect(() => {
-    window.addEventListener('keydown', handleUserKeyPress);
+    window.addEventListener("keydown", handleUserKeyPress);
 
     return () => {
-      window.removeEventListener('keydown', handleUserKeyPress);
+      window.removeEventListener("keydown", handleUserKeyPress);
     };
   }, []);
 
@@ -81,11 +85,11 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
       var wordElement = document.querySelectorAll(`[data-key='${key}']`)[0];
       if (wordElement) {
         wordElement.dispatchEvent(
-          new MouseEvent('click', {
+          new MouseEvent("click", {
             view: window,
             bubbles: true,
             cancelable: true,
-          }),
+          })
         );
       }
     }
@@ -93,7 +97,7 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
 
   const setAnswersStore = () => {
     dispatch({
-      type: 'SET_SPRINT_ANSWERS',
+      type: "SET_SPRINT_ANSWERS",
       payload: {
         falsy: falsyAnswers,
         truely: truelyAnswers,
@@ -127,6 +131,20 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
         points[1] < 3 ? 10 : points[1] < 6 ? 20 : points[1] < 9 ? 30 : points[1] < 12 ? 40 : 50,
     });
 
+    if (user) {
+      if (points[0]) {
+        setWinStreak((streak) => streak + 1);
+        submitRightAnswer(user.userId, words[currentWordIndex].id);
+      }
+      if (!points[0]) {
+        setFinalWinStreak((finalStreak) => {
+          const streak = winStreak > finalStreak ? winStreak : finalStreak;
+          setWinStreak(0);
+          return streak;
+        });
+        submitWrongAnswer(user.userId, words[currentWordIndex].id);
+      }
+    }
     setSprintState({
       ...sprintState,
       currPoints: sprintState.currPoints + (points[0] * sprintGameState.pointsPerWord) / 10,
@@ -148,15 +166,32 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
     setAnswerAnimation(points[0] == 10 ? true : false);
   };
 
+  useEffect(() => {
+    setAnswersStore();
+    if (sprintState.isTimeOver) {
+      user &&
+        submitGameResult(
+          user.userId,
+          "sprint",
+          finalWinStreak,
+          sprintState.truelyAnswers.length,
+          sprintState.falsyAnswers.length
+        );
+      setSprintState((state) => {
+        return { ...state, startGameTotal: false };
+      });
+    }
+  }, [sprintState]);
+
   return (
     <div className="sprint-game">
       {answerAnimation === null ? (
-        ''
+        ""
       ) : (
         <div className="result">
-          {' '}
-          <div className="result-response" style={{ color: answerAnimation ? 'green' : 'red' }}>
-            {answerAnimation ? 'True' : 'False'}
+          {" "}
+          <div className="result-response" style={{ color: answerAnimation ? "green" : "red" }}>
+            {answerAnimation ? "True" : "False"}
           </div>
         </div>
       )}
@@ -188,7 +223,8 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
             name={`${el}`}
             key={i}
             onClick={() => onClickAnswer(el)}
-            data-key={i + 1}>
+            data-key={i + 1}
+          >
             {`${i + 1}. ${el}`}
           </button>
         ))}

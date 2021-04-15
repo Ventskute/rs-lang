@@ -65,9 +65,7 @@ export default function ShortStatistics() {
     ],
   });
   const [totalWordsCount, setTotalWordsCount] = useState(0);
-  const [totalPercentCorrectAnswers, setTotalPercentCorrectAnswers] = useState(
-    0
-  );
+  const [totalPercentCorrectAnswers, setTotalPercentCorrectAnswers] = useState(0);
 
   useEffect(() => {
     getShortTermStats(user.userId).then((data) => {
@@ -174,7 +172,7 @@ export default function ShortStatistics() {
 
   function percentCorrectAnswers(right, wrong) {
     let sum = right + wrong;
-    let percent = right / (sum * 100);
+    let percent = right / sum * 100;
     let roundPercent = Math.round(percent * 1000) / 1000;
     return roundPercent;
   }
@@ -187,7 +185,7 @@ export default function ShortStatistics() {
         </Alert.Heading>
         <hr />
         <Alert.Heading>
-          % правильных ответов: {totalPercentCorrectAnswers}
+          Правильных ответов: {totalPercentCorrectAnswers}%
         </Alert.Heading>
       </Alert>
       <div className="countWord ">
