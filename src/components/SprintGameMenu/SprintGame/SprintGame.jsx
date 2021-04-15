@@ -145,6 +145,7 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
         submitWrongAnswer(user.userId, words[currentWordIndex].id);
       }
     }
+
     setSprintState({
       ...sprintState,
       currPoints: sprintState.currPoints + (points[0] * sprintGameState.pointsPerWord) / 10,

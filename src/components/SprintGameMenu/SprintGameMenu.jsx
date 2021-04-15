@@ -22,6 +22,7 @@ function SprintGameMenu({ words = [], group = 1, page = 1 }) {
 
   const changeSettingsHandler = (e) => {
     const { name, value } = e.target;
+
     setSprintState({ ...sprintState, [name]: Number(value) });
   };
 
