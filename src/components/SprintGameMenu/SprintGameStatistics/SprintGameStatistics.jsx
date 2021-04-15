@@ -8,7 +8,6 @@ function SprintGameStatistics({ setSprintState, sprintState }) {
   );
 
   const restartGameHandler = () => {
-    console.log(sprintState.truelyAnswers, sprintState.falsyAnswers, "sgs restartGameHandler 11");
     setSprintState({ ...sprintState, isTimeOver: false, settingsMenu: true });
   };
 
