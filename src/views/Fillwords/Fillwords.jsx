@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import { getStaticURL, getWords } from "../../utils/api";
+import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../utils/api/api";
 import { Filler } from "../../utils/fillWords";
 
 import "./Fillwords.scss";
 
 export default function Fillwords({ difficulty = 0 }) {
+  const { user } = useSelector((state) => state);
   const [words, setWords] = useState([]);
   const [matrix, setMatrix] = useState(null);
   const [colour, setColour] = useState(null);
@@ -15,6 +18,9 @@ export default function Fillwords({ difficulty = 0 }) {
   const [isWin, setIsWin] = useState(false);
   const [foundWords, setFoundWords] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [wrongAnswers, setWrongAnswers] = useState([]);
+  const [winStreak, setWinStreak] = useState(0);
+  const [finalWinStreak, setFinalWinStreak] = useState(0);
 
   const size = 5 + difficulty;
 
@@ -46,26 +52,30 @@ export default function Fillwords({ difficulty = 0 }) {
             error++;
             break;
           } else {
-            help++
+            help++;
           }
         }
       }
 
       if (error > 50) {
-        console.error('ERROR')
+        console.error("ERROR");
         break;
       }
     }
 
-    const a =  Filler.FillField(selected.map((el) => el.word), size, size * size);
+    const a = Filler.FillField(
+      selected.map((el) => el.word),
+      size,
+      size * size
+    );
 
-    if (a.some(row => row.includes(null))) {
-      selected = findWords(array.sort(() => 0.5 - Math.random()))
+    if (a.some((row) => row.includes(null))) {
+      selected = findWords(array.sort(() => 0.5 - Math.random()));
     } else {
-      setMatrix(a)
+      setMatrix(a);
     }
 
-    console.log(selected)
+    console.log(selected);
     return selected;
   };
 
@@ -77,101 +87,147 @@ export default function Fillwords({ difficulty = 0 }) {
 
   useEffect(() => {
     selection.forEach((el) => {
-      if (!el.classList.contains('found')) {
+      if (!el.classList.contains("found")) {
         el.style.backgroundColor = colour;
       }
     });
   }, [selection]);
 
   const handleMouseDown = (e) => {
-    setMouseDown(true)
-    if (!e.target.classList.contains('found')) {
-      setColour('#' + (Math.random().toString(16) + '000000').substring(2,8).toUpperCase());
-      setSelection(state => [...state, e.target]);
+    setMouseDown(true);
+    if (!e.target.classList.contains("found")) {
+      setColour("#" + (Math.random().toString(16) + "000000").substring(2, 8).toUpperCase());
+      setSelection((state) => [...state, e.target]);
     }
-  }
+  };
 
   const handleMouseEnter = (e) => {
-    if (mouseDown && !e.target.classList.contains('found')) {
-      setSelection(state => [...state, e.target]);
+    if (mouseDown && !e.target.classList.contains("found")) {
+      setSelection((state) => [...state, e.target]);
     }
-  }
+  };
 
   const buildWord = () => {
-    return selection.map((el) => el.textContent).join('')
-  }
+    return selection.map((el) => el.textContent).join("");
+  };
 
   const ModalWarn = (props) => {
     return (
-      <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
+      <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Внимание!
-          </Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">Внимание!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>
-            Такое слово есть. Попробуйте составить его иначе.
-          </p>
+          <p>Такое слово есть. Попробуйте составить его иначе.</p>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Закрыть</Button>
         </Modal.Footer>
       </Modal>
     );
-  }
+  };
 
   const handleMouseUp = () => {
-    if (words.some(el => el.word === buildWord()) &&
-        selection.every(el => el.dataset.word === selection[0].dataset.word)) {
-      selection.forEach((el) => el.classList.add('found'));
-      setFoundWords([words.find(el => el.word === buildWord()), ...foundWords]);
-    } else if(words.some(el => el.word === buildWord()) &&
-      !selection.every(el => el.dataset.word === selection[0].dataset.word)) {
-        console.log('Составьте слово иначе')
-        selection.forEach((el) => el.style.backgroundColor = '')
-        setShowModal(true);
+    if (
+      words.some((el) => el.word === buildWord()) &&
+      selection.every((el) => el.dataset.word === selection[0].dataset.word)
+    ) {
+      selection.forEach((el) => el.classList.add("found"));
+      const foundWord = words.find((el) => el.word === buildWord());
+      setFoundWords([foundWord, ...foundWords]);
+      setWinStreak((winStreak) => winStreak + 1);
+      // user&&submitRightAnswer(user.userId, foundWord.id)
+    } else if (
+      words.some((el) => el.word === buildWord()) &&
+      !selection.every((el) => el.dataset.word === selection[0].dataset.word)
+    ) {
+      console.log("Составьте слово иначе");
+      selection.forEach((el) => (el.style.backgroundColor = ""));
+      setShowModal(true);
     } else {
-      selection.forEach((el) => el.style.backgroundColor = '')
+      selection.forEach((el) => (el.style.backgroundColor = ""));
     }
     setMouseDown(false);
     setSelection([]);
-    if (Array.from(document.querySelectorAll('.word-card')).every(el => el.classList.contains('found'))&&!isWin){
+    if (
+      Array.from(document.querySelectorAll(".word-card")).every((el) =>
+        el.classList.contains("found")
+      ) &&
+      !isWin
+    ) {
+      user &&
+        submitGameResult(
+          user.userId,
+          "fillWords",
+          finalWinStreak,
+          foundWords.length - wrongAnswers.length,
+          wrongAnswers.length
+        );
       setIsWin(true);
     }
-  }
+  };
 
   const playAudio = (audio) => {
     new Audio(getStaticURL(audio)).play();
-  }
+  };
 
-  return (<>
-    <div className="game game-fillwords">
-      <Container className='description'>
-        <h1>Филворды</h1>
-        <p>Ищите слова в поле. Нажмите на квадрат, перетягивайте мышку от буквы к букве. По диагонали составить слово нельзя.</p>
-      </Container>
-      <Container>
-        <div className="game-field" style={{gridTemplate: `repeat(${size}, 50px) / repeat(${size}, 50px)`}} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}>
-          {matrix && matrix.map((el) => {
-            return el.map((letter, i) => (
-              <div className="word-card" key={i} data-word={letter[1]} onMouseEnter={handleMouseEnter}>{letter[0]}</div>
+  const handleHelpButton = () => {
+    const helpWord = words.find((el) => !foundWords.includes(el));
+    playAudio(helpWord.audio);
+    user && submitWrongAnswer(user.userId, helpWord.id);
+    setFinalWinStreak((finalWinStreak) => {
+      const streak = winStreak > finalWinStreak ? winStreak : finalWinStreak;
+      setWinStreak(0);
+      return streak;
+    });
+    if (!wrongAnswers.find((wrongAns) => wrongAns.id === helpWord.id)) {
+      setWrongAnswers([...wrongAnswers, helpWord]);
+    }
+  };
+
+  return (
+    <>
+      <div className="game game-fillwords">
+        <Container className="description">
+          <h1>Филворды</h1>
+          <p>
+            Ищите слова в поле. Нажмите на квадрат, перетягивайте мышку от буквы к букве. По
+            диагонали составить слово нельзя.
+          </p>
+        </Container>
+        <Container>
+          <div
+            className="game-field"
+            style={{ gridTemplate: `repeat(${size}, 50px) / repeat(${size}, 50px)` }}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            {matrix &&
+              matrix.map((el) => {
+                return el.map((letter, i) => (
+                  <div
+                    className="word-card"
+                    key={i}
+                    data-word={letter[1]}
+                    onMouseEnter={handleMouseEnter}
+                  >
+                    {letter[0]}
+                  </div>
+                ));
+              })}
+          </div>
+          <Button onClick={() => handleHelpButton()} disabled={isWin} className="button-hint">
+            Подсказка
+          </Button>
+          <div className="found-cards-wrapper">
+            {foundWords.map((el, i) => (
+              <Card {...el} key={i}></Card>
             ))}
-          )}
-        </div>
-        <Button onClick={() => playAudio(words.find((el) => !foundWords.includes(el)).audio)} disabled={isWin} className='button-hint'>
-          Подсказка
-        </Button>
-        <div className="found-cards-wrapper">
-          {foundWords.map((el,i) => <Card {...el} key={i}></Card>)}
-        </div>
-      </Container>
-    </div>
-    <ModalWarn show={showModal} onHide={() => setShowModal(false)}/>
-  </>);
+          </div>
+        </Container>
+      </div>
+      <ModalWarn show={showModal} onHide={() => setShowModal(false)} />
+    </>
+  );
 }
