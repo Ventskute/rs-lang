@@ -27,8 +27,6 @@ export default function App() {
   const store = createStore(rootReducer, composeWithDevTools());
   const history = useHistory();
 
-  useEffect(() => {
-  }, [])
   const path = localStorage.getItem('page');
   if (history.location.pathname === '/') {
     path && history.replace(path);
