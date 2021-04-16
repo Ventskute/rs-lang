@@ -26,27 +26,11 @@ export const setActualWords = async (
     }
   }
 
-  // if (ansOptions > 1) {
-  // const wordsWithoutFakeTranslates = fetchedWords.slice(0, wordsNum);
-  // const wordsWithFakeTranslates = wordsWithoutFakeTranslates.map((word, i) => {
-  //   const start = wordsNum + i * (ansOptions - 1);
-  //   const end = start + ansOptions - 1;
-  //   word.fakeTranslates = fetchedWords.slice(start, end).map((word) => word.wordTranslate);
-  //   return word;
-  // });
-
   const fetchedAnswers = await Promise.all(promiseAnswers);
 
   const wordsWithAnsOptions = fetchedWords.map((word, i) => {
     const start = i * ansOptions;
     const end = start + ansOptions;
-    // console.log("fetchedData", fetchedWords);
-    // console.log("fetchedAnswers", fetchedAnswers);
-    // console.log("start", start, "end", end);
-    // console.log(
-    //   "fakeTranslates",
-    //   fetchedAnswers.slice(start, end).map((word) => word.wordTranslate)
-    // );
 
     const fakeTranslates = [];
 
@@ -54,13 +38,9 @@ export const setActualWords = async (
       fakeTranslates.push(fetchedAnswers[k][i].wordTranslate);
     }
 
-    // word.fakeTranslates = fetchedAnswers.slice(start, end).map((word) => word.wordTranslate);
     word.fakeTranslates = fakeTranslates;
     return word;
   });
 
-  // setWords(wordsWithFakeTranslates);
-  // } else {
   setWords(wordsWithAnsOptions);
-  // }
 };
