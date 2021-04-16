@@ -6,21 +6,22 @@ const GameStats = ({ rightAnswers, wrongAnswers, rightAnswersStreak }) => {
     <div className="game-stats">
       <div className="game-stats_words">
         <div className="game-stats_words-column">
-          <p>right answers</p>
-          {rightAnswers.map((answer, i) => (
-            <div key={i}>{answer.word}</div>
-          ))}
+          <p>Правильные ответы:</p>
+          <ul>
+            {rightAnswers.map((answer, i) => (
+              <li key={i}>{answer.word}</li>
+            ))}
+          </ul>
         </div>
         <div className="game-stats_words-column">
-          <p>wrong answers</p>
+          <p>Неправильные ответы:</p>
           {wrongAnswers.map((answer, i) => (
             <div key={i}>{answer.word}</div>
           ))}
         </div>
       </div>
       <div className="game-stats_streak">
-        <p>right answers streak</p>
-        {rightAnswersStreak}
+        <p>Наибольшая серия правильных ответов: <span>{rightAnswersStreak}</span></p>
       </div>
     </div>
   );

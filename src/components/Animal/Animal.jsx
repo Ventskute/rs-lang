@@ -12,20 +12,21 @@ import Giraffe5 from "../../assets/images/animal/animal5.png";
 import Giraffe6 from "../../assets/images/animal/animal6.png";
 
 const phrases = {
-  one: "Помоги мне подрасти!",
-  two: "Спасибо! Я подрос!",
+  one: ["Помоги мне подрасти!", "Я ещё слишком мал", "Я буду расти вместе с тобой!"],
+  two: ["Спасибо! Я подрос!", "Ух ты, я стал больше!", "Спасибо! Теперь у меня очень длинная шея!"],
 };
+
+const rand = (arr) => arr[Math.round(Math.random() * (arr.length - 1))];
 
 export default function Animal() {
   const { user } = useSelector((state) => state);
-  const [sizeGiraffe, setSizeGiraffe] = useState(phrases.one);
+  const [sizeGiraffe, setSizeGiraffe] = useState(rand(phrases.one));
   const [growthStageGiraffe, setGrowthStageGiraffe] = useState(Giraffe1);
   const [widthGiraffe, setWidthGiraffe] = useState(44);
   const [heightGiraffe, setHeightGiraffe] = useState(80);
 
   useEffect(() => {
     getLongTermStats(user.userId).then((data) => {
-      console.log(data.length);
       if (data.length > 30) {
         setGrowthStageGiraffe(Giraffe2);
       }
@@ -53,7 +54,7 @@ export default function Animal() {
       setHeightGiraffe(heightGiraffe + size);
 
       if (size > 0) {
-        setSizeGiraffe(phrases.two);
+        setSizeGiraffe(rand(phrases.two));
       }
     });
   }, []);

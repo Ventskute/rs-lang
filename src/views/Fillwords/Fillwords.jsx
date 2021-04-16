@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import Card from "../../components/Card/Card";
 import Difficulty from "../../components/Difficulty/Difficulty";
+import FullScreenButton from "../../components/FullScreenButton/FullScreenButton";
 import GameStats from "../../components/GameStats/GameStats";
 import { getStaticURL, getWords } from "../../utils/api";
 import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../utils/api/api";
@@ -27,7 +28,7 @@ export default function Fillwords() {
   const [finalWinStreak, setFinalWinStreak] = useState(0);
   const { group, page = 0 } = useParams();
   const [difficulty, setDifficulty] = useState(group && +group);
-  const size = 5 + difficulty;
+  const size = 2 + Math.ceil((difficulty + 1) / 2);
 
   const isDifficulty = () => typeof difficulty === "number";
 
@@ -64,7 +65,7 @@ export default function Fillwords() {
         }
       }
 
-      if (error > 50) {
+      if (error > 20) {
         console.error("ERROR");
         break;
       }
@@ -81,6 +82,7 @@ export default function Fillwords() {
     } else {
       setMatrix(a);
     }
+    console.log(selected)
     return selected;
   };
 
@@ -169,10 +171,15 @@ export default function Fillwords() {
         submitGameResult(
           user.userId,
           "fillWords",
-          finalWinStreak,
+          (winStreak > finalWinStreak) ? winStreak : finalWinStreak,
           foundWords.length - wrongAnswers.length,
           wrongAnswers.length
         );
+      setFinalWinStreak((finalWinStreak) => {
+        const streak = winStreak > finalWinStreak ? winStreak : finalWinStreak;
+        setWinStreak(0);
+        return streak;
+      });
       setIsWin(true);
     }
   };
@@ -258,8 +265,9 @@ export default function Fillwords() {
             </div>
           </Container>
         )}
-      </div>
+      <FullScreenButton />
       <ModalWarn show={showModal} onHide={() => setShowModal(false)} />
+      </div>
     </>
   );
 }

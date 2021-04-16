@@ -5,11 +5,12 @@ import Card from "../Card/Card";
 
 import "./AudioChallenge.scss";
 import { Button } from 'react-bootstrap';
+import FullScreenButton from "../FullScreenButton/FullScreenButton";
 
 const AudioChallenge = ({ handleAns, gameState, goNextWord, play }) => {
   const idkBtn = (
-    <Button 
-      variant="primary" 
+    <Button
+      variant="primary"
       onClick={() => handleAns("answer, that can't be right)))) nice crutch")}
     >
       Не знаю
@@ -60,7 +61,6 @@ const AudioChallenge = ({ handleAns, gameState, goNextWord, play }) => {
 
   return (
     <>
-      <Header />
       <div className="game game-audio">
         {!gameState.userAnswer && speakerBtn("speaker-btn")}
         <div className="answers">
@@ -78,6 +78,7 @@ const AudioChallenge = ({ handleAns, gameState, goNextWord, play }) => {
         {gameState.userAnswer ? nextBtn : idkBtn}
         {gameState.userAnswer && rightAnswer}
       </div>
+      <FullScreenButton />
     </>
   );
 };

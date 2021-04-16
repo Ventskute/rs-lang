@@ -25,6 +25,7 @@ body {
 }
 
 .game {
+  background-color: $color-bg;
   position: relative;
   min-height: 100vh;
 }
@@ -55,11 +56,11 @@ body {
   background-color: transparent;
   color: $color-accent;
   font-size: 20px;
+  border-color: $color-accent !important;
 
-  .active & {
+  .page-item.active & {
     background-color: $color-bg-card !important;
     color: $color-text-dark !important;
-    border-color: $color-accent !important;
   }
 }
 
