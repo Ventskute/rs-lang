@@ -83,12 +83,6 @@ function SprintGameMenu() {
                 <button className="button-start-total button" onClick={startGameHandler}>
                   Начать игру
                 </button>
-                <button
-                  className="button-start-learned button"
-                  onClick={() => alert("прикрутить выход в предыдущее меню")}
-                >
-                  Назад
-                </button>
               </div>
             </div>
           )}
