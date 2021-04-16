@@ -187,11 +187,9 @@ export default function Savanna() {
   return (
     <div className="savanna" ref={refToGameRoot}>
       {!difficultyLevel && <Difficulty setDifficulty={setDifficulty} />}
-      {difficultyLevel && <>
-        livesCounter
-        gameField
-        <Drop dropSize={dropSize} />
-      </>}
+      {difficultyLevel && livesCounter}
+      {difficultyLevel && gameField}
+      {difficultyLevel && <Drop dropSize={dropSize} />}
     </div>
   );
 }
