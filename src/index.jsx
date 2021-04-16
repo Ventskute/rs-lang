@@ -41,26 +41,24 @@ export default function App() {
   return (
     <Provider store={store}>
       <UserUpdater>
-        <Router>
-          <Menu />
-          <Switch>
-            <Route path="/savannaMenu" exact component={SavannaMenu} />
-            <Route path="/savanna" exact component={Savanna} />
-            <Route path="/savanna/:group/:page" exact component={Savanna} />
-            <Route path="/sprint/:group/:page" component={SprintGameMenu} />
-            <Route path="/sprint" component={SprintGameMenu} />
-            <Route path="/" exact component={Main} />
-            <Route path="/fillwords/:group/:page" component={Fillwords} />
-            <Route path="/fillwords" component={Fillwords} />
-            <Route path="/textbook" exact component={Textbook} />
-            <Route path="/wordslist" component={WordsList} />
-            <Route path="/audioChallenge/:group/:page" component={AudioChallengeContainer} />
-            <Route path="/audioChallenge" component={AudioChallengeContainer} />
-            <Route path="/team" component={Team} />
-            <Route path="/statistics" component={Statistics} />
-            <Route path="/dictionary" component={Dictionary} />
-          </Switch>
-        </Router>
+        <Menu />
+        <Switch>
+          <Route path="/savannaMenu" exact component={SavannaMenu} />
+          <Route path="/savanna" exact component={Savanna} />
+          <Route path="/savanna/:group/:page" exact component={Savanna} />
+          <Route path="/sprint/:group/:page" component={SprintGameMenu} />
+          <Route path="/sprint" component={SprintGameMenu} />
+          <Route path="/" exact component={Main} />
+          <Route path="/fillwords/:group/:page" component={Fillwords} />
+          <Route path="/fillwords" component={Fillwords} />
+          <Route path="/textbook" exact component={Textbook} />
+          <Route path="/wordslist" component={WordsList} />
+          <Route path="/audioChallenge/:group/:page" component={AudioChallengeContainer} />
+          <Route path="/audioChallenge" component={AudioChallengeContainer} />
+          <Route path="/team" component={Team} />
+          <Route path="/statistics" component={Statistics} />
+          <Route path="/dictionary" component={Dictionary} />
+        </Switch>
       </UserUpdater>
     </Provider>
   );
