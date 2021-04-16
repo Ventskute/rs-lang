@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Accordion, Button, Card, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { addWordToHard, deleteWord, getWords } from "../../utils/api/api";
+import { addWordToHard, deleteWord, getAggregatedWords, getWords } from "../../utils/api/api";
 import Cards from "../Card/Card";
 
 import "./WordsList.scss";
@@ -16,8 +16,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
       getWords(difficulty, page).then((arr) => {
         setWords(arr);
       });
-    }
-    if (incomingWords) {
+    } else {
       setWords(incomingWords);
     }
   }, [difficulty, page, incomingWords]);
@@ -27,6 +26,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
       <Accordion>
         {words &&
           words.map((el, i) => {
+            el.word === "alcohol" && console.log(el)
             return (
               <Card
                 key={i}

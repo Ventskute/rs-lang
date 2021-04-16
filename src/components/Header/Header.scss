@@ -7,6 +7,10 @@ header {
   background-color: $color-text-light;
   padding: 10px 0;
 
+  @media screen and (max-width: 768px) {
+    padding-left: 100px;
+  }
+
   .container {
     display: flex;
     justify-content: space-between;

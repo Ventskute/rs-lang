@@ -15,7 +15,16 @@
   &-content {
     padding-top: 20px;
   }
-  
+
+  .dict-link {
+    float: right;
+    margin-left: 10px;
+
+    &--button {
+      height: 66px;
+    }
+  }
+
   .sections {
     &__content {
       display: flex;
@@ -35,7 +44,7 @@
     a {
       font-size: 20px;
     }
-  
+
     .nav-link.active {
       background-color: $color-bg-card !important;
       border-color: $color-accent !important;
