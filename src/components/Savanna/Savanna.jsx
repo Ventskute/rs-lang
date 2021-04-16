@@ -40,9 +40,10 @@ export default function Savanna() {
     return randomWords.length == 0 && rightAnswers.length + wrongAnswers.length == words.length;
   }
 
+  console.log(words);
+
   function nextWord(words) {
     clearInterval(interval);
-
     if (!isGameOver() || (isGameOver() && isExactPage())) {
       setWordPosition(0);
       let word;
@@ -92,31 +93,35 @@ export default function Savanna() {
     }
   }, []);
 
+  const isWords = () => Boolean(words[0]);
   useEffect(() => {
-    getWords(difficultyLevel, page || getRand()).then(
-      (words) => {
+    difficultyLevel &&
+      getWords(difficultyLevel, page || getRand()).then((words) => {
         setWords(words);
-        if (isExactPage()) {
+        if (isWords()) {
           nextWord(words);
         }
-      },
-      [difficultyLevel, page]
-    );
+      });
 
     window.addEventListener("keydown", handleUserKeyPress);
 
     return () => {
       window.removeEventListener("keydown", handleUserKeyPress);
     };
-  }, []);
+  }, [difficultyLevel, page]);
 
   function isExactPage() {
     return group && page;
   }
 
+  useEffect(() => {
+    if (isWords()) {
+      nextWord(words);
+    }
+  }, [words]);
+
   const setDifficulty = (diff) => {
     setDifficultyLevel(diff + 1);
-    nextWord(words);
   };
 
   const handleClick = (answer, word) => {
