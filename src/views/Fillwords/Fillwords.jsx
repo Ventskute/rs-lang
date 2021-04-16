@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import Card from "../../components/Card/Card";
 import Difficulty from "../../components/Difficulty/Difficulty";
+import GameStats from "../../components/GameStats/GameStats";
 import { getStaticURL, getWords } from "../../utils/api";
 import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../utils/api/api";
 import { Filler } from "../../utils/fillWords";
@@ -25,8 +26,8 @@ export default function Fillwords() {
   const [winStreak, setWinStreak] = useState(0);
   const [finalWinStreak, setFinalWinStreak] = useState(0);
   const { group, page = 0 } = useParams();
-  const [difficulty, setDifficulty] = useState(+group);
-
+  const [difficulty, setDifficulty] = useState(group && +group);
+  console.log("root", difficulty);
   const size = 5 + difficulty;
 
   const isDifficulty = () => typeof difficulty === "number";
@@ -162,8 +163,10 @@ export default function Fillwords() {
       Array.from(document.querySelectorAll(".word-card")).every((el) =>
         el.classList.contains("found")
       ) &&
-      !isWin
+      !isWin &&
+      words[0]
     ) {
+      console.log("win", words[0]);
       user &&
         submitGameResult(
           user.userId,
@@ -207,36 +210,49 @@ export default function Fillwords() {
         {!isDifficulty() && <Difficulty setDifficulty={setDifficulty} />}
         {isDifficulty() && (
           <Container>
-            <div
-              className="game-field"
-              style={{ gridTemplate: `repeat(${size}, 50px) / repeat(${size}, 50px)` }}
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-            >
-              {matrix &&
-                matrix.map((el) => {
-                  return el.map((letter, i) => (
-                    <div
-                      className="word-card"
-                      key={i}
-                      data-word={letter[1]}
-                      onMouseEnter={handleMouseEnter}
-                    >
-                      {letter[0]}
-                    </div>
-                  ));
-                })}
-            </div>
+            {!isWin && (
+              <div
+                className="game-field"
+                style={{ gridTemplate: `repeat(${size}, 50px) / repeat(${size}, 50px)` }}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+              >
+                {matrix &&
+                  matrix.map((el) => {
+                    return el.map((letter, i) => (
+                      <div
+                        className="word-card"
+                        key={i}
+                        data-word={letter[1]}
+                        onMouseEnter={handleMouseEnter}
+                      >
+                        {letter[0]}
+                      </div>
+                    ));
+                  })}
+              </div>
+            )}
             {!isWin && (
               <Button onClick={() => handleHelpButton()} className="button-hint">
                 Подсказка
               </Button>
             )}
             {isWin && (
-              <Button onClick={() => window.location.reload()} className="button-hint">
-                Начать заново
-              </Button>
+              <>
+                <GameStats
+                  rightAnswers={words.filter((word) => {
+                    const rightAnss = !wrongAnswers.includes(word);
+                    console.log(rightAnss);
+                    return rightAnss;
+                  })}
+                  wrongAnswers={wrongAnswers}
+                  rightAnswersStreak={finalWinStreak}
+                />
+                <Button onClick={() => window.location.reload()} className="button-hint">
+                  Начать заново
+                </Button>
+              </>
             )}
             <div className="found-cards-wrapper">
               {foundWords.map((el, i) => (
