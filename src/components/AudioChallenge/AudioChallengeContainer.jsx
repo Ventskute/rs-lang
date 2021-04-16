@@ -194,7 +194,7 @@ const AudioChallengeContainer = () => {
   }, [isGameOpen]);
 
   return (
-    <div ref={ref}>
+    <div className="game" ref={ref}>
       {isGameStartOpen && <GameStart startGame={startGame} />}
       {isDiffOpen && <Difficulty setDifficulty={setDifficulty} />}
       {isGameOpen && gameState.word && (

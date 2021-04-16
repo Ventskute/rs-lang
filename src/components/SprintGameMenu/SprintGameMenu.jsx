@@ -48,7 +48,7 @@ function SprintGameMenu() {
   };
   return (
     <>
-      <div className="sprint" ref={refToGameRoot}>
+      <div className="sprint game" ref={refToGameRoot}>
         <video className="background-video" loop autoPlay>
           <source src={video} type="video/mp4" />
         </video>
