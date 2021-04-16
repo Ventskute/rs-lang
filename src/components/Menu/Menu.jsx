@@ -65,9 +65,10 @@ export default function Menu() {
     current && current.classList.remove('link--active');
 
     const a = document.querySelector(`.nav-link[href='${location.pathname}']`);
-    
+
     if (a) {
       a.classList.add("link--active");
+      localStorage.setItem('page', location.pathname);
     }
   }, [location.pathname]);
 
