@@ -3,7 +3,7 @@
   background: linear-gradient(rgb(100 185 230), #91e5c2);
   height: 100vh;
   width: 100%;
-  background-image: url('../../assets/images/savanna.jpg');
+  background-image: url("../../assets/images/savanna.jpg");
 
   .words-list {
     display: flex;
@@ -12,7 +12,7 @@
     width: 60%;
     margin: 10% auto 0 auto;
   }
-  .words-list li {
+  .words-list button {
     font-family: Open Sans;
     font-style: normal;
     font-weight: normal;
@@ -24,6 +24,7 @@
     display: flex;
     justify-content: center;
     position: relative;
+    pointer-events: none;
   }
   .word p {
     font-family: Open Sans;
