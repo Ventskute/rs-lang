@@ -15,6 +15,7 @@ import {
   submitRightAnswer,
   submitWrongAnswer,
 } from "../../utils/api/api";
+import Difficulty from "../Difficulty/Difficulty";
 
 let interval;
 let randomWords = [];
@@ -26,14 +27,14 @@ export default function Savanna() {
   const [randomAnswers, setRandomAnswers] = useState([]);
   const [word, setWord] = useState();
   const [livesCount, setLivesCount] = useState(5);
-  const [difficultyLevel, setDifficultyLevel] = useState(1);
+  let { group, page } = useParams();
+  const [difficultyLevel, setDifficultyLevel] = useState(group);
   const [wordPosition, setWordPosition] = useState(0);
   const [dropSize, setDropSize] = useState(100);
   const [rightAnswers, setRightAnswers] = useState([]);
   const [wrongAnswers, setWrongAnswers] = useState([]);
   const [winStreak, setWinStreak] = useState(0);
   const [finalWinStreak, setFinalWinStreak] = useState(0);
-  let { group, page } = useParams();
 
   function isGameOver() {
     return randomWords.length == 0 && rightAnswers.length + wrongAnswers.length == words.length;
@@ -92,12 +93,15 @@ export default function Savanna() {
   }, []);
 
   useEffect(() => {
-    getWords(group || difficultyLevel, page || getRand()).then((words) => {
-      setWords(words);
-      if (isExactPage()) {
-        nextWord(words);
-      }
-    });
+    getWords(difficultyLevel, page || getRand()).then(
+      (words) => {
+        setWords(words);
+        if (isExactPage()) {
+          nextWord(words);
+        }
+      },
+      [difficultyLevel, page]
+    );
 
     window.addEventListener("keydown", handleUserKeyPress);
 
@@ -110,32 +114,10 @@ export default function Savanna() {
     return group && page;
   }
 
-  let difficultySelector = "";
-  if (!isExactPage()) {
-    difficultySelector = (
-      <div>
-        <select
-          className="form-control difficulty-level"
-          onChange={(e) => {
-            setDifficultyLevel(e.target.value);
-            getWords(group || difficultyLevel, page || getRand()).then(() => {
-              setWords(words);
-              nextWord(words);
-            });
-            clearInterval(interval);
-          }}
-        >
-          <option>Choose level</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-        </select>
-      </div>
-    );
-  }
+  const setDifficulty = (diff) => {
+    setDifficultyLevel(diff + 1);
+    nextWord(words);
+  };
 
   const handleClick = (answer, word) => {
     if (answer === word.wordTranslate) {
@@ -199,10 +181,10 @@ export default function Savanna() {
 
   return (
     <div className="savanna">
-      {difficultySelector}
-      {livesCounter}
-      {gameField}
-      <Drop dropSize={dropSize} />
+      {!difficultyLevel && <Difficulty setDifficulty={setDifficulty} />}
+      {difficultyLevel && livesCounter}
+      {difficultyLevel && gameField}
+      {difficultyLevel && <Drop dropSize={dropSize} />}
     </div>
   );
 }
