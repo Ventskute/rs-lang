@@ -13,7 +13,7 @@ import {
 import { getWords } from "../../../utils/api";
 import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../../utils/api/api";
 
-function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
+function SprintGame({ dictionaryWords = [], setSprintState, sprintState }) {
   const [answerAnimation, setAnswerAnimation] = React.useState(null);
   const [isRandomTranslation, setIsRandomTranslation] = React.useState(0);
   const [sprintGameState, setSprintGameState] = React.useState({
@@ -54,10 +54,6 @@ function SprintGame({ dictionaryWords, setSprintState, sprintState }) {
           setSprintGameState({ ...sprintGameState, words: words })
         ));
   }, [pageSettings]);
-
-  // React.useEffect(() => {
-  //   setAnswersStore();
-  // }, [sprintState]);
 
   React.useEffect(() => {
     if (answerAnimation) {
