@@ -134,11 +134,9 @@ function SprintGame({
 
     // if (user) {
     if (points[0]) {
-      console.log("here");
       setWinStreak((streak) => {
         const currStreak = streak + 1;
         setFinalWinStreak((finalStreak) => {
-          console.log(finalStreak);
           const streak = currStreak > finalStreak ? winStreak : finalStreak;
           return streak;
         });

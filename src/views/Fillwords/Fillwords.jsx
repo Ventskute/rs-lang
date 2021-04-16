@@ -27,7 +27,6 @@ export default function Fillwords() {
   const [finalWinStreak, setFinalWinStreak] = useState(0);
   const { group, page = 0 } = useParams();
   const [difficulty, setDifficulty] = useState(group && +group);
-  console.log("root", difficulty);
   const size = 5 + difficulty;
 
   const isDifficulty = () => typeof difficulty === "number";
@@ -166,7 +165,6 @@ export default function Fillwords() {
       !isWin &&
       words[0]
     ) {
-      console.log("win", words[0]);
       user &&
         submitGameResult(
           user.userId,
@@ -243,7 +241,6 @@ export default function Fillwords() {
                 <GameStats
                   rightAnswers={words.filter((word) => {
                     const rightAnss = !wrongAnswers.includes(word);
-                    console.log(rightAnss);
                     return rightAnss;
                   })}
                   wrongAnswers={wrongAnswers}

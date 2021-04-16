@@ -81,10 +81,8 @@ const AudioChallengeContainer = () => {
 
   const openDiff = () => {
     if (!group && !page) {
-      console.log("diff-open");
       setIsDiffOpen(true);
     } else {
-      console.log("game-open");
       setIsGameOpen(true);
     }
   };
@@ -168,7 +166,6 @@ const AudioChallengeContainer = () => {
   };
 
   useEffect(() => {
-    console.log(words);
     if (words) {
       const word = words[gameState.iteration];
       const audio = new Audio(BASE_URL + word.audio);
@@ -183,7 +180,6 @@ const AudioChallengeContainer = () => {
   }, [words]);
 
   useEffect(() => {
-    console.log(isGameOpen, "isGameOpen");
     if (isGameOpen) {
       setActualWords(
         user && user.userId,
@@ -197,7 +193,6 @@ const AudioChallengeContainer = () => {
     }
   }, [isGameOpen]);
 
-  console.log("words", words);
   return (
     <div ref={ref}>
       {isGameStartOpen && <GameStart startGame={startGame} />}

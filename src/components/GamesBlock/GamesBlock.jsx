@@ -6,7 +6,6 @@ import { Button, Card } from "react-bootstrap";
 import { getQuery } from "../../utils/api/api.utils";
 
 function GamesBlock({ page, group }) {
-  console.log(page, group);
   return (
     <div className="games">
       {gamesArr.map(({ name, className, link, description, img }, i) => (

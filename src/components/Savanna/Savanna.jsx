@@ -43,8 +43,6 @@ export default function Savanna() {
     return randomWords.length == 0 && rightAnswers.length + wrongAnswers.length == words.length;
   }
 
-  console.log(words);
-
   function nextWord(words) {
     clearInterval(interval);
     if (!isGameOver() || (isGameOver() && isExactPage())) {
