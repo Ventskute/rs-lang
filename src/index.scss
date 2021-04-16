@@ -1,4 +1,4 @@
-@import './variables.scss';
+@import "./variables.scss";
 @import "~bootstrap/scss/bootstrap";
 
 * {
@@ -25,6 +25,7 @@ body {
 }
 
 .game {
+  position: relative;
   min-height: 100vh;
 }
 
@@ -41,7 +42,9 @@ body {
     background-color: $color-accent;
     border-color: $color-accent;
 
-    &:hover, &:focus, &:active {
+    &:hover,
+    &:focus,
+    &:active {
       background-color: $color-accent-hover !important;
       border-color: $color-accent !important;
     }

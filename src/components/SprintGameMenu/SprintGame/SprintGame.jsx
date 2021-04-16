@@ -13,7 +13,13 @@ import {
 import { getWords } from "../../../utils/api";
 import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../../utils/api/api";
 
-function SprintGame({ dictionaryWords = [], setSprintState, sprintState }) {
+function SprintGame({
+  dictionaryWords = [],
+  setSprintState,
+  sprintState,
+  finalWinStreak,
+  setFinalWinStreak,
+}) {
   const [answerAnimation, setAnswerAnimation] = React.useState(null);
   const [isRandomTranslation, setIsRandomTranslation] = React.useState(0);
   const [sprintGameState, setSprintGameState] = React.useState({
@@ -25,7 +31,6 @@ function SprintGame({ dictionaryWords = [], setSprintState, sprintState }) {
     maxPointsStrick: 0,
   });
   const [winStreak, setWinStreak] = useState(0);
-  const [finalWinStreak, setFinalWinStreak] = useState(0);
   const { user } = useSelector((state) => state);
   const audiosArr = [new Audio(audioCorrect), new Audio(audioWrong)];
   const dispatch = useDispatch();
@@ -127,20 +132,27 @@ function SprintGame({ dictionaryWords = [], setSprintState, sprintState }) {
         points[1] < 3 ? 10 : points[1] < 6 ? 20 : points[1] < 9 ? 30 : points[1] < 12 ? 40 : 50,
     });
 
-    if (user) {
-      if (points[0]) {
-        setWinStreak((streak) => streak + 1);
-        submitRightAnswer(user.userId, words[currentWordIndex].id);
-      }
-      if (!points[0]) {
+    // if (user) {
+    if (points[0]) {
+      setWinStreak((streak) => {
+        const currStreak = streak + 1;
         setFinalWinStreak((finalStreak) => {
-          const streak = winStreak > finalStreak ? winStreak : finalStreak;
-          setWinStreak(0);
+          const streak = currStreak > finalStreak ? winStreak : finalStreak;
           return streak;
         });
-        submitWrongAnswer(user.userId, words[currentWordIndex].id);
-      }
+        return currStreak;
+      });
+      user && submitRightAnswer(user.userId, words[currentWordIndex].id);
     }
+    if (!points[0]) {
+      setFinalWinStreak((finalStreak) => {
+        const streak = winStreak > finalStreak ? winStreak : finalStreak;
+        setWinStreak(0);
+        return streak;
+      });
+      user && submitWrongAnswer(user.userId, words[currentWordIndex].id);
+    }
+    // }
 
     setSprintState({
       ...sprintState,

@@ -6,6 +6,7 @@ import video from "../../assets/images/background-video6.mp4";
 import { useParams } from "react-router";
 import Difficulty from "../Difficulty/Difficulty";
 import { useFullScreen } from "../../utils/games/useFullScreen";
+import GameStats from "../GameStats/GameStats";
 
 function SprintGameMenu() {
   const { group, page } = useParams();
@@ -21,16 +22,11 @@ function SprintGameMenu() {
     truelyAnswers: [],
     falsyAnswers: [],
   });
+  const [finalWinStreak, setFinalWinStreak] = React.useState(0);
 
   const refToGameRoot = useFullScreen();
 
   const { settingsMenu, levelSettings, pageSettings, isTimeOver } = sprintState;
-
-  const changeSettingsHandler = (e) => {
-    const { name, value } = e.target;
-
-    setSprintState({ ...sprintState, [name]: Number(value) });
-  };
 
   const setDifficulty = (diff) =>
     setSprintState((state) => ({
@@ -47,9 +43,12 @@ function SprintGameMenu() {
       return { ...state, settingsMenu: false, difficultyMenu, startGameTotal };
     });
   };
+  const restartGameHandler = () => {
+    setSprintState({ ...sprintState, isTimeOver: false, settingsMenu: true });
+  };
   return (
     <>
-      <div className="sprint" ref={refToGameRoot}>
+      <div className="sprint game" ref={refToGameRoot}>
         <video className="background-video" loop autoPlay>
           <source src={video} type="video/mp4" />
         </video>
@@ -70,10 +69,29 @@ function SprintGameMenu() {
           )}
           {sprintState.difficultyMenu && <Difficulty setDifficulty={setDifficulty} />}
           {sprintState.startGameTotal && (
-            <SprintGame sprintState={sprintState} setSprintState={setSprintState} />
+            <SprintGame
+              sprintState={sprintState}
+              setSprintState={setSprintState}
+              finalWinStreak={finalWinStreak}
+              setFinalWinStreak={setFinalWinStreak}
+            />
           )}
           {isTimeOver && (
-            <SprintGameStatistics setSprintState={setSprintState} sprintState={sprintState} />
+            <>
+              <GameStats
+                wrongAnswers={sprintState.falsyAnswers}
+                rightAnswers={sprintState.truelyAnswers}
+                rightAnswersStreak={finalWinStreak}
+              />
+              <div className="spring-game-statistics__buttons">
+                <button
+                  className="spring-game-statistics__buttons_restart-game button"
+                  onClick={restartGameHandler}
+                >
+                  Новая игра
+                </button>
+              </div>
+            </>
           )}
         </div>
       </div>
