@@ -12,8 +12,10 @@ import Footer from "../Footer/Footer";
 import { textBookLS } from "../../utils/localStore";
 import Header from "../Header/Header";
 import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 function Textbook() {
+  const { user } = useSelector((state) => state);
   const textBookSections = Array(6).fill(null);
 
   const [difficulty, setDifficulty] = React.useState(
@@ -36,11 +38,13 @@ function Textbook() {
     <div className="textbook">
       <Header />
       <Container className="textbook-content">
-        <Link to="/dictionary" className="dict-link">
+        { user &&
+          <Link to="/dictionary" className="dict-link">
           <Button variant="primary" className="dict-link--button">
             Перейти в словарь
           </Button>
         </Link>
+        }
         <SettingsBlock />
         <h1 className="textbook__title">Электронный учебник</h1>
         <div className="sections textbook__sections">

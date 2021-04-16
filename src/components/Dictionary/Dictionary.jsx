@@ -7,14 +7,20 @@ import LearningWords from "./LearningWords/LearningWords";
 
 import "./Dictionary.scss";
 import Header from '../Header/Header';
+import { useLocation } from "react-router";
 
 const Dictionary = () => {
   const { user } = useSelector((state) => state);
+  const location = useLocation();
+
   const initialWords = {
     learning: [],
     hard: [],
     deleted: [],
   };
+
+  localStorage.setItem('page', location.pathname);
+
   const [words, setWords] = useState(initialWords);
   useEffect(async () => {
     const learning = await getNormalWords(user.userId);
