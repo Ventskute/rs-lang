@@ -265,9 +265,9 @@ export default function Fillwords() {
             </div>
           </Container>
         )}
-      </div>
       <FullScreenButton />
       <ModalWarn show={showModal} onHide={() => setShowModal(false)} />
+      </div>
     </>
   );
 }
