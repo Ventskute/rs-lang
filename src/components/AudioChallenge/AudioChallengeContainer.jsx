@@ -194,6 +194,7 @@ const AudioChallengeContainer = () => {
     }
   }, [isGameOpen]);
 
+  console.log("words", words);
   return (
     <>
       {isGameStartOpen && <GameStart startGame={startGame} />}
