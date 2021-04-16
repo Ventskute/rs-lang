@@ -1,10 +1,10 @@
 import React from "react";
 import "./SprintGameMenu.scss";
-import { checkInputForm } from "../../utils/games/sprint";
 import SprintGame from "./SprintGame/SprintGame";
 import SprintGameStatistics from "./SprintGameStatistics/SprintGameStatistics";
 import video from "../../assets/images/background-video6.mp4";
 import { useParams } from "react-router";
+import Difficulty from "../Difficulty/Difficulty";
 import { useFullScreen } from "../../utils/games/useFullScreen";
 
 function SprintGameMenu() {
@@ -14,8 +14,9 @@ function SprintGameMenu() {
     settingsMenu: true,
     startGameTotal: false,
     startGameLearned: false,
-    levelSettings: +group + 1 || 1,
+    levelSettings: +group + 1 || null,
     pageSettings: +page + 1 || 1,
+    difficultyMenu: false,
     currPoints: 0,
     truelyAnswers: [],
     falsyAnswers: [],
@@ -31,13 +32,20 @@ function SprintGameMenu() {
     setSprintState({ ...sprintState, [name]: Number(value) });
   };
 
+  const setDifficulty = (diff) =>
+    setSprintState((state) => ({
+      ...state,
+      levelSettings: diff + 1,
+      difficultyMenu: false,
+      startGameTotal: true,
+    }));
+
   const startGameHandler = () => {
-    const { isValid, errors } = checkInputForm(sprintState);
-    if (isValid) {
-      setSprintState({ ...sprintState, settingsMenu: false, startGameTotal: true });
-    } else {
-      console.log(errors);
-    }
+    setSprintState((state) => {
+      const difficultyMenu = !Boolean(state.levelSettings);
+      const startGameTotal = Boolean(state.levelSettings);
+      return { ...state, settingsMenu: false, difficultyMenu, startGameTotal };
+    });
   };
   return (
     <>
@@ -50,38 +58,9 @@ function SprintGameMenu() {
             <div className="sprint-game__menu">
               <h1 className="sprint-game__menu_title">Игра Спринт</h1>
               <p className="sprint-game__menu_subtitle">
-                {!group && !page
-                  ? "Выберите уровень сложности (1-6) и страницу слов (1-30)"
-                  : "Игра начнется с выбранным списком слов со страницы словаря"}
-              </p>
-              <h3>Правила игры : </h3>
-              <p className="sprint-game__menu_subtitle">
                 {" "}
                 В игре необходимо ответить, верен ли перевод слова на русский язык.
               </p>
-
-              {!group && !page ? (
-                <div className="sprint-game__menu_settings">
-                  <p className="input__label">Уровень</p>
-                  <input
-                    className="input menu_settings__input"
-                    type="text"
-                    name="levelSettings"
-                    value={levelSettings}
-                    onChange={changeSettingsHandler}
-                  />
-                  <p className="input__label">Страница</p>
-                  <input
-                    className="input menu_settings__input"
-                    type="text"
-                    name="pageSettings"
-                    value={pageSettings}
-                    onChange={changeSettingsHandler}
-                  />
-                </div>
-              ) : (
-                ""
-              )}
               <div className="sprint-game__menu_buttons">
                 <button className="button-start-total button" onClick={startGameHandler}>
                   Начать игру
@@ -89,6 +68,7 @@ function SprintGameMenu() {
               </div>
             </div>
           )}
+          {sprintState.difficultyMenu && <Difficulty setDifficulty={setDifficulty} />}
           {sprintState.startGameTotal && (
             <SprintGame sprintState={sprintState} setSprintState={setSprintState} />
           )}
