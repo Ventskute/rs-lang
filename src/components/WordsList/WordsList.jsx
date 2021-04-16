@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Accordion, Button, Card, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { addWordToHard, deleteWord } from "../../utils/api/api";
+import { addWordToHard, deleteWord, removeWordFromHard } from "../../utils/api/api";
 import { setActualWords } from "../../utils/games/setActualWords";
 import Cards from "../Card/Card";
 
@@ -17,6 +17,18 @@ export default function WordsList({ incomingWords, difficulty, page }) {
       deleteWord(userId, elId);
       setWords((words) => {
         return words.filter((word) => word.id !== elId);
+      });
+    },
+    [setWords]
+  );
+  const handleRestoreClick = useCallback(
+    (userId, elId) => {
+      removeWordFromHard(userId, elId);
+      setWords((words) => {
+        return words.map((word) => {
+          if (word.id === elId) word.userWord.difficulty = "normal";
+          return word;
+        });
       });
     },
     [setWords]
@@ -63,12 +75,22 @@ export default function WordsList({ incomingWords, difficulty, page }) {
                     <Card.Body>{Cards(el)}</Card.Body>
                     {buttons && user && (
                       <div className="buttons-wrapper">
-                        <Button
-                          onClick={() => handleToHardClick(user.userId, el.id)}
-                          className="button-action"
-                        >
-                          Добавить в раздел "Сложные слова"
-                        </Button>
+                        {el.userWord && el.userWord.difficulty &&
+                          <Button
+                            onClick={() => handleRestoreClick(user.userId, el.id)}
+                            className="button-action"
+                          >
+                            Восстановить
+                          </Button>
+                        }
+                        {(!el.userWord || !el.userWord.difficulty) &&
+                          <Button
+                            onClick={() => handleToHardClick(user.userId, el.id)}
+                            className="button-action"
+                          >
+                            Добавить в раздел "Сложные слова"
+                          </Button>
+                        }
                         <Button
                           className="button-action"
                           onClick={() => handleDeleteClick(user.userId, el.id)}
