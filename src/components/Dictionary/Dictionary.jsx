@@ -31,10 +31,10 @@ const Dictionary = () => {
           )}
         </Tab>
         <Tab eventKey="hard" title="hard">
-          {words.hard[0] && <TabPages incomingWords={words.hard} />}
+          {words.hard[0] && <TabPages words={words.hard} />}
         </Tab>
         <Tab eventKey="deleted" title="deleted">
-          {words.deleted[0] && <TabPages incomingWords={words.deleted} />}
+          {words.deleted[0] && <TabPages words={words.deleted} />}
         </Tab>
       </Tabs>
     </div>

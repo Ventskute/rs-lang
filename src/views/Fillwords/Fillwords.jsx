@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import Card from "../../components/Card/Card";
 import { getStaticURL, getWords } from "../../utils/api";
 import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../utils/api/api";
@@ -8,7 +9,7 @@ import { Filler } from "../../utils/fillWords";
 
 import "./Fillwords.scss";
 
-export default function Fillwords({ difficulty = 0 }) {
+export default function Fillwords({}) {
   const { user } = useSelector((state) => state);
   const [words, setWords] = useState([]);
   const [matrix, setMatrix] = useState(null);
@@ -21,8 +22,9 @@ export default function Fillwords({ difficulty = 0 }) {
   const [wrongAnswers, setWrongAnswers] = useState([]);
   const [winStreak, setWinStreak] = useState(0);
   const [finalWinStreak, setFinalWinStreak] = useState(0);
+  const { group = 0, page = 0 } = useParams();
 
-  const size = 5 + difficulty;
+  const size = 5 + +group;
 
   const findWords = (array) => {
     const newArray = [...array];
@@ -74,12 +76,11 @@ export default function Fillwords({ difficulty = 0 }) {
     } else {
       setMatrix(a);
     }
-
     return selected;
   };
 
   useEffect(() => {
-    getWords(difficulty, Math.round(Math.random() * 29)).then((data) =>
+    getWords(group, page || Math.round(Math.random() * 29)).then((data) =>
       setWords(findWords(data.sort(() => 0.5 - Math.random())))
     );
   }, []);
@@ -216,16 +217,16 @@ export default function Fillwords({ difficulty = 0 }) {
                 ));
               })}
           </div>
-          { !isWin &&
+          {!isWin && (
             <Button onClick={() => handleHelpButton()} className="button-hint">
               Подсказка
             </Button>
-          }
-          { isWin &&
+          )}
+          {isWin && (
             <Button onClick={() => window.location.reload()} className="button-hint">
               Начать заново
             </Button>
-          }
+          )}
           <div className="found-cards-wrapper">
             {foundWords.map((el, i) => (
               <Card {...el} key={i}></Card>

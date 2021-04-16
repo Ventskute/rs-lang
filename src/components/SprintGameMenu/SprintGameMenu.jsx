@@ -4,15 +4,17 @@ import { checkInputForm } from "../../utils/games/sprint";
 import SprintGame from "./SprintGame/SprintGame";
 import SprintGameStatistics from "./SprintGameStatistics/SprintGameStatistics";
 import video from "../../assets/images/background-video6.mp4";
+import { useParams } from "react-router";
 
-function SprintGameMenu({ words = [], group = 1, page = 1 }) {
+function SprintGameMenu() {
+  const { group, page } = useParams();
   const [sprintState, setSprintState] = React.useState({
     isTimeOver: false,
     settingsMenu: true,
     startGameTotal: false,
     startGameLearned: false,
-    levelSettings: group || 1,
-    pageSettings: page || 1,
+    levelSettings: +group + 1 || 1,
+    pageSettings: +page + 1 || 1,
     currPoints: 0,
     truelyAnswers: [],
     falsyAnswers: [],
@@ -22,6 +24,7 @@ function SprintGameMenu({ words = [], group = 1, page = 1 }) {
 
   const changeSettingsHandler = (e) => {
     const { name, value } = e.target;
+
     setSprintState({ ...sprintState, [name]: Number(value) });
   };
 
@@ -44,7 +47,7 @@ function SprintGameMenu({ words = [], group = 1, page = 1 }) {
             <div className="sprint-game__menu">
               <h1 className="sprint-game__menu_title">Игра Спринт</h1>
               <p className="sprint-game__menu_subtitle">
-                {!words.length
+                {!group && !page
                   ? "Выберите уровень сложности (1-6) и страницу слов (1-30)"
                   : "Игра начнется с выбранным списком слов со страницы словаря"}
               </p>
@@ -54,7 +57,7 @@ function SprintGameMenu({ words = [], group = 1, page = 1 }) {
                 В игре необходимо ответить, верен ли перевод слова на русский язык.
               </p>
 
-              {!words.length ? (
+              {!group && !page ? (
                 <div className="sprint-game__menu_settings">
                   <p className="input__label">Уровень</p>
                   <input
@@ -80,21 +83,11 @@ function SprintGameMenu({ words = [], group = 1, page = 1 }) {
                 <button className="button-start-total button" onClick={startGameHandler}>
                   Начать игру
                 </button>
-                <button
-                  className="button-start-learned button"
-                  onClick={() => alert("прикрутить выход в предыдущее меню")}
-                >
-                  Назад
-                </button>
               </div>
             </div>
           )}
           {sprintState.startGameTotal && (
-            <SprintGame
-              dictionaryWords={words}
-              sprintState={sprintState}
-              setSprintState={setSprintState}
-            />
+            <SprintGame sprintState={sprintState} setSprintState={setSprintState} />
           )}
           {isTimeOver && (
             <SprintGameStatistics setSprintState={setSprintState} sprintState={sprintState} />
