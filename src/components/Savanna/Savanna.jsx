@@ -18,6 +18,7 @@ import {
 import Difficulty from "../Difficulty/Difficulty";
 import { useFullScreen } from "../../utils/games/useFullScreen";
 import GameStats from "../GameStats/GameStats";
+import FullScreenButton from "../FullScreenButton/FullScreenButton";
 
 let interval;
 let randomWords = [];
@@ -197,6 +198,7 @@ export default function Savanna() {
       {difficultyLevel && livesCounter}
       {difficultyLevel && gameField}
       {difficultyLevel && <Drop dropSize={dropSize} />}
+      <FullScreenButton />
     </div>
   );
 }

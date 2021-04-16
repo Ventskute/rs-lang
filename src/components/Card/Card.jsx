@@ -10,7 +10,7 @@ const playAudio = (audio) => {
 
 export default function Cards({word, image, textExample, transcription, wordTranslate, textMeaning, textMeaningTranslate, textExampleTranslate, audio, audioExample, audioMeaning}) {
   return (
-    <Card>
+    <Card text="dark">
       <Card.Img variant="top" src={getStaticURL(image)} />
       <Card.Body>
         <Card.Title>{word}</Card.Title>

@@ -393,3 +393,23 @@ export const addWordToHard = async (userId, wordId) => {
     createUserWord(userId, wordId, "learning", "hard", null);
   }
 };
+
+export const removeWordFromHard = async (userId, wordId) => {
+  if (!wordId) {
+    throw new Error('you should pass "wordId" to "addWordToHard"');
+  }
+  if (!userId) {
+    throw new Error('you should pass "userId" to "addWordToHard"');
+  }
+
+  const word = await checkIfUserWordExist(userId, wordId);
+
+  if (word) {
+    const { optional } = word;
+    let { wordStatus, date, rightAnswersCount, wrongAnswersCount } = optional;
+    updateUserWord(userId, wordId, wordStatus, "normal", date, rightAnswersCount, wrongAnswersCount);
+  } //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  if (!word) {
+    createUserWord(userId, wordId, "learning", "normal", null);
+  }
+};

@@ -12,6 +12,7 @@ import {
 } from "../../../utils/games/sprint";
 import { getWords } from "../../../utils/api";
 import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../../utils/api/api";
+import FullScreenButton from "../../FullScreenButton/FullScreenButton";
 
 function SprintGame({
   dictionaryWords = [],
@@ -238,6 +239,7 @@ function SprintGame({
           </button>
         ))}
       </div>
+      <FullScreenButton />
     </div>
   );
 }
