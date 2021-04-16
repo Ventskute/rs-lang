@@ -14,7 +14,9 @@ import {
   submitWrongAnswer,
 } from "../../utils/api/api";
 import audio from "../../assets/audio/correct.mp3";
-import { Button } from 'react-bootstrap';
+import audioWringAnswer from "../../assets/audio/WrongAnswer.mp3";
+import { Button } from "react-bootstrap";
+import { useParams } from "react-router";
 
 const GameStats = ({ rightAnswers, wrongAnswers, rightAnswersStreak }) => {
   return (
@@ -53,8 +55,8 @@ const GameStart = ({ startGame }) => {
   );
 };
 
-const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
-  const audios = [new Audio(audio)];
+const AudioChallengeContainer = () => {
+  const audios = [new Audio(audio), new Audio(audioWringAnswer)];
   const { user } = useSelector((state) => state);
   const [gameState, setGameState] = useState(initialGameState);
   const [words, setWords] = useState(null);
@@ -62,6 +64,7 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
   const [isGameOpen, setIsGameOpen] = useState(false);
   const [isGameStartOpen, setIsGameStartOpen] = useState(true);
   const [isGameStatsOpen, setIsGameStatsOpen] = useState(false);
+  const { group, page } = useParams();
 
   const closeGameStart = () => {
     setIsGameStartOpen(false);
@@ -74,9 +77,11 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
   };
 
   const openDiff = () => {
-    if (!pageWords) {
+    if (!group && !page) {
+      console.log("diff-open");
       setIsDiffOpen(true);
     } else {
+      console.log("game-open");
       setIsGameOpen(true);
     }
   };
@@ -95,13 +100,14 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
     const iteration = gameState.iteration + 1;
     const mistakes = gameState.mistakes;
     if (isGameOver(iteration, mistakes, words, stopGame)) {
-      user && submitGameResult(
-        user.userId,
-        "audioChallenge",
-        gameState.rightAnswersStreak,
-        gameState.rightAnswers.length,
-        gameState.wrongAnswers.length
-      );
+      user &&
+        submitGameResult(
+          user.userId,
+          "audioChallenge",
+          gameState.rightAnswersStreak,
+          gameState.rightAnswers.length,
+          gameState.wrongAnswers.length
+        );
       return;
     }
     const word = words[iteration];
@@ -143,10 +149,10 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
           rightAnswersStreak,
           rightAnswers,
         });
-        
+
         user && submitRightAnswer(user.userId, gameState.word._id);
       } else {
-        // audios[1].play();
+        audios[1].play();
 
         currentRightAnswersStreak = 0;
         const wrongAnswers = [...gameState.wrongAnswers];
@@ -159,6 +165,7 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
   };
 
   useEffect(() => {
+    console.log(words);
     if (words) {
       const word = words[gameState.iteration];
       const audio = new Audio(BASE_URL + word.audio);
@@ -173,19 +180,21 @@ const AudioChallengeContainer = ({ pageWords, group, page = 0 }) => {
   }, [words]);
 
   useEffect(() => {
+    console.log(isGameOpen, "isGameOpen");
     if (isGameOpen) {
       setActualWords(
         user && user.userId,
         setWords,
         gameState.difficulty || group,
         null,
-        getRand(10),
-        10,
+        page || getRand(10),
+        20,
         5
       );
     }
   }, [isGameOpen]);
 
+  console.log("words", words);
   return (
     <>
       {isGameStartOpen && <GameStart startGame={startGame} />}

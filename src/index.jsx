@@ -17,7 +17,6 @@ import Statistics from "./components/Statistics/Statistics";
 import Dictionary from "./components/Dictionary/Dictionary";
 
 import rootReducer from "./utils/rootReducer";
-import sprintReducer from "./utils/reducerSprint";
 
 import "./index.scss";
 import Menu from "./components/Menu/Menu";
@@ -38,15 +37,18 @@ export default function App() {
       <UserUpdater>
         <Menu />
         <Switch>
-          <Route path={"/savannaMenu"} exact component={SavannaMenu} />
-          <Route path={"/savanna"} exact component={Savanna} />
-          <Route path={"/savanna/:group/:page"} exact component={Savanna} />
+          <Route path="/savannaMenu" exact component={SavannaMenu} />
+          <Route path="/savanna" exact component={Savanna} />
+          <Route path="/savanna/:group/:page" exact component={Savanna} />
+          <Route path="/sprint/:group/:page" component={SprintGameMenu} />
           <Route path="/sprint" component={SprintGameMenu} />
           <Route path="/" exact component={Main} />
+          <Route path="/fillwords/:group/:page" component={Fillwords} />
           <Route path="/fillwords" component={Fillwords} />
           <Route path="/textbook" exact component={Textbook} />
           <Route path="/wordslist" component={WordsList} />
-          <Route path="/audioChallenge" exact component={AudioChallengeContainer} />
+          <Route path="/audioChallenge/:group/:page" component={AudioChallengeContainer} />
+          <Route path="/audioChallenge" component={AudioChallengeContainer} />
           <Route path="/team" component={Team} />
           <Route path="/statistics" component={Statistics} />
           <Route path="/dictionary" component={Dictionary} />

@@ -1,10 +1,12 @@
-import './GamesBlock.scss';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { gamesArr } from '../../utils/games/blockArrays';
-import { Button, Card } from 'react-bootstrap';
+import "./GamesBlock.scss";
+import React from "react";
+import { Link } from "react-router-dom";
+import { gamesArr } from "../../utils/games/blockArrays";
+import { Button, Card } from "react-bootstrap";
+import { getQuery } from "../../utils/api/api.utils";
 
-function GamesBlock(onClick) {
+function GamesBlock({ page, group }) {
+  console.log(page, group);
   return (
     <div className="games">
       {gamesArr.map(({ name, className, link, description, img }, i) => (
@@ -13,7 +15,7 @@ function GamesBlock(onClick) {
           <Card.Body>
             <Card.Title>{name}</Card.Title>
             <Card.Text>{description}</Card.Text>
-            <Link to={`${link}`} key={i}>
+            <Link to={`${link}/${group}/${page}`} key={i}>
               <Button variant="primary">Играть</Button>
             </Link>
           </Card.Body>

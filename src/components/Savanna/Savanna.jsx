@@ -34,6 +34,7 @@ export default function Savanna() {
   const [winStreak, setWinStreak] = useState(0);
   const [finalWinStreak, setFinalWinStreak] = useState(0);
   let { group, page } = useParams();
+
   function isGameOver() {
     return randomWords.length == 0 && rightAnswers.length + wrongAnswers.length == words.length;
   }
@@ -74,19 +75,6 @@ export default function Savanna() {
       setLivesCount(0);
     }
   }
-
-  // function getWords() {
-  //   return fetch(
-  //     `https://rs-lang-team-52.herokuapp.com/words?group=${group ? group : difficultyLevel}&page=${
-  //       page ? page : getRand()
-  //     }`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((words) => {
-  //       setWords(words);
-  //       return words;
-  //     });
-  // }
 
   const handleUserKeyPress = useCallback(({ key }) => {
     if (key > 0 && key <= 4) {
@@ -198,7 +186,9 @@ export default function Savanna() {
           {randomAnswers.map((answer, i) => {
             return (
               <li onClick={() => handleClick(answer, word)} key={i} data-key={i + 1}>
-                {i + 1}. {answer}
+                <button>
+                  {i + 1}. {answer}
+                </button>
               </li>
             );
           })}
@@ -217,24 +207,6 @@ export default function Savanna() {
   );
 }
 
-// function getRandomWords(words) {
-//   let previousIndexes = [];
-//   let randomWords = [];
-//   for (let i = 0; i < words.length; i++) {
-//     randomWords.push(words[randomIndex(previousIndexes, words.length)]);
-//   }
-//   return randomWords;
-// }
-
-// function randomIndex(previousIndexes, seed) {
-//   let index = Math.floor(Math.random() * seed);
-//   if (previousIndexes.includes(index)) {
-//     return randomIndex(previousIndexes, seed);
-//   }
-//   previousIndexes.push(index);
-//   return index;
-// }
-
 function getRandomAnswers(answer, words) {
   let answers = [answer];
   do {
@@ -249,19 +221,3 @@ function getRandomAnswers(answer, words) {
 
   return shuffle(answers);
 }
-
-// function shuffle(array) {
-//   var currentIndex = array.length,
-//     temporaryValue,
-//     randomIndex;
-
-//   while (0 !== currentIndex) {
-//     randomIndex = Math.floor(Math.random() * currentIndex);
-//     currentIndex -= 1;
-//     temporaryValue = array[currentIndex];
-//     array[currentIndex] = array[randomIndex];
-//     array[randomIndex] = temporaryValue;
-//   }
-
-//   return array;
-// }

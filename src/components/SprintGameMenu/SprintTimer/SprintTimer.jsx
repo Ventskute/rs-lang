@@ -4,9 +4,11 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 function SprintTimer({ setSprintState, sprintState }) {
   function onCompleteHandler() {
-    setSprintState({
-      ...sprintState,
-      isTimeOver: true,
+    setSprintState((state) => {
+      return {
+        ...state,
+        isTimeOver: true,
+      };
     });
   }
   return (
