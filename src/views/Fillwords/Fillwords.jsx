@@ -6,10 +6,11 @@ import Card from "../../components/Card/Card";
 import { getStaticURL, getWords } from "../../utils/api";
 import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../utils/api/api";
 import { Filler } from "../../utils/fillWords";
+import { useFullScreen } from "../../utils/games/useFullScreen";
 
 import "./Fillwords.scss";
 
-export default function Fillwords({}) {
+export default function Fillwords() {
   const { user } = useSelector((state) => state);
   const [words, setWords] = useState([]);
   const [matrix, setMatrix] = useState(null);
@@ -78,6 +79,8 @@ export default function Fillwords({}) {
     }
     return selected;
   };
+
+  const refToGameRoot = useFullScreen();
 
   useEffect(() => {
     getWords(group, page || Math.round(Math.random() * 29)).then((data) =>
@@ -187,7 +190,7 @@ export default function Fillwords({}) {
 
   return (
     <>
-      <div className="game game-fillwords">
+      <div className="game game-fillwords" ref={refToGameRoot}>
         <Container className="description">
           <h1>Филворды</h1>
           <p>
