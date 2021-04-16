@@ -17,6 +17,7 @@ import {
 } from "../../utils/api/api";
 import Difficulty from "../Difficulty/Difficulty";
 import { useFullScreen } from "../../utils/games/useFullScreen";
+import GameStats from "../GameStats/GameStats";
 
 let interval;
 let randomWords = [];
@@ -163,7 +164,13 @@ export default function Savanna() {
         );
       crutch = true;
     }
-    gameField = <SavannaStatistics rightAnswers={rightAnswers} wrongAnswers={wrongAnswers} />;
+    gameField = (
+      <GameStats
+        rightAnswers={rightAnswers}
+        wrongAnswers={wrongAnswers}
+        rightAnswersStreak={finalWinStreak}
+      />
+    );
     livesCounter = "";
   } else if (word) {
     gameField = (
