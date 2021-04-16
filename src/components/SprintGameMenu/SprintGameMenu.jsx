@@ -28,12 +28,6 @@ function SprintGameMenu() {
 
   const { settingsMenu, levelSettings, pageSettings, isTimeOver } = sprintState;
 
-  // const changeSettingsHandler = (e) => {
-  //   const { name, value } = e.target;
-
-  //   setSprintState({ ...sprintState, [name]: Number(value) });
-  // };
-
   const setDifficulty = (diff) =>
     setSprintState((state) => ({
       ...state,
@@ -82,9 +76,6 @@ function SprintGameMenu() {
               setFinalWinStreak={setFinalWinStreak}
             />
           )}
-          {/* {isTimeOver && (
-            <SprintGameStatistics setSprintState={setSprintState} sprintState={sprintState} />
-          )} */}
           {isTimeOver && (
             <>
               <GameStats
