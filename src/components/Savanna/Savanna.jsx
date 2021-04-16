@@ -36,15 +36,11 @@ export default function Savanna() {
   const [wrongAnswers, setWrongAnswers] = useState([]);
   const [winStreak, setWinStreak] = useState(0);
   const [finalWinStreak, setFinalWinStreak] = useState(0);
-
-  let { group, page } = useParams();
   const refToGameRoot = useFullScreen();
 
   function isGameOver() {
     return randomWords.length == 0 && rightAnswers.length + wrongAnswers.length == words.length;
   }
-
-  console.log(words);
 
   function nextWord(words) {
     clearInterval(interval);
