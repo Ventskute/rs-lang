@@ -27,7 +27,6 @@ export default function Fillwords({}) {
   const size = 5 + +group;
 
   const findWords = (array) => {
-    debugger;
     const newArray = [...array];
     let wordsLength = size * size;
     let selected = [];
