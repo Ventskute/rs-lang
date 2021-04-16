@@ -12,6 +12,7 @@ import statistics from "../../assets/icons/statistics.png";
 import team from "../../assets/icons/teamwork.png";
 
 import "./Menu.scss";
+import { useSelector } from 'react-redux';
 
 const items = [
   {
@@ -45,11 +46,6 @@ const items = [
     img: fillwords
   },
   {
-    to: "/statistics",
-    name: "Статистика",
-    img: statistics
-  },
-  {
     to: "/team",
     name: "О Команже",
     img: team
@@ -58,6 +54,7 @@ const items = [
 
 export default function Menu() {
   const [isHidden, setHide] = useState(true);
+  const { user } = useSelector(state => state);
   const location = useLocation();
 
   useEffect(() => {
@@ -81,6 +78,11 @@ export default function Menu() {
             <img className="icon" src={item.img} alt={item.name} title={item.name} />
           </Link>
         ))}
+        { user &&
+          <Link className="nav-link" to={"/statistics"}>
+            <img className="icon" src={statistics} alt={"Статистика"} title={"Статистика"} />
+          </Link>
+        }
       </Nav>
     </div>
   </>);

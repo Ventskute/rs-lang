@@ -1,7 +1,7 @@
 import React from "react";
 import "./Textbook.scss";
 import video from "../../assets/images/background-video6.mp4";
-import { Tabs, Tab } from "react-bootstrap";
+import { Tabs, Tab, Button } from "react-bootstrap";
 import PaginationWordList from "../Pagination/Pagination";
 
 import SettingsBlock from "./SettingsBlock/SettingsBlock";
@@ -11,6 +11,7 @@ import { Container } from "react-bootstrap";
 import Footer from "../Footer/Footer";
 import { textBookLS } from "../../utils/localStore";
 import Header from "../Header/Header";
+import { Link } from 'react-router-dom';
 
 function Textbook() {
   const textBookSections = Array(6).fill(null);
@@ -35,6 +36,11 @@ function Textbook() {
     <div className="textbook">
       <Header />
       <Container className="textbook-content">
+        <Link to="/dictionary" className="dict-link">
+          <Button variant="primary" className="dict-link--button">
+            Перейти в словарь
+          </Button>
+        </Link>
         <SettingsBlock />
         <h1 className="textbook__title">Электронный учебник</h1>
         <div className="sections textbook__sections">

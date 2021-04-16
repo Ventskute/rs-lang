@@ -6,6 +6,7 @@ import TabPages from "./TabPages/TabPages";
 import LearningWords from "./LearningWords/LearningWords";
 
 import "./Dictionary.scss";
+import Header from '../Header/Header';
 
 const Dictionary = () => {
   const { user } = useSelector((state) => state);
@@ -22,8 +23,10 @@ const Dictionary = () => {
 
     setWords({ deleted, hard, learning });
   }, []);
+
   return (
     <div className="dictionary">
+      <Header />
       <Tabs className="dictionary-tabs">
         <Tab eventKey="learning" title="learning">
           {words.learning[0] && (
