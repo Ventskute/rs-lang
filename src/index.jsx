@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, useLocation, useHistory } from "react-router-dom";
 import { createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import SprintGameMenu from "./components/SprintGameMenu/SprintGameMenu";
@@ -25,31 +25,42 @@ import Team from "./views/Team/Team";
 
 export default function App() {
   const store = createStore(rootReducer, composeWithDevTools());
+  const history = useHistory();
+
+  useEffect(() => {
+  }, [])
+  const path = localStorage.getItem('page');
+  if (history.location.pathname === '/') {
+    path && history.replace(path);
+  }
+
 
   return (
     <Provider store={store}>
       <UserUpdater>
-        <Router>
-          <Menu />
-          <Switch>
-            <Route path="/Main" component={Main} />
-            <Route path={"/savannaMenu"} exact component={SavannaMenu} />
-            <Route path={"/savanna"} exact component={Savanna} />
-            <Route path={"/savanna/:group/:page"} exact component={Savanna} />
-            <Route path="/sprint" component={SprintGameMenu} />
-            <Route path="/" exact component={Main} />
-            <Route path="/fillwords" component={Fillwords} />
-            <Route path="/textbook" exact component={Textbook} />
-            <Route path="/wordslist" component={WordsList} />
-            <Route path="/audioChallenge" exact component={AudioChallengeContainer} />
-            <Route path="/team" component={Team} />
-            <Route path="/statistics" component={Statistics} />
-            <Route path="/dictionary" component={Dictionary} />
-          </Switch>
-        </Router>
+        <Menu />
+        <Switch>
+          <Route path={"/savannaMenu"} exact component={SavannaMenu} />
+          <Route path={"/savanna"} exact component={Savanna} />
+          <Route path={"/savanna/:group/:page"} exact component={Savanna} />
+          <Route path="/sprint" component={SprintGameMenu} />
+          <Route path="/" exact component={Main} />
+          <Route path="/fillwords" component={Fillwords} />
+          <Route path="/textbook" exact component={Textbook} />
+          <Route path="/wordslist" component={WordsList} />
+          <Route path="/audioChallenge" exact component={AudioChallengeContainer} />
+          <Route path="/team" component={Team} />
+          <Route path="/statistics" component={Statistics} />
+          <Route path="/dictionary" component={Dictionary} />
+        </Switch>
       </UserUpdater>
     </Provider>
   );
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+  <Router>
+    <App />
+  </Router>,
+  document.getElementById("root")
+);
