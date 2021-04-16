@@ -5,6 +5,7 @@ import SprintGame from "./SprintGame/SprintGame";
 import SprintGameStatistics from "./SprintGameStatistics/SprintGameStatistics";
 import video from "../../assets/images/background-video6.mp4";
 import { useParams } from "react-router";
+import { useFullScreen } from "../../utils/games/useFullScreen";
 
 function SprintGameMenu() {
   const { group, page } = useParams();
@@ -19,6 +20,8 @@ function SprintGameMenu() {
     truelyAnswers: [],
     falsyAnswers: [],
   });
+
+  const refToGameRoot = useFullScreen();
 
   const { settingsMenu, levelSettings, pageSettings, isTimeOver } = sprintState;
 
@@ -38,7 +41,7 @@ function SprintGameMenu() {
   };
   return (
     <>
-      <div className="sprint">
+      <div className="sprint" ref={refToGameRoot}>
         <video className="background-video" loop autoPlay>
           <source src={video} type="video/mp4" />
         </video>

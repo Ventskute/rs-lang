@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { setActualWords } from "../../utils/games/setActualWords";
 import Difficulty from "../Difficulty/Difficulty";
 import { useSelector } from "react-redux";
@@ -17,6 +17,7 @@ import audio from "../../assets/audio/correct.mp3";
 import audioWringAnswer from "../../assets/audio/WrongAnswer.mp3";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router";
+import { useFullScreen } from "../../utils/games/useFullScreen";
 
 const GameStats = ({ rightAnswers, wrongAnswers, rightAnswersStreak }) => {
   return (
@@ -65,6 +66,8 @@ const AudioChallengeContainer = () => {
   const [isGameStartOpen, setIsGameStartOpen] = useState(true);
   const [isGameStatsOpen, setIsGameStatsOpen] = useState(false);
   const { group, page } = useParams();
+
+  const ref = useFullScreen();
 
   const closeGameStart = () => {
     setIsGameStartOpen(false);
@@ -196,7 +199,7 @@ const AudioChallengeContainer = () => {
 
   console.log("words", words);
   return (
-    <>
+    <div ref={ref}>
       {isGameStartOpen && <GameStart startGame={startGame} />}
       {isDiffOpen && <Difficulty setDifficulty={setDifficulty} />}
       {isGameOpen && gameState.word && (
@@ -214,7 +217,7 @@ const AudioChallengeContainer = () => {
           rightAnswersStreak={gameState.rightAnswersStreak}
         />
       )}
-    </>
+    </div>
   );
 };
 
