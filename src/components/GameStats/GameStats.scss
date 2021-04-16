@@ -1,0 +1,9 @@
+.game-stats {
+  height: 100vh;
+  &_words {
+    display: flex;
+    &-column {
+      margin: 20px;
+    }
+  }
+}
