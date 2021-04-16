@@ -16,6 +16,7 @@ import {
   submitWrongAnswer,
 } from "../../utils/api/api";
 import Difficulty from "../Difficulty/Difficulty";
+import { useFullScreen } from "../../utils/games/useFullScreen";
 
 let interval;
 let randomWords = [];
@@ -35,6 +36,9 @@ export default function Savanna() {
   const [wrongAnswers, setWrongAnswers] = useState([]);
   const [winStreak, setWinStreak] = useState(0);
   const [finalWinStreak, setFinalWinStreak] = useState(0);
+
+  let { group, page } = useParams();
+  const refToGameRoot = useFullScreen();
 
   function isGameOver() {
     return randomWords.length == 0 && rightAnswers.length + wrongAnswers.length == words.length;
@@ -185,11 +189,13 @@ export default function Savanna() {
   }
 
   return (
-    <div className="savanna">
+    <div className="savanna" ref={refToGameRoot}>
       {!difficultyLevel && <Difficulty setDifficulty={setDifficulty} />}
-      {difficultyLevel && livesCounter}
-      {difficultyLevel && gameField}
-      {difficultyLevel && <Drop dropSize={dropSize} />}
+      {difficultyLevel && <>
+        livesCounter
+        gameField
+        <Drop dropSize={dropSize} />
+      </>}
     </div>
   );
 }

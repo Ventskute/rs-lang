@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { getShortTermStats } from "../../../utils/api/api";
 
 import "./ShortStatistics.scss";
+import Animal from "../../Animal/Animal";
 
 const nameGame = {
   audioChallenge: "Аудиовызов",
@@ -65,7 +66,9 @@ export default function ShortStatistics() {
     ],
   });
   const [totalWordsCount, setTotalWordsCount] = useState(0);
-  const [totalPercentCorrectAnswers, setTotalPercentCorrectAnswers] = useState(0);
+  const [totalPercentCorrectAnswers, setTotalPercentCorrectAnswers] = useState(
+    0
+  );
 
   useEffect(() => {
     getShortTermStats(user.userId).then((data) => {
@@ -172,13 +175,16 @@ export default function ShortStatistics() {
 
   function percentCorrectAnswers(right, wrong) {
     let sum = right + wrong;
-    let percent = right / sum * 100;
+    let percent = (right / sum) * 100;
     let roundPercent = Math.round(percent * 1000) / 1000;
     return roundPercent;
   }
 
   return (
     <div className="shortStatistics">
+      <div>
+        <Animal />
+      </div>
       <Alert variant="primary">
         <Alert.Heading>
           Общее количество изученных слов: {totalWordsCount}

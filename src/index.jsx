@@ -1,7 +1,14 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link, useLocation, useHistory } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useLocation,
+  useHistory,
+} from "react-router-dom";
 import { createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import SprintGameMenu from "./components/SprintGameMenu/SprintGameMenu";
@@ -26,11 +33,10 @@ export default function App() {
   const store = createStore(rootReducer, composeWithDevTools());
   const history = useHistory();
 
-  const path = localStorage.getItem('page');
-  if (history.location.pathname === '/') {
+  const path = localStorage.getItem("page");
+  if (history.location.pathname === "/") {
     path && history.replace(path);
   }
-
 
   return (
     <Provider store={store}>
