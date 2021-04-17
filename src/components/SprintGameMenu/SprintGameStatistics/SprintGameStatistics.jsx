@@ -8,7 +8,7 @@ function SprintGameStatistics({ setSprintState, sprintState }) {
   );
 
   const restartGameHandler = () => {
-    setSprintState({ ...sprintState, isTimeOver: false, settingsMenu: true });
+    setSprintState({ ...sprintState, isTimeOver: false, settingsMenu: true, currPoints: 0 });
   };
 
   return (
