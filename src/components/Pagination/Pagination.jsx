@@ -2,6 +2,7 @@ import React from 'react';
 import './Pagination.scss';
 
 import { Pagination } from 'react-bootstrap';
+import { sectionsColor } from '../../utils/api';
 
 const LEFT_PAGE = 'LEFT';
 const RIGHT_PAGE = 'RIGHT';
@@ -22,7 +23,7 @@ const range = (from, to, step = 1) => {
   return range;
 };
 
-function PaginationWordList({ state, setState }, props) {
+function PaginationWordList({ difficulty, state, setState }, props) {
   const { totalRecords = null, pageLimit = 30, pageNeighbours = 2 } = props;
 
   // pageNeighbours can be: 0, 1 or 2
@@ -121,8 +122,8 @@ function PaginationWordList({ state, setState }, props) {
 
   return (
     <>
-      <nav aria-label="Pagination">
-        <ul className="pagination">
+      <nav aria-label="Pagination" className='fdfd'>
+        <ul className="pagination" style={{background: sectionsColor[difficulty]}}>
           {pages.map((page, index) => {
             if (page === LEFT_PAGE)
               return (

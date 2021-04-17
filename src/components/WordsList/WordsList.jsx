@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Accordion, Button, Card, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { sectionsColor } from "../../utils/api";
 import { addWordToHard, deleteWord, removeWordFromHard } from "../../utils/api/api";
 import { setActualWords } from "../../utils/games/setActualWords";
 import Cards from "../Card/Card";
@@ -54,7 +55,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
     }
   }, [difficulty, page, incomingWords]);
   return (
-    <Container>
+    <Container style={{background: sectionsColor[difficulty]}}>
       <Accordion>
         {words &&
           words.map((el, i) => {
@@ -83,7 +84,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
                             Восстановить
                           </Button>
                         }
-                        {(el.userWord.difficulty !== "hard") &&
+                        {(el.userWord && el.userWord.difficulty !== "hard") &&
                           <Button
                             onClick={() => handleToHardClick(user.userId, el.id)}
                             className="button-action"
