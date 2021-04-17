@@ -41,10 +41,12 @@ const Dictionary = () => {
     (userId, wordId, wordType) => {
       deleteWord(userId, wordId);
       setWords((words) => {
-        return { ...words, [wordType]: words[wordType].filter((word) => word._id !== wordId) };
-      });
-      setWords((words) => {
-        getDeletedWords(user.userId).then((deleted) => setWords({ ...words, deleted }));
+        const word = words[wordType].find((word) => word._id === wordId);
+        return {
+          ...words,
+          [wordType]: words[wordType].filter((word) => word._id !== wordId),
+          deleted: [...words.deleted, word],
+        };
       });
     },
     [setWords]
@@ -54,26 +56,29 @@ const Dictionary = () => {
     (userId, wordId, wordType) => {
       addWordToHard(userId, wordId);
       setWords((words) => {
+        const word = words[wordType].find((word) => word._id === wordId);
         return {
           ...words,
           [wordType]: words[wordType].map((word) => {
             if (word._id === wordId) word.userWord.difficulty = "hard";
             return word;
           }),
+          hard: [...words.hard, word],
         };
-      });
-      setWords((words) => {
-        getHardWords(user.userId).then((hard) => setWords({ ...words, hard }));
       });
     },
     [setWords]
   );
 
   const restoreHandler = useCallback(
-    (userId, wordId, wordType) => {
+    (userId, wordId) => {
       deleteUserWord(userId, wordId);
       setWords((words) => {
-        return { ...words, [wordType]: words[wordType].filter((word) => word._id !== wordId) };
+        return {
+          learning: words.learning.filter((word) => word._id !== wordId),
+          deleted: words.deleted.filter((word) => word._id !== wordId),
+          hard: words.hard.filter((word) => word._id !== wordId),
+        };
       });
     },
     [setWords]
