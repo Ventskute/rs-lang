@@ -51,19 +51,23 @@ export default function WordsList({ incomingWords, difficulty, page }) {
     },
     [setWords]
   );
-  const handleToHardClick = useCallback(
-    (userId, elId) => {
+  const handleToHardClick = (userId, elId) => {
       addWordToHard(userId, elId);
       setWords((words) => {
         return words.map((word) => {
-          if (word.id === elId) word.userWord.difficulty = "hard";
+          if (word.id === elId)  {
+            if (word.userWord) {
+              word.userWord.difficulty = "hard";
+            } else {
+              word.userWord = {}
+              word.userWord.difficulty = "hard";
+            }
+          }
 
           return word;
         });
       });
-    },
-    [setWords]
-  );
+    };
 
   useEffect(async () => {
     if (!incomingWords) {
@@ -104,15 +108,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
                     <Card.Body>{Cards(el)}</Card.Body>
                     {buttons && user && (
                       <div className="buttons-wrapper">
-                        {el.userWord && el.userWord.difficulty === "hard" && (
-                          <Button
-                            onClick={() => handleRestoreClick(user.userId, el.id)}
-                            className="button-action"
-                          >
-                            Восстановить
-                          </Button>
-                        )}
-                        {el.userWord && el.userWord.difficulty !== "hard" && (
+                        {(!el.userWord || (el.userWord && el.userWord.difficulty !== "hard")) && (
                           <Button
                             onClick={() => handleToHardClick(user.userId, el.id)}
                             className="button-action"
