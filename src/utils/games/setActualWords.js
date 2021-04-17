@@ -14,9 +14,8 @@ export const setActualWords = async (
   wordsNum = 10,
   ansOptions = 1
 ) => {
-  const wordsPerPage = nullable(wordsNum, 10) * nullable(ansOptions, 1);
   const fetchedWords = userId
-    ? await getAggregatedWords(userId, difficulty, page, wordsPerPage)
+    ? await getAggregatedWords(userId, difficulty, page)
     : await getWords(difficulty, page);
 
   const promiseAnswers = [];
@@ -29,9 +28,6 @@ export const setActualWords = async (
   const fetchedAnswers = await Promise.all(promiseAnswers);
 
   const wordsWithAnsOptions = fetchedWords.map((word, i) => {
-    const start = i * ansOptions;
-    const end = start + ansOptions;
-
     const fakeTranslates = [];
 
     for (let k = 0; k < ansOptions - 1; k++) {

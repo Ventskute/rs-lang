@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { setActualWords } from "../../utils/games/setActualWords";
 import Difficulty from "../Difficulty/Difficulty";
 import { useSelector } from "react-redux";
@@ -65,6 +65,7 @@ const AudioChallengeContainer = () => {
   const [isGameOpen, setIsGameOpen] = useState(false);
   const [isGameStartOpen, setIsGameStartOpen] = useState(true);
   const [isGameStatsOpen, setIsGameStatsOpen] = useState(false);
+  const [refs] = useState([useRef(), useRef(), useRef(), useRef(), useRef()]);
   const { group, page } = useParams();
 
   const ref = useFullScreen();
@@ -112,6 +113,7 @@ const AudioChallengeContainer = () => {
       return;
     }
     const word = words[iteration];
+    console.log(word);
     const audio = new Audio(BASE_URL + word.audio);
     audio.autoplay = true;
     setGameState({
@@ -165,6 +167,20 @@ const AudioChallengeContainer = () => {
     }
   };
 
+  const handleKeyboard = useCallback(({ key }) => {
+    if (key > 0 && key <= 5) {
+      console.log("key", key);
+      refs[key - 1] &&
+        refs[key - 1].current.dispatchEvent(
+          new MouseEvent("click", {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+          })
+        );
+    }
+  });
+
   useEffect(() => {
     if (words) {
       const word = words[gameState.iteration];
@@ -176,6 +192,9 @@ const AudioChallengeContainer = () => {
         ansOptions: shuffle([...word.fakeTranslates, word.wordTranslate]),
         audio,
       });
+
+      document.addEventListener("keydown", handleKeyboard);
+      return () => document.removeEventListener("keydown", handleKeyboard);
     }
   }, [words]);
 
@@ -203,6 +222,7 @@ const AudioChallengeContainer = () => {
           handleAns={handleAns}
           goNextWord={goNextWord}
           play={play}
+          refs={refs}
         />
       )}
       {isGameStatsOpen && (
