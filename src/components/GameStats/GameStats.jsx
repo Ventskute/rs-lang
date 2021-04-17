@@ -15,9 +15,11 @@ const GameStats = ({ rightAnswers, wrongAnswers, rightAnswersStreak }) => {
         </div>
         <div className="game-stats_words-column">
           <p>Неправильные ответы:</p>
-          {wrongAnswers.map((answer, i) => (
-            <div key={i}>{answer.word}</div>
-          ))}
+          <ul>
+            {wrongAnswers.map((answer, i) => (
+              <li key={i}>{answer.word}</li>
+            ))}
+          </ul>
         </div>
       </div>
       <div className="game-stats_streak">

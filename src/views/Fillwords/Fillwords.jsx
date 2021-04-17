@@ -84,6 +84,7 @@ export default function Fillwords() {
     } else {
       setMatrix(a);
     }
+    console.log(selected)
     return selected;
   };
 
@@ -173,7 +174,7 @@ export default function Fillwords() {
         submitGameResult(
           user.userId,
           "fillWords",
-          winStreak > finalWinStreak ? winStreak : finalWinStreak,
+          (winStreak > finalWinStreak) ? winStreak : finalWinStreak,
           foundWords.length - wrongAnswers.length,
           wrongAnswers.length
         );

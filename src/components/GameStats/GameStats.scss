@@ -1,5 +1,10 @@
+@import '../../variables.scss';
+
 .game-stats {
-  height: 100vh;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 400px;
+
   &_words {
     display: flex;
     &-column {

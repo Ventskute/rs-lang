@@ -13,7 +13,7 @@ import TabPages from "./TabPages/TabPages";
 import LearningWords, { DictionaryWords } from "./LearningWords/LearningWords";
 
 import "./Dictionary.scss";
-import Header from "../Header/Header";
+import Header from '../Header/Header';
 import { useLocation } from "react-router";
 
 const Dictionary = () => {
@@ -26,7 +26,7 @@ const Dictionary = () => {
     deleted: [],
   };
 
-  localStorage.setItem("page", location.pathname);
+  localStorage.setItem('page', location.pathname);
 
   const [words, setWords] = useState(initialWords);
   useEffect(async () => {
