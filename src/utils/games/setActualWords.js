@@ -37,7 +37,7 @@ const addLearningWords = async (userId, words = []) => {
 };
 
 const supWords = async (userId, group, page, wordsToSup = [], wordsNum = 20) => {
-  const prevPage = getPrevPage(group, page);
+  const prevPage = getPrevPage(Number(group), Number(page));
 
   let supWords = prevPage ? await getWords(prevPage[0], prevPage[1]) : [];
 
