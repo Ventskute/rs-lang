@@ -27,6 +27,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
       setWords((words) => {
         return words.map((word) => {
           if (word.id === elId) word.userWord.difficulty = "normal";
+
           return word;
         });
       });
@@ -39,6 +40,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
       setWords((words) => {
         return words.map((word) => {
           if (word.id === elId) word.userWord.difficulty = "hard";
+
           return word;
         });
       });
@@ -75,22 +77,22 @@ export default function WordsList({ incomingWords, difficulty, page }) {
                     <Card.Body>{Cards(el)}</Card.Body>
                     {buttons && user && (
                       <div className="buttons-wrapper">
-                        {el.userWord && el.userWord.difficulty === "hard" &&
+                        {el.userWord && el.userWord.difficulty === "hard" && (
                           <Button
                             onClick={() => handleRestoreClick(user.userId, el.id)}
                             className="button-action"
                           >
                             Восстановить
                           </Button>
-                        }
-                        {(el.userWord.difficulty !== "hard") &&
+                        )}
+                        {el.userWord && el.userWord.difficulty !== "hard" && (
                           <Button
                             onClick={() => handleToHardClick(user.userId, el.id)}
                             className="button-action"
                           >
                             Добавить в раздел "Сложные слова"
                           </Button>
-                        }
+                        )}
                         <Button
                           className="button-action"
                           onClick={() => handleDeleteClick(user.userId, el.id)}

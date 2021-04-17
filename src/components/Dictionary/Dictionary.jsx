@@ -13,7 +13,7 @@ import TabPages from "./TabPages/TabPages";
 import LearningWords, { DictionaryWords } from "./LearningWords/LearningWords";
 
 import "./Dictionary.scss";
-import Header from '../Header/Header';
+import Header from "../Header/Header";
 import { useLocation } from "react-router";
 
 const Dictionary = () => {
@@ -26,7 +26,7 @@ const Dictionary = () => {
     deleted: [],
   };
 
-  localStorage.setItem('page', location.pathname);
+  localStorage.setItem("page", location.pathname);
 
   const [words, setWords] = useState(initialWords);
   useEffect(async () => {
@@ -43,6 +43,9 @@ const Dictionary = () => {
       setWords((words) => {
         return { ...words, [wordType]: words[wordType].filter((word) => word._id !== wordId) };
       });
+      setWords((words) => {
+        getDeletedWords(user.userId).then((deleted) => setWords({ ...words, deleted }));
+      });
     },
     [setWords]
   );
@@ -58,6 +61,9 @@ const Dictionary = () => {
             return word;
           }),
         };
+      });
+      setWords((words) => {
+        getHardWords(user.userId).then((hard) => setWords({ ...words, hard }));
       });
     },
     [setWords]
@@ -78,7 +84,7 @@ const Dictionary = () => {
       <Header />
       <Tabs className="dictionary-tabs">
         <Tab eventKey="learning" title="learning">
-          {words.learning[0] && (
+          {words && words.learning[0] && (
             <TabPages
               words={words.learning}
               WordsListImplementation={({ incomingWords }) => (
@@ -94,7 +100,7 @@ const Dictionary = () => {
           )}
         </Tab>
         <Tab eventKey="hard" title="hard">
-          {words.hard[0] && (
+          {words && words.hard[0] && (
             <TabPages
               words={words.hard}
               WordsListImplementation={({ incomingWords }) => (
@@ -109,13 +115,13 @@ const Dictionary = () => {
           )}
         </Tab>
         <Tab eventKey="deleted" title="deleted">
-          {words.deleted[0] && (
+          {words && words.deleted[0] && (
             <TabPages
               words={words.deleted}
               WordsListImplementation={({ incomingWords }) => (
                 <DictionaryWords
                   incomingWords={incomingWords}
-                  restoreHandler={""}
+                  restoreHandler={restoreHandler}
                   wordType="deleted"
                 />
               )}

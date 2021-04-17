@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,6 +8,7 @@ import {
   Link,
   useLocation,
   useHistory,
+  Redirect,
 } from "react-router-dom";
 import { createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -29,10 +30,14 @@ import "./index.scss";
 import Menu from "./components/Menu/Menu";
 import Team from "./views/Team/Team";
 
+const RedirectHelper = ({ component }) => {
+  const { user } = useSelector((state) => state);
+  return user ? component : <Redirect to="/" />;
+};
+
 export default function App() {
   const store = createStore(rootReducer, composeWithDevTools());
   const history = useHistory();
-
   const path = localStorage.getItem("page");
   if (history.location.pathname === "/") {
     path && history.replace(path);
@@ -56,8 +61,12 @@ export default function App() {
           <Route path="/audioChallenge/:group/:page" component={AudioChallengeContainer} />
           <Route path="/audioChallenge" component={AudioChallengeContainer} />
           <Route path="/team" component={Team} />
-          <Route path="/statistics" component={Statistics} />
-          <Route path="/dictionary" component={Dictionary} />
+          <Route path="/statistics">
+            <RedirectHelper component={<Statistics />} />
+          </Route>
+          <Route path="/dictionary">
+            <RedirectHelper component={<Dictionary />} />
+          </Route>
         </Switch>
       </UserUpdater>
     </Provider>
