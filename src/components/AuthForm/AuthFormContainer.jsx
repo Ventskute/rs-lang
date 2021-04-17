@@ -8,6 +8,7 @@ const AuthFormContainer = ({ isSignup, closeForm }) => {
   );
   const [nameValue, setNameValue] = useState("");
   const [namePlaceHolder, setNamePlaceHolder] = useState("Имя");
+  const [authErr, setAuthErr] = useState(null);
   const reader = new FileReader();
 
   reader.onload = (e) => {
@@ -22,21 +23,16 @@ const AuthFormContainer = ({ isSignup, closeForm }) => {
     setNameValue(e.target.value);
   };
 
-  // const setUser = (user) => {
-  //   dispatch({ type: actions.SET_USER, user: user });
-  // };
-
   const handleSignin = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     const res = await signin(data);
     if (res.status === 403) {
-      //     setNameValue("");
-      //     setNamePlaceHolder("incorrect email or password");
-      throw new Error("incorrect email or password");
+      setAuthErr("incorrect email or password");
     }
     if (res.status === 200) {
+      setAuthErr(null);
       closeForm();
     }
   };
@@ -46,15 +42,12 @@ const AuthFormContainer = ({ isSignup, closeForm }) => {
     const data = new FormData(e.target);
     const res = await signup(data);
     const resStatus = await res.status;
-    // const { name, email, userId, profileImg } = await res.user;
     const resUser = await res.user;
-    // if (resStatus === 422) {
-    //   setNameValue("");
-    //   setNamePlaceHolder("incorrect email or password");
-    // }
+    if (resStatus === 422) {
+      setAuthErr("incorrect email or password");
+    }
     if (resStatus === 200) {
-      // setUser(resUser);
-
+      setAuthErr(null);
       closeForm();
     }
   };
@@ -70,6 +63,7 @@ const AuthFormContainer = ({ isSignup, closeForm }) => {
       imgUrl={imgUrl}
       readImg={readImg}
       changeNameValue={changeNameValue}
+      err={authErr}
     />
   );
 };
