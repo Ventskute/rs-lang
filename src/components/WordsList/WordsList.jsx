@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Accordion, Button, Card, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { addWordToHard, deleteWord, getAggregatedWords, getWords } from "../../utils/api/api";
+import { addWordToHard, deleteWord } from "../../utils/api/api";
 import { setActualWords } from "../../utils/games/setActualWords";
 import Cards from "../Card/Card";
 
@@ -12,20 +12,41 @@ export default function WordsList({ incomingWords, difficulty, page }) {
   const [words, setWords] = useState(incomingWords);
   const { user } = useSelector((state) => state);
 
+  const handleDeleteClick = useCallback(
+    (userId, elId) => {
+      deleteWord(userId, elId);
+      setWords((words) => {
+        return words.filter((word) => word.id !== elId);
+      });
+    },
+    [setWords]
+  );
+  const handleToHardClick = useCallback(
+    (userId, elId) => {
+      addWordToHard(userId, elId);
+      setWords((words) => {
+        return words.map((word) => {
+          if (word.id === elId) word.userWord.difficulty = "hard";
+          return word;
+        });
+      });
+    },
+    [setWords]
+  );
+
   useEffect(() => {
     if (!incomingWords) {
-      setActualWords(user && user.userId, setWords, difficulty, page, false);
+      setActualWords(user && user.userId, setWords, difficulty, page, false, 1, true);
     } else {
       setWords(incomingWords);
     }
   }, [difficulty, page, incomingWords]);
-
+  console.log("words", words);
   return (
     <Container>
       <Accordion>
         {words &&
           words.map((el, i) => {
-            el.word === "alcohol" && console.log(el);
             return (
               <Card
                 key={i}
@@ -43,25 +64,15 @@ export default function WordsList({ incomingWords, difficulty, page }) {
                     <Card.Body>{Cards(el)}</Card.Body>
                     {buttons && user && (
                       <div className="buttons-wrapper">
-                        {el.userWord && el.userWord.difficulty &&
-                          <Button
-                            onClick={() => addWordToHard(user.userId, el.id)}
-                            className="button-action"
-                          >
-                            Восстановить
-                          </Button>
-                        }
-                        {(!el.userWord || !el.userWord.difficulty) &&
-                          <Button
-                            onClick={() => addWordToHard(user.userId, el.id)}
-                            className="button-action"
-                          >
-                            Добавить в раздел "Сложные слова"
-                          </Button>
-                        }
+                        <Button
+                          onClick={() => handleToHardClick(user.userId, el.id)}
+                          className="button-action"
+                        >
+                          Добавить в раздел "Сложные слова"
+                        </Button>
                         <Button
                           className="button-action"
-                          onClick={() => deleteWord(user.userId, el.id)}
+                          onClick={() => handleDeleteClick(user.userId, el.id)}
                         >
                           Удалить
                         </Button>

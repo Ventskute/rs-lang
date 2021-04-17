@@ -1,4 +1,4 @@
-import { getDeletedWords, getWords } from "../api/api";
+import { getDeletedWords, getLearningWords, getWords } from "../api/api";
 import { getRand } from "./getRand";
 
 const getPrevPage = (group, page) => {
@@ -26,6 +26,16 @@ const deleteDeletedWords = async (userId, words = []) => {
   return wordsWithoutDeletedWords;
 };
 
+const addLearningWords = async (userId, words = []) => {
+  const learningWords = await getLearningWords(userId);
+  const wordsWithLearning = words.map((word) => {
+    const userWord = learningWords.find((userWord) => word.id === userWord._id);
+    if (userWord) word.userWord = userWord.userWord;
+    return word;
+  });
+  return wordsWithLearning;
+};
+
 const supWords = async (userId, group, page, wordsToSup = [], wordsNum = 20) => {
   const prevPage = getPrevPage(group, page);
 
@@ -44,13 +54,15 @@ export const setActualWords = async (
   difficulty,
   page,
   wordsNum = 20,
-  ansOptions = 1
+  ansOptions = 1,
+  learning = false
 ) => {
   let fetchedWords = await getWords(difficulty, page);
 
   if (userId) {
     fetchedWords = await deleteDeletedWords(userId, fetchedWords);
     if (wordsNum) fetchedWords = await supWords(userId, difficulty, page, fetchedWords, wordsNum);
+    if (learning) fetchedWords = await addLearningWords(userId, fetchedWords);
   }
 
   if (ansOptions > 1) {
