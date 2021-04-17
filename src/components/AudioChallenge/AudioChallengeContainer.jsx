@@ -8,7 +8,6 @@ import { shuffle } from "../../utils/games/arrShuffle";
 import { getRand } from "../../utils/games/getRand";
 import {
   BASE_URL,
-  getWords,
   submitGameResult,
   submitRightAnswer,
   submitWrongAnswer,
@@ -204,7 +203,6 @@ const AudioChallengeContainer = () => {
         user && user.userId,
         setWords,
         gameState.difficulty || group,
-        null,
         page || getRand(10),
         20,
         5

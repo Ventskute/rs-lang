@@ -6,9 +6,11 @@ import Card from "../../components/Card/Card";
 import Difficulty from "../../components/Difficulty/Difficulty";
 import FullScreenButton from "../../components/FullScreenButton/FullScreenButton";
 import GameStats from "../../components/GameStats/GameStats";
-import { getStaticURL, getWords } from "../../utils/api";
+import { getStaticURL } from "../../utils/api";
 import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../utils/api/api";
 import { Filler } from "../../utils/fillWords";
+import { getRand } from "../../utils/games/getRand";
+import { setActualWords } from "../../utils/games/setActualWords";
 import { useFullScreen } from "../../utils/games/useFullScreen";
 
 import "./Fillwords.scss";
@@ -28,7 +30,11 @@ export default function Fillwords() {
   const [finalWinStreak, setFinalWinStreak] = useState(0);
   const { group, page = 0 } = useParams();
   const [difficulty, setDifficulty] = useState(group && +group);
+<<<<<<< HEAD
   const size = 2 + Math.ceil((difficulty + 1) / 2);
+=======
+  const size = Math.floor(4 + difficulty / 2);
+>>>>>>> 479c39b (feat: add smart wordGetter to all games)
 
   const isDifficulty = () => typeof difficulty === "number";
 
@@ -90,9 +96,10 @@ export default function Fillwords() {
 
   useEffect(() => {
     if (isDifficulty()) {
-      getWords(difficulty, page || Math.round(Math.random() * 29)).then((data) =>
-        setWords(findWords(data.sort(() => 0.5 - Math.random())))
-      );
+      const specificSetWords = (words) => {
+        setWords(findWords(words.sort(() => 0.5 - Math.random())));
+      };
+      setActualWords(user && user.userId, specificSetWords, difficulty, page || getRand());
     }
   }, [difficulty]);
 

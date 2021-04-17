@@ -9,16 +9,15 @@ import Drop from "./Drop/Drop";
 import LivesCounter from "./LivesCounter/LivesCounter";
 import { getRand } from "../../utils/games/getRand";
 import { shuffle } from "../../utils/games/arrShuffle";
-import {
-  getWords,
-  submitGameResult,
-  submitRightAnswer,
-  submitWrongAnswer,
-} from "../../utils/api/api";
+import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../utils/api/api";
 import Difficulty from "../Difficulty/Difficulty";
 import { useFullScreen } from "../../utils/games/useFullScreen";
 import GameStats from "../GameStats/GameStats";
+<<<<<<< HEAD
 import FullScreenButton from "../FullScreenButton/FullScreenButton";
+=======
+import { setActualWords } from "../../utils/games/setActualWords";
+>>>>>>> 479c39b (feat: add smart wordGetter to all games)
 
 let interval;
 let randomWords = [];
@@ -97,13 +96,12 @@ export default function Savanna() {
 
   const isWords = () => Boolean(words[0]);
   useEffect(() => {
-    difficultyLevel &&
-      getWords(difficultyLevel, page || getRand()).then((words) => {
-        setWords(words);
-        if (isWords()) {
-          nextWord(words);
-        }
-      });
+    if (difficultyLevel) {
+      setActualWords(user && user.userId, setWords, difficultyLevel, page || getRand(), 20, 4);
+      if (isWords()) {
+        nextWord(words);
+      }
+    }
 
     window.addEventListener("keydown", handleUserKeyPress);
 
