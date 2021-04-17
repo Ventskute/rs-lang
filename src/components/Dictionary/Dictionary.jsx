@@ -88,7 +88,7 @@ const Dictionary = () => {
     <div className="dictionary">
       <Header />
       <Tabs className="dictionary-tabs">
-        <Tab eventKey="learning" title="learning">
+        <Tab eventKey="learning" title="изучаемые">
           {words && words.learning[0] && (
             <TabPages
               words={words.learning}
@@ -104,7 +104,7 @@ const Dictionary = () => {
             />
           )}
         </Tab>
-        <Tab eventKey="hard" title="hard">
+        <Tab eventKey="hard" title="трудные">
           {words && words.hard[0] && (
             <TabPages
               words={words.hard}
@@ -119,7 +119,7 @@ const Dictionary = () => {
             />
           )}
         </Tab>
-        <Tab eventKey="deleted" title="deleted">
+        <Tab eventKey="deleted" title="удаленные">
           {words && words.deleted[0] && (
             <TabPages
               words={words.deleted}
