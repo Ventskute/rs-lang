@@ -50,8 +50,8 @@ export default function Animal() {
         data.optional.savanna.learnedWords +
         data.optional.sprint.learnedWords;
 
-      setWidthGiraffe(widthGiraffe + size);
-      setHeightGiraffe(heightGiraffe + size);
+      setWidthGiraffe(widthGiraffe + size/8);
+      setHeightGiraffe(heightGiraffe + size/8);
 
       if (size > 0) {
         setSizeGiraffe(rand(phrases.two));
