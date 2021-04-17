@@ -14,10 +14,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
 
   useEffect(() => {
     if (!incomingWords) {
-      setActualWords(user && user.userId, setWords, difficulty, page);
-      // getWords(difficulty, page).then((arr) => {
-      //   setWords(arr);
-      // });
+      setActualWords(user && user.userId, setWords, difficulty, page, false);
     } else {
       setWords(incomingWords);
     }

@@ -1,4 +1,4 @@
-import { getAggregatedWords, getDeletedWords, getWords } from "../api/api";
+import { getDeletedWords, getWords } from "../api/api";
 import { getRand } from "./getRand";
 
 const getPrevPage = (group, page) => {
@@ -19,7 +19,6 @@ const getPrevPage = (group, page) => {
 
 const deleteDeletedWords = async (userId, words = []) => {
   const deletedWords = await getDeletedWords(userId);
-  console.log(deletedWords, "del");
   const wordsWithoutDeletedWords = words.filter((word) => {
     return deletedWords.every((deletedWord) => deletedWord._id !== word.id);
   });
@@ -49,12 +48,9 @@ export const setActualWords = async (
 ) => {
   let fetchedWords = await getWords(difficulty, page);
 
-  console.log(fetchedWords, "fetched", difficulty, page);
   if (userId) {
     fetchedWords = await deleteDeletedWords(userId, fetchedWords);
-    console.log("wwdw", fetchedWords);
-    fetchedWords = await supWords(userId, difficulty, page, fetchedWords, wordsNum);
-    console.log(fetchedWords, "after sup");
+    if (wordsNum) fetchedWords = await supWords(userId, difficulty, page, fetchedWords, wordsNum);
   }
 
   if (ansOptions > 1) {
