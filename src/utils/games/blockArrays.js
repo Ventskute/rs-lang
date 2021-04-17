@@ -9,7 +9,7 @@ export const gamesArr = [
       className: '__savanna',
       link: './savanna',
       img: savanna,
-      description: 'Здесь будет описание геймплея игры.'
+      description: 'Выберите верный перевод слов, чтобы напоить иссохшие земли. Не забывайте про ограниченное количество жизней.'
     },
     {
       name: 'Спринт',
