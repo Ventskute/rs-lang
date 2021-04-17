@@ -13,7 +13,7 @@ import TabPages from "./TabPages/TabPages";
 import LearningWords, { DictionaryWords } from "./LearningWords/LearningWords";
 
 import "./Dictionary.scss";
-import Header from '../Header/Header';
+import Header from "../Header/Header";
 import { useLocation } from "react-router";
 
 const Dictionary = () => {
@@ -26,7 +26,7 @@ const Dictionary = () => {
     deleted: [],
   };
 
-  localStorage.setItem('page', location.pathname);
+  localStorage.setItem("page", location.pathname);
 
   const [words, setWords] = useState(initialWords);
   useEffect(async () => {
@@ -41,7 +41,12 @@ const Dictionary = () => {
     (userId, wordId, wordType) => {
       deleteWord(userId, wordId);
       setWords((words) => {
-        return { ...words, [wordType]: words[wordType].filter((word) => word._id !== wordId) };
+        const word = words[wordType].find((word) => word._id === wordId);
+        return {
+          ...words,
+          [wordType]: words[wordType].filter((word) => word._id !== wordId),
+          deleted: [...words.deleted, word],
+        };
       });
     },
     [setWords]
@@ -51,12 +56,14 @@ const Dictionary = () => {
     (userId, wordId, wordType) => {
       addWordToHard(userId, wordId);
       setWords((words) => {
+        const word = words[wordType].find((word) => word._id === wordId);
         return {
           ...words,
           [wordType]: words[wordType].map((word) => {
             if (word._id === wordId) word.userWord.difficulty = "hard";
             return word;
           }),
+          hard: [...words.hard, word],
         };
       });
     },
@@ -64,10 +71,14 @@ const Dictionary = () => {
   );
 
   const restoreHandler = useCallback(
-    (userId, wordId, wordType) => {
+    (userId, wordId) => {
       deleteUserWord(userId, wordId);
       setWords((words) => {
-        return { ...words, [wordType]: words[wordType].filter((word) => word._id !== wordId) };
+        return {
+          learning: words.learning.filter((word) => word._id !== wordId),
+          deleted: words.deleted.filter((word) => word._id !== wordId),
+          hard: words.hard.filter((word) => word._id !== wordId),
+        };
       });
     },
     [setWords]
@@ -77,8 +88,8 @@ const Dictionary = () => {
     <div className="dictionary">
       <Header />
       <Tabs className="dictionary-tabs">
-        <Tab eventKey="learning" title="learning">
-          {words.learning[0] && (
+        <Tab eventKey="learning" title="изучаемые">
+          {words && words.learning[0] && (
             <TabPages
               words={words.learning}
               WordsListImplementation={({ incomingWords }) => (
@@ -93,8 +104,8 @@ const Dictionary = () => {
             />
           )}
         </Tab>
-        <Tab eventKey="hard" title="hard">
-          {words.hard[0] && (
+        <Tab eventKey="hard" title="трудные">
+          {words && words.hard[0] && (
             <TabPages
               words={words.hard}
               WordsListImplementation={({ incomingWords }) => (
@@ -108,14 +119,14 @@ const Dictionary = () => {
             />
           )}
         </Tab>
-        <Tab eventKey="deleted" title="deleted">
-          {words.deleted[0] && (
+        <Tab eventKey="deleted" title="удаленные">
+          {words && words.deleted[0] && (
             <TabPages
               words={words.deleted}
               WordsListImplementation={({ incomingWords }) => (
                 <DictionaryWords
                   incomingWords={incomingWords}
-                  restoreHandler={""}
+                  restoreHandler={restoreHandler}
                   wordType="deleted"
                 />
               )}

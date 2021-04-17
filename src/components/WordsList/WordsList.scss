@@ -34,7 +34,6 @@
         margin: 35px 0 0;
       }
     }
-
   }
 
   .wordlist-item {
@@ -50,6 +49,10 @@
     &.difficultWord {
       background-color: rgb(246, 109, 109);
     }
-
   }
+}
+
+.wordsList-stats {
+  text-align: center;
+  text-transform: uppercase;
 }

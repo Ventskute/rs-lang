@@ -12,6 +12,7 @@ const AuthForm = ({
   imgUrl,
   readImg,
   changeNameValue,
+  err,
 }) => {
   return (
     <div className="auth-modal" onClick={closeForm}>
@@ -20,6 +21,7 @@ const AuthForm = ({
           X
         </div>
         <h2 className="auth-form--title">{isSignup ? "регистрация" : "вход"}</h2>
+        <h6 className="auth-form--title">{err}</h6>
         <form className="auth-form" onSubmit={isSignup ? handleSignup : handleSignin}>
           {isSignup && (
             <input

@@ -40,7 +40,9 @@ function SprintGameMenu() {
     setSprintState((state) => {
       const difficultyMenu = !Boolean(state.levelSettings);
       const startGameTotal = Boolean(state.levelSettings);
-      return { ...state, settingsMenu: false, difficultyMenu, startGameTotal };
+      return { ...state, settingsMenu: false, difficultyMenu, startGameTotal, currPoints: 0,
+        truelyAnswers: [],
+        falsyAnswers: [], };
     });
   };
   const restartGameHandler = () => {
