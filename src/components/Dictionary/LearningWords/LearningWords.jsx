@@ -21,7 +21,7 @@ export const DictionaryWords = ({ incomingWords, restoreHandler, deleteHandler, 
             const isHard = el.userWord && el.userWord.difficulty !== "normal";
             const isDeleted = el.userWord && el.userWord.optional.wordStatus === "deleted";
             return (
-              <Card key={i} className="card-collapsed" bg={isHard ? "danger" : "light"}>
+              <Card key={i} className="card-collapsed" bg={isHard ? "danger" : "light"} text={isHard ? "light" : "dark"}>
                 <Accordion.Toggle as={Card.Header} eventKey={i + 1} className="wordlist-item">
                   <p>{el.word}</p>
                   <p>{el.transcription}</p>
@@ -81,7 +81,7 @@ const LearningWords = ({
           words.map((el, i) => {
             const isHard = el.userWord && el.userWord.difficulty !== "normal";
             return (
-              <Card key={i} className="card-collapsed" bg={isHard ? "danger" : "light"}>
+              <Card key={i} className="card-collapsed" bg={isHard ? "danger" : "light"} text={isHard ? "light" : "dark"}>
                 <Accordion.Toggle as={Card.Header} eventKey={i + 1} className="wordlist-item">
                   <p>{el.word}</p>
                   <p>{el.transcription}</p>

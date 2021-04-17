@@ -75,7 +75,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
                     <Card.Body>{Cards(el)}</Card.Body>
                     {buttons && user && (
                       <div className="buttons-wrapper">
-                        {el.userWord && el.userWord.difficulty &&
+                        {el.userWord && el.userWord.difficulty === "hard" &&
                           <Button
                             onClick={() => handleRestoreClick(user.userId, el.id)}
                             className="button-action"
@@ -83,7 +83,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
                             Восстановить
                           </Button>
                         }
-                        {(!el.userWord || !el.userWord.difficulty) &&
+                        {(el.userWord.difficulty !== "hard") &&
                           <Button
                             onClick={() => handleToHardClick(user.userId, el.id)}
                             className="button-action"
