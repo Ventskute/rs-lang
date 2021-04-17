@@ -30,11 +30,7 @@ export default function Fillwords() {
   const [finalWinStreak, setFinalWinStreak] = useState(0);
   const { group, page = 0 } = useParams();
   const [difficulty, setDifficulty] = useState(group && +group);
-<<<<<<< HEAD
   const size = 2 + Math.ceil((difficulty + 1) / 2);
-=======
-  const size = Math.floor(4 + difficulty / 2);
->>>>>>> 479c39b (feat: add smart wordGetter to all games)
 
   const isDifficulty = () => typeof difficulty === "number";
 
@@ -88,7 +84,6 @@ export default function Fillwords() {
     } else {
       setMatrix(a);
     }
-    console.log(selected)
     return selected;
   };
 
@@ -178,7 +173,7 @@ export default function Fillwords() {
         submitGameResult(
           user.userId,
           "fillWords",
-          (winStreak > finalWinStreak) ? winStreak : finalWinStreak,
+          winStreak > finalWinStreak ? winStreak : finalWinStreak,
           foundWords.length - wrongAnswers.length,
           wrongAnswers.length
         );
@@ -272,8 +267,8 @@ export default function Fillwords() {
             </div>
           </Container>
         )}
-      <FullScreenButton />
-      <ModalWarn show={showModal} onHide={() => setShowModal(false)} />
+        <FullScreenButton />
+        <ModalWarn show={showModal} onHide={() => setShowModal(false)} />
       </div>
     </>
   );

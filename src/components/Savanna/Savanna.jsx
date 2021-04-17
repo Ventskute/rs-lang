@@ -13,11 +13,8 @@ import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../ut
 import Difficulty from "../Difficulty/Difficulty";
 import { useFullScreen } from "../../utils/games/useFullScreen";
 import GameStats from "../GameStats/GameStats";
-<<<<<<< HEAD
 import FullScreenButton from "../FullScreenButton/FullScreenButton";
-=======
 import { setActualWords } from "../../utils/games/setActualWords";
->>>>>>> 479c39b (feat: add smart wordGetter to all games)
 
 let interval;
 let randomWords = [];

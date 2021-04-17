@@ -41,7 +41,6 @@ export default function WordsList({ incomingWords, difficulty, page }) {
       setWords(incomingWords);
     }
   }, [difficulty, page, incomingWords]);
-  console.log("words", words);
   return (
     <Container>
       <Accordion>

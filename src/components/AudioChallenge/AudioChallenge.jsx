@@ -4,12 +4,8 @@ import AnswerOption from "./AnswerOption/AnswerOption";
 import Card from "../Card/Card";
 
 import "./AudioChallenge.scss";
-<<<<<<< HEAD
-import { Button } from 'react-bootstrap';
-import FullScreenButton from "../FullScreenButton/FullScreenButton";
-=======
 import { Button } from "react-bootstrap";
->>>>>>> 6e1ac28 (feat: add handle keyBoard in audio challenge)
+import FullScreenButton from "../FullScreenButton/FullScreenButton";
 
 const AudioChallenge = ({ handleAns, gameState, goNextWord, play, refs }) => {
   const idkBtn = (

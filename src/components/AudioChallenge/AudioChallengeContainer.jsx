@@ -112,7 +112,6 @@ const AudioChallengeContainer = () => {
       return;
     }
     const word = words[iteration];
-    console.log(word);
     const audio = new Audio(BASE_URL + word.audio);
     audio.autoplay = true;
     setGameState({
@@ -152,7 +151,7 @@ const AudioChallengeContainer = () => {
           rightAnswers,
         });
 
-        user && submitRightAnswer(user.userId, gameState.word._id);
+        user && submitRightAnswer(user.userId, gameState.word.id);
       } else {
         audios[1].play();
 
@@ -161,14 +160,13 @@ const AudioChallengeContainer = () => {
         wrongAnswers.push(gameState.word);
         mistakes++;
         setGameState({ ...newGameState, mistakes, currentRightAnswersStreak, wrongAnswers });
-        user && submitWrongAnswer(user.userId, gameState.word._id);
+        user && submitWrongAnswer(user.userId, gameState.word.id);
       }
     }
   };
 
   const handleKeyboard = useCallback(({ key }) => {
     if (key > 0 && key <= 5) {
-      console.log("key", key);
       refs[key - 1] &&
         refs[key - 1].current.dispatchEvent(
           new MouseEvent("click", {
