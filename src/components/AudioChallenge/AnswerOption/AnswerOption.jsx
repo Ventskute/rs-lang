@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./AnswerOption.scss";
 
-const AnswerOption = ({ word, handleAns, i, userAnswer, answer }) => {
+const AnswerOption = ({ word, handleAns, i, userAnswer, answer, reference }) => {
   let className = "";
   //!!!!!!!!!!!!!
   if (userAnswer) {
@@ -19,19 +19,19 @@ const AnswerOption = ({ word, handleAns, i, userAnswer, answer }) => {
 
   const index = i + 1;
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (Number(e.key) === index) {
-        e.preventDefault();
-        handleAns(word);
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  // useEffect(() => {
+  //   const handleKeyDown = (e) => {
+  //     if (Number(e.key) === index) {
+  //       e.preventDefault();
+  //       handleAns(word);
+  //     }
+  //   };
+  //   document.addEventListener("keydown", handleKeyDown);
+  //   return () => document.removeEventListener("keydown", handleKeyDown);
+  // }, []);
 
   return (
-    <button onClick={() => handleAns(word)} className={`ansOption${className}`}>
+    <button ref={reference} onClick={() => handleAns(word)} className={`ansOption${className}`}>
       {index} {word}
     </button>
   );

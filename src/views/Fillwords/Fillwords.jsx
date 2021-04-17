@@ -6,9 +6,11 @@ import Card from "../../components/Card/Card";
 import Difficulty from "../../components/Difficulty/Difficulty";
 import FullScreenButton from "../../components/FullScreenButton/FullScreenButton";
 import GameStats from "../../components/GameStats/GameStats";
-import { getStaticURL, getWords } from "../../utils/api";
+import { getStaticURL } from "../../utils/api";
 import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../utils/api/api";
 import { Filler } from "../../utils/fillWords";
+import { getRand } from "../../utils/games/getRand";
+import { setActualWords } from "../../utils/games/setActualWords";
 import { useFullScreen } from "../../utils/games/useFullScreen";
 
 import "./Fillwords.scss";
@@ -82,7 +84,6 @@ export default function Fillwords() {
     } else {
       setMatrix(a);
     }
-    console.log(selected)
     return selected;
   };
 
@@ -90,9 +91,10 @@ export default function Fillwords() {
 
   useEffect(() => {
     if (isDifficulty()) {
-      getWords(difficulty, page || Math.round(Math.random() * 29)).then((data) =>
-        setWords(findWords(data.sort(() => 0.5 - Math.random())))
-      );
+      const specificSetWords = (words) => {
+        setWords(findWords(words.sort(() => 0.5 - Math.random())));
+      };
+      setActualWords(user && user.userId, specificSetWords, difficulty, page || getRand());
     }
   }, [difficulty]);
 
@@ -171,7 +173,7 @@ export default function Fillwords() {
         submitGameResult(
           user.userId,
           "fillWords",
-          (winStreak > finalWinStreak) ? winStreak : finalWinStreak,
+          winStreak > finalWinStreak ? winStreak : finalWinStreak,
           foundWords.length - wrongAnswers.length,
           wrongAnswers.length
         );
@@ -265,8 +267,8 @@ export default function Fillwords() {
             </div>
           </Container>
         )}
-      <FullScreenButton />
-      <ModalWarn show={showModal} onHide={() => setShowModal(false)} />
+        <FullScreenButton />
+        <ModalWarn show={showModal} onHide={() => setShowModal(false)} />
       </div>
     </>
   );

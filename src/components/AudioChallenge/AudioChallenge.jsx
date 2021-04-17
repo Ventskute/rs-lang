@@ -4,10 +4,10 @@ import AnswerOption from "./AnswerOption/AnswerOption";
 import Card from "../Card/Card";
 
 import "./AudioChallenge.scss";
-import { Button } from 'react-bootstrap';
+import { Button } from "react-bootstrap";
 import FullScreenButton from "../FullScreenButton/FullScreenButton";
 
-const AudioChallenge = ({ handleAns, gameState, goNextWord, play }) => {
+const AudioChallenge = ({ handleAns, gameState, goNextWord, play, refs }) => {
   const idkBtn = (
     <Button
       variant="primary"
@@ -72,6 +72,7 @@ const AudioChallenge = ({ handleAns, gameState, goNextWord, play }) => {
               i={i}
               handleAns={handleAns}
               answer={gameState.word.wordTranslate}
+              reference={refs[i]}
             />
           ))}
         </div>

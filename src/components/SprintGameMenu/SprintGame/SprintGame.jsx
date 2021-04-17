@@ -13,18 +13,13 @@ import {
 import { getWords } from "../../../utils/api";
 import { submitGameResult, submitRightAnswer, submitWrongAnswer } from "../../../utils/api/api";
 import FullScreenButton from "../../FullScreenButton/FullScreenButton";
+import { setActualWords } from "../../../utils/games/setActualWords";
 
-function SprintGame({
-  dictionaryWords = [],
-  setSprintState,
-  sprintState,
-  finalWinStreak,
-  setFinalWinStreak,
-}) {
+function SprintGame({ setSprintState, sprintState, finalWinStreak, setFinalWinStreak }) {
   const [answerAnimation, setAnswerAnimation] = React.useState(null);
   const [isRandomTranslation, setIsRandomTranslation] = React.useState(0);
   const [sprintGameState, setSprintGameState] = React.useState({
-    words: dictionaryWords.length ? dictionaryWords : null,
+    words: null,
     pointsPerWord: 10,
     randomTranslationWordIndex: 0,
     currentWordIndex: 0,
@@ -54,11 +49,12 @@ function SprintGame({
   });
 
   React.useEffect(() => {
+    const setWords = (words) => {
+      setSprintGameState({ ...sprintGameState, words });
+    };
+
     (words && words.length - 1 <= currentWordIndex) ||
-      (!dictionaryWords.length &&
-        getWords(levelSettings - 1, pageSettings - 1).then((words) =>
-          setSprintGameState({ ...sprintGameState, words: words })
-        ));
+      setActualWords(user && user.userId, setWords, levelSettings - 1, pageSettings - 1);
   }, [pageSettings]);
 
   React.useEffect(() => {
@@ -133,7 +129,6 @@ function SprintGame({
         points[1] < 3 ? 10 : points[1] < 6 ? 20 : points[1] < 9 ? 30 : points[1] < 12 ? 40 : 50,
     });
 
-    // if (user) {
     if (points[0]) {
       setWinStreak((streak) => {
         const currStreak = streak + 1;
@@ -153,7 +148,6 @@ function SprintGame({
       });
       user && submitWrongAnswer(user.userId, words[currentWordIndex].id);
     }
-    // }
 
     setSprintState({
       ...sprintState,

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { setActualWords } from "../../utils/games/setActualWords";
 import Difficulty from "../Difficulty/Difficulty";
 import { useSelector } from "react-redux";
@@ -8,7 +8,6 @@ import { shuffle } from "../../utils/games/arrShuffle";
 import { getRand } from "../../utils/games/getRand";
 import {
   BASE_URL,
-  getWords,
   submitGameResult,
   submitRightAnswer,
   submitWrongAnswer,
@@ -65,6 +64,7 @@ const AudioChallengeContainer = () => {
   const [isGameOpen, setIsGameOpen] = useState(false);
   const [isGameStartOpen, setIsGameStartOpen] = useState(true);
   const [isGameStatsOpen, setIsGameStatsOpen] = useState(false);
+  const [refs] = useState([useRef(), useRef(), useRef(), useRef(), useRef()]);
   const { group, page } = useParams();
 
   const ref = useFullScreen();
@@ -151,7 +151,7 @@ const AudioChallengeContainer = () => {
           rightAnswers,
         });
 
-        user && submitRightAnswer(user.userId, gameState.word._id);
+        user && submitRightAnswer(user.userId, gameState.word.id);
       } else {
         audios[1].play();
 
@@ -160,10 +160,23 @@ const AudioChallengeContainer = () => {
         wrongAnswers.push(gameState.word);
         mistakes++;
         setGameState({ ...newGameState, mistakes, currentRightAnswersStreak, wrongAnswers });
-        user && submitWrongAnswer(user.userId, gameState.word._id);
+        user && submitWrongAnswer(user.userId, gameState.word.id);
       }
     }
   };
+
+  const handleKeyboard = useCallback(({ key }) => {
+    if (key > 0 && key <= 5) {
+      refs[key - 1] &&
+        refs[key - 1].current.dispatchEvent(
+          new MouseEvent("click", {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+          })
+        );
+    }
+  });
 
   useEffect(() => {
     if (words) {
@@ -176,6 +189,9 @@ const AudioChallengeContainer = () => {
         ansOptions: shuffle([...word.fakeTranslates, word.wordTranslate]),
         audio,
       });
+
+      document.addEventListener("keydown", handleKeyboard);
+      return () => document.removeEventListener("keydown", handleKeyboard);
     }
   }, [words]);
 
@@ -185,7 +201,6 @@ const AudioChallengeContainer = () => {
         user && user.userId,
         setWords,
         gameState.difficulty || group,
-        null,
         page || getRand(10),
         20,
         5
@@ -203,6 +218,7 @@ const AudioChallengeContainer = () => {
           handleAns={handleAns}
           goNextWord={goNextWord}
           play={play}
+          refs={refs}
         />
       )}
       {isGameStatsOpen && (
