@@ -59,7 +59,7 @@ export const signup = (body) => {
     .catch((e) => console.log("cant signup with error", e));
 };
 
-export const getAggregatedWords = async (userId, group, page, wordsPerPage, filter) => {
+export const getAggregatedWords = async (userId, group, page, wordsPerPage = 3600, filter) => {
   if (!userId) {
     throw new Error('you should pass "userId" to "getAggregatedWords"');
   }
@@ -261,8 +261,8 @@ export const submitWrongAnswer = async (userId, wordId) => {
   }
 };
 
-export const getDeletedWords = async (userId) => {
-  const deletedWords = await getAggregatedWords(userId, null, null, 3600, {
+export const getDeletedWords = async (userId, group = null, page = null, wordsPerPage) => {
+  const deletedWords = await getAggregatedWords(userId, group, page, wordsPerPage, {
     "userWord.optional.wordStatus": "deleted",
   });
   return deletedWords ? deletedWords : [];

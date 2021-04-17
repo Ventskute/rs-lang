@@ -1,42 +1,81 @@
-import { getAggregatedWords, getWords } from "../api/api";
+import { getAggregatedWords, getDeletedWords, getWords } from "../api/api";
 import { getRand } from "./getRand";
 
-const nullable = (data, init) => (data === null ? init : data);
+const getPrevPage = (group, page) => {
+  const prevPage = [group, page];
+  if (page > 0) {
+    prevPage[1]--;
+    return prevPage;
+  }
+  if (page === 0 && group > 0) {
+    prevPage[0]--;
+    return prevPage;
+  }
+  if (page === 0 && group === 0) {
+    return null;
+  }
+  throw new Error("invalid group or page in getPrevPage");
+};
+
+const deleteDeletedWords = async (userId, words = []) => {
+  const deletedWords = await getDeletedWords(userId);
+  console.log(deletedWords, "del");
+  const wordsWithoutDeletedWords = words.filter((word) => {
+    return deletedWords.every((deletedWord) => deletedWord._id !== word.id);
+  });
+
+  return wordsWithoutDeletedWords;
+};
+
+const supWords = async (userId, group, page, wordsToSup = [], wordsNum = 20) => {
+  const prevPage = getPrevPage(group, page);
+
+  let supWords = prevPage ? await getWords(prevPage[0], prevPage[1]) : [];
+
+  supWords = await deleteDeletedWords(userId, supWords);
+
+  return wordsToSup.concat(supWords.slice(0, wordsNum - wordsToSup.length));
+};
 
 export const setActualWords = async (
   userId,
   setWords = () => {
     throw new Error("you should provide setWords func to setActualWords");
   },
-  difficulty = 0,
-  words = [],
-  page = 0,
-  wordsNum = 10,
+  difficulty,
+  page,
+  wordsNum = 20,
   ansOptions = 1
 ) => {
-  const fetchedWords = userId
-    ? await getAggregatedWords(userId, difficulty, page)
-    : await getWords(difficulty, page);
+  let fetchedWords = await getWords(difficulty, page);
 
-  const promiseAnswers = [];
+  console.log(fetchedWords, "fetched", difficulty, page);
+  if (userId) {
+    fetchedWords = await deleteDeletedWords(userId, fetchedWords);
+    console.log("wwdw", fetchedWords);
+    fetchedWords = await supWords(userId, difficulty, page, fetchedWords, wordsNum);
+    console.log(fetchedWords, "after sup");
+  }
+
   if (ansOptions > 1) {
+    const promiseAnswers = [];
     for (let i = 0; i < ansOptions; i++) {
       promiseAnswers.push(getWords(difficulty, getRand(29, [page])));
     }
+
+    const fetchedAnswers = await Promise.all(promiseAnswers);
+
+    fetchedWords = fetchedWords.map((word, i) => {
+      const fakeTranslates = [];
+
+      for (let k = 0; k < ansOptions - 1; k++) {
+        fakeTranslates.push(fetchedAnswers[k][i].wordTranslate);
+      }
+
+      word.fakeTranslates = fakeTranslates;
+      return word;
+    });
   }
 
-  const fetchedAnswers = await Promise.all(promiseAnswers);
-
-  const wordsWithAnsOptions = fetchedWords.map((word, i) => {
-    const fakeTranslates = [];
-
-    for (let k = 0; k < ansOptions - 1; k++) {
-      fakeTranslates.push(fetchedAnswers[k][i].wordTranslate);
-    }
-
-    word.fakeTranslates = fakeTranslates;
-    return word;
-  });
-
-  setWords(wordsWithAnsOptions);
+  setWords(fetchedWords);
 };
