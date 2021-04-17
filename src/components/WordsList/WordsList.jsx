@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Accordion, Button, Card, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { sectionsColor } from "../../utils/api";
 import {
   addWordToHard,
   deleteWord,
@@ -76,7 +77,7 @@ export default function WordsList({ incomingWords, difficulty, page }) {
     }
   }, [difficulty, page, incomingWords]);
   return (
-    <Container>
+    <Container style={{background: sectionsColor[difficulty]}}>
       <Accordion>
         {words && learningWords && (
           <div className="wordsList-stats">

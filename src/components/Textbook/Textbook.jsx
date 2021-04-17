@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./Textbook.scss";
 import video from "../../assets/images/background-video6.mp4";
 import { Tabs, Tab, Button } from "react-bootstrap";
@@ -12,10 +12,12 @@ import Footer from "../Footer/Footer";
 import { textBookLS } from "../../utils/localStore";
 import Header from "../Header/Header";
 import { Link } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import actions from "../../utils/actions";
+import { sectionsColor } from "../../utils/api";
 
 function Textbook() {
-  const { user } = useSelector((state) => state);
+  const { user, textBook } = useSelector((state) => state);
   const textBookSections = Array(6).fill(null);
 
   const [difficulty, setDifficulty] = React.useState(
@@ -49,7 +51,7 @@ function Textbook() {
         <h1 className="textbook__title">Электронный учебник</h1>
         <div className="sections textbook__sections">
           <h2 className="sections__title">Секции сложности</h2>
-          <div className="sections__content">
+          <div className="sections__content" style={{background: sectionsColor[difficulty]}}>
             <Tabs id="controlled-tab" activeKey={difficulty} onSelect={onClickCategory}>
               {textBookSections.map((el, i) => (
                 <Tab key={i} eventKey={i} title={i + 1}></Tab>
@@ -58,7 +60,7 @@ function Textbook() {
           </div>
         </div>
         <WordsList page={page.currentPage - 1} difficulty={difficulty} />
-        <PaginationWordList state={page} setState={setPage} />
+        <PaginationWordList difficulty={difficulty} state={page} setState={setPage} />
         <h2>Мини-игры</h2>
         <GamesBlock page={page.currentPage - 1} group={difficulty} />
       </Container>
