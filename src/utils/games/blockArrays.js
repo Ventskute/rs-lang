@@ -16,20 +16,20 @@ export const gamesArr = [
       className: '__sprint',
       link: './sprint',
       img: sprint_p,
-      description: 'Игра, в которой необходимо указать, верен ли перевод слов за отведенное время.'
+      description: 'Постарайтесь выбрать верный ответ на вопрос о переводе слова за ограниченное время.'
     },
     {
       name: 'Филворды',
       className: '__fillwords',
       link: './fillwords',
       img: fillwords,
-      description: 'Здесь будет описание геймплея игры.'
+      description: 'Составляйте слова из букв. При необходимости воспользуйтесь аудио-подсказкой.'
     },
     {
       name: 'Аудиовызов',
       className: '__audio-call',
       link: './audioChallenge',
       img: audio,
-      description: 'Здесь будет описание геймплея игры.'
+      description: 'Проверьте свои навыки восприятия английского на слух.'
     },
   ];
