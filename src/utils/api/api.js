@@ -51,7 +51,9 @@ export const signup = (body) => {
           if ("message" in data) {
             delete data.message;
           }
-          userLS.setUser(data);
+          signin({ password: body.get("password"), email: body.get("email") });
+          // console.log(data);
+          // userLS.setUser(data);
         });
       }
       return res;
@@ -407,7 +409,15 @@ export const removeWordFromHard = async (userId, wordId) => {
   if (word) {
     const { optional } = word;
     let { wordStatus, date, rightAnswersCount, wrongAnswersCount } = optional;
-    updateUserWord(userId, wordId, wordStatus, "normal", date, rightAnswersCount, wrongAnswersCount);
+    updateUserWord(
+      userId,
+      wordId,
+      wordStatus,
+      "normal",
+      date,
+      rightAnswersCount,
+      wrongAnswersCount
+    );
   } //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   if (!word) {
     createUserWord(userId, wordId, "learning", "normal", null);
