@@ -94,7 +94,7 @@ export default function Savanna() {
   const isWords = () => Boolean(words[0]);
   useEffect(() => {
     if (difficultyLevel) {
-      setActualWords(user && user.userId, setWords, difficultyLevel, page || getRand(), 20, 4);
+      setActualWords(user && user.userId, setWords, difficultyLevel - 1, page || getRand(), 20, 4);
       if (isWords()) {
         nextWord(words);
       }
