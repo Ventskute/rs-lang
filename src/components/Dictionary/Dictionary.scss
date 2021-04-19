@@ -1,0 +1,36 @@
+.dictionary {
+  width: 100%;
+  &-tabs {
+    max-height: 70px;
+  }
+
+  .nav-tabs {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+  }
+}
+
+.rightAnswers {
+  background-color: rgb(0, 155, 0);
+}
+
+.learning-tab {
+  display: flex;
+  justify-content: space-evenly;
+  list-style: none;
+  &__column {
+    text-align: center;
+  }
+}
+.column-list {
+  list-style: none;
+}
+.correct-answer {
+  background-color: green;
+  color:white;
+}
+.wrong-answer {
+  background-color: red;
+  color:white;
+}

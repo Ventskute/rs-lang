@@ -1,0 +1,92 @@
+@import '../../variables.scss';
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  background-color: $color-text-light;
+  padding: 10px 0;
+
+  @media screen and (max-width: 768px) {
+    padding-left: 100px;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .login-buttons {
+    display: flex;
+    align-items: center;
+
+    .btn + .btn {
+      margin-left: 10px;
+    }
+  }
+
+  a {
+    color: $color-accent;
+    transition: 0.15s ease;
+
+    &:hover {
+      color: $color-accent-hover;
+      transform: scale(1.1);
+    }
+  }
+
+  .logo_title {
+    color: $color-accent;
+    font-weight: 900;
+    letter-spacing: -1px;
+    transition: 0.15s ease;
+
+    &--rs {
+      letter-spacing: -6px;
+    }
+
+    &:hover {
+      color: $color-accent-hover;
+    }
+  }
+
+  .avatar-wrapper {
+    background-color: rgb(random($limit: 255), random($limit: 255), random($limit: 255));
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+
+    &::after {
+      content: attr(data-letter);
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      font-weight: 700;
+      color: $color-text-light;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .user-avatar {
+    width: 64px;
+    height: 64px;
+
+    @media screen and (max-width: 768px) {
+      width: 38px;
+      height: 38px;
+    }
+  }
+
+  .user-name {
+    margin-right: 10px;
+  }
+}

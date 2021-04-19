@@ -1,0 +1,24 @@
+.games {
+  width: inherit;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.game-item {
+  width: calc(25% - 20px);
+  min-width: 20rem !important;
+  margin: 10px;
+  box-shadow: 5px 5px 10px 3px rgb(0 0 0 / 10%);
+  transition: transform filter width 0.15s ease-out;
+  filter: grayscale(0.5);
+
+  @media screen and (max-width: 1400px) {
+    width: calc(50% - 20px);
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    filter: grayscale(0);
+  }
+}

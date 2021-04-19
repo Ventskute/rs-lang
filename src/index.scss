@@ -1,0 +1,73 @@
+@import "./variables.scss";
+@import "~bootstrap/scss/bootstrap";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-decoration: none;
+}
+
+body {
+  background-color: $color-bg;
+  overflow-x: hidden;
+
+  &.dark-theme {
+    background-color: $color-bg-dark;
+    color: $color-text-light;
+  }
+}
+
+.background-video {
+  position: fixed;
+  z-index: -1;
+}
+
+.game {
+  background-color: $color-bg;
+  position: relative;
+  min-height: 100vh;
+}
+
+#root {
+  padding-left: $menu-width-desktop;
+
+  @media screen and (max-width: 768px) {
+    padding-left: 0;
+  }
+}
+
+.btn {
+  &-primary {
+    background-color: $color-accent;
+    border-color: $color-accent;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $color-accent-hover !important;
+      border-color: $color-accent !important;
+    }
+  }
+}
+
+.page-link {
+  background-color: transparent;
+  color: $color-accent;
+  font-size: 20px;
+  border-color: $color-accent !important;
+
+  .page-item.active & {
+    background-color: $color-bg-card !important;
+    color: $color-text-dark !important;
+  }
+}
+
+a {
+  color: $color-accent;
+
+  &:hover {
+    color: $color-accent-hover;
+  }
+}

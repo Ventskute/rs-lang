@@ -1,0 +1,50 @@
+@import '../../variables.scss';
+
+.textbook {
+  width: 100%;
+
+  &__title {
+    margin-bottom: 50px;
+  }
+
+  &__settings {
+    display: flex;
+    margin-bottom: 20px;
+  }
+
+  &-content {
+    padding-top: 20px;
+  }
+
+  .dict-link {
+    float: right;
+    margin-left: 10px;
+
+    &--button {
+      height: 66px;
+    }
+  }
+
+  .sections {
+    &__content {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .games {
+    display: flex;
+  }
+
+  .nav-tabs {
+    a {
+      font-size: 20px;
+    }
+
+    .nav-link.active {
+      background-color: $color-bg-card !important;
+      border-color: $color-accent !important;
+      border-bottom-color: transparent !important;
+    }
+  }
+}

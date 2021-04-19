@@ -1,0 +1,41 @@
+@import "../../variables.scss";
+
+.difficulty {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  background-color: $color-bg;
+  padding: 10px;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  &--title {
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+  }
+
+  &_btn {
+    height: 36px;
+    padding: 0 5px;
+    border: none;
+    border-radius: 18px;
+    background-color: $color-focus;
+    color: $color-text-light;
+    text-transform: uppercase;
+    margin-top: 8px;
+
+    &:hover {
+      filter: brightness(1.2);
+      cursor: pointer;
+    }
+    &:focus {
+      outline: none;
+      background-color: pink;
+    }
+  }
+}
